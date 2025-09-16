@@ -87,14 +87,58 @@ export default function Index() {
             </div>
             <div>
               <div className="rounded-2xl border bg-white/70 backdrop-blur shadow-lg p-4">
-                <div className="aspect-video rounded-xl bg-gradient-to-br from-indigo-50 via-white to-blue-50 flex items-center justify-center">
-                  <Smartphone className="h-20 w-20 text-blue-600" />
-                </div>
-                <div className="grid grid-cols-3 gap-3 mt-4">
-                  <Card className="border-l-4 border-l-blue-500"><CardContent className="p-3 text-sm">Customer Menu</CardContent></Card>
-                  <Card className="border-l-4 border-l-green-500"><CardContent className="p-3 text-sm">Waiter</CardContent></Card>
-                  <Card className="border-l-4 border-l-purple-500"><CardContent className="p-3 text-sm">Manager</CardContent></Card>
-                </div>
+                <Tabs defaultValue="hero-customer" className="w-full">
+                  <TabsList className="mb-3">
+                    <TabsTrigger value="hero-customer">Customer</TabsTrigger>
+                    <TabsTrigger value="hero-waiter">Waiter</TabsTrigger>
+                    <TabsTrigger value="hero-kitchen">Kitchen</TabsTrigger>
+                    <TabsTrigger value="hero-manager">Manager</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="hero-customer">
+                    <div className="aspect-video rounded-xl overflow-hidden border bg-white">
+                      <img src="/demos/customer.svg" alt="Customer preview" className="w-full h-auto" />
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 mt-3">
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Avg Order</div><div className="font-semibold">$24.80</div></CardContent></Card>
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Active Tables</div><div className="font-semibold">12</div></CardContent></Card>
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Requests</div><div className="font-semibold">3</div></CardContent></Card>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="hero-waiter">
+                    <div className="aspect-video rounded-xl overflow-hidden border bg-white">
+                      <img src="/demos/waiter.svg" alt="Waiter preview" className="w-full h-auto" />
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 mt-3">
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Open Tables</div><div className="font-semibold">7</div></CardContent></Card>
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Orders Waiting</div><div className="font-semibold">5</div></CardContent></Card>
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Avg Serve Time</div><div className="font-semibold">6m 20s</div></CardContent></Card>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="hero-kitchen">
+                    <div className="aspect-video rounded-xl overflow-hidden border bg-white">
+                      <img src="/demos/kitchen.svg" alt="Kitchen preview" className="w-full h-auto" />
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 mt-3">
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Tickets Now</div><div className="font-semibold">9</div></CardContent></Card>
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Late</div><div className="font-semibold text-amber-600">2</div></CardContent></Card>
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">On Time</div><div className="font-semibold text-emerald-600">7</div></CardContent></Card>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="hero-manager">
+                    <div className="aspect-video rounded-xl overflow-hidden border bg-white">
+                      <img src="/demos/manager.svg" alt="Manager preview" className="w-full h-auto" />
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 mt-3">
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Today Revenue</div><div className="font-semibold">$1,980</div></CardContent></Card>
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Top Item</div><div className="font-semibold">Spicy Burger</div></CardContent></Card>
+                      <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Utilization</div><div className="font-semibold">76%</div></CardContent></Card>
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </div>
             </div>
           </div>
@@ -164,23 +208,117 @@ export default function Index() {
               </div>
 
               <TabsContent value="customer" className="mt-6">
-                <div className="rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/customer.svg" alt="Customer demo" className="w-full h-auto" />
+                <div className="grid lg:grid-cols-3 gap-6">
+                  <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
+                    <img src="/demos/customer.svg" alt="Customer demo" className="w-full h-auto" />
+                  </div>
+                  <div className="space-y-3">
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">Top Items</div>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li className="flex justify-between"><span>Spicy Burger</span><span>$12.50</span></li>
+                          <li className="flex justify-between"><span>Truffle Fries</span><span>$6.00</span></li>
+                          <li className="flex justify-between"><span>Mango Shake</span><span>$4.50</span></li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">Current Bill (T1)</div>
+                        <div className="text-sm text-gray-600">
+                          <div className="flex justify-between"><span>2x Spicy Burger</span><span>$25.00</span></div>
+                          <div className="flex justify-between"><span>1x Mango Shake</span><span>$4.50</span></div>
+                          <div className="flex justify-between font-semibold mt-2"><span>Total</span><span>$29.50</span></div>
+                        </div>
+                        <Button className="w-full mt-3">Request Payment</Button>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
               </TabsContent>
               <TabsContent value="waiter" className="mt-6">
-                <div className="rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/waiter.svg" alt="Waiter demo" className="w-full h-auto" />
+                <div className="grid lg:grid-cols-3 gap-6">
+                  <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
+                    <img src="/demos/waiter.svg" alt="Waiter demo" className="w-full h-auto" />
+                  </div>
+                  <div className="space-y-3">
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">Open Tables</div>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li className="flex justify-between"><span>T1</span><span>Awaiting drinks</span></li>
+                          <li className="flex justify-between"><span>T3</span><span>Serve mains</span></li>
+                          <li className="flex justify-between"><span>T7</span><span>Bill requested</span></li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">KPIs</div>
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div><div className="text-gray-500">Avg Serve</div><div className="font-semibold">6m 20s</div></div>
+                          <div><div className="text-gray-500">Pending</div><div className="font-semibold">5</div></div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
               </TabsContent>
               <TabsContent value="kitchen" className="mt-6">
-                <div className="rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/kitchen.svg" alt="Kitchen demo" className="w-full h-auto" />
+                <div className="grid lg:grid-cols-3 gap-6">
+                  <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
+                    <img src="/demos/kitchen.svg" alt="Kitchen demo" className="w-full h-auto" />
+                  </div>
+                  <div className="space-y-3">
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">Tickets</div>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li className="flex justify-between"><span>#1045</span><span>2x Burger • 4m</span></li>
+                          <li className="flex justify-between"><span>#1046</span><span>1x Pasta • 2m</span></li>
+                          <li className="flex justify-between"><span className="text-amber-700">#1042</span><span className="text-amber-700">1x Steak • 10m</span></li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">Capacity</div>
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div><div className="text-gray-500">Stations</div><div className="font-semibold">4</div></div>
+                          <div><div className="text-gray-500">Active</div><div className="font-semibold">3</div></div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
               </TabsContent>
               <TabsContent value="manager" className="mt-6">
-                <div className="rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/manager.svg" alt="Manager demo" className="w-full h-auto" />
+                <div className="grid lg:grid-cols-3 gap-6">
+                  <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
+                    <img src="/demos/manager.svg" alt="Manager demo" className="w-full h-auto" />
+                  </div>
+                  <div className="space-y-3">
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">Today</div>
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div><div className="text-gray-500">Revenue</div><div className="font-semibold">$1,980</div></div>
+                          <div><div className="text-gray-500">Orders</div><div className="font-semibold">124</div></div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">Highlights</div>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li>Top item: Spicy Burger</li>
+                          <li>Peak hour: 7-8 PM</li>
+                          <li>Utilization: 76%</li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
               </TabsContent>
             </Tabs>
