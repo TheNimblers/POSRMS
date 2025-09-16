@@ -3,7 +3,10 @@ import { MongoClient, Db } from "mongodb";
 let client: MongoClient | null = null;
 let db: Db | null = null;
 
-export async function connectMongo(): Promise<{ client: MongoClient; db: Db } | null> {
+export async function connectMongo(): Promise<{
+  client: MongoClient;
+  db: Db;
+} | null> {
   const uri = process.env.MONGODB_URI;
   const dbName = process.env.MONGODB_DB || "posrms";
   if (!uri) return null;

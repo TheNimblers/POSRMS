@@ -90,7 +90,11 @@ export function createServer() {
       timestamp: new Date().toISOString(),
       database: "connected",
       websocket: "active",
-      mongo: getMongoDb() ? "connected" : useMongo ? "disconnected" : "disabled",
+      mongo: getMongoDb()
+        ? "connected"
+        : useMongo
+          ? "disconnected"
+          : "disabled",
     });
   });
 
