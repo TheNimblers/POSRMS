@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { db } from "../database";
 import { z } from "zod";
-import { ApiResponse, Order, OrderItem, Session } from "@shared/database";
+import { ApiResponse, Order, OrderItem, Session } from "../../shared/database";
 import { webSocketManager } from "../websocket";
 
 // Validation schemas
