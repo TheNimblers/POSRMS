@@ -2,7 +2,7 @@ import path from "path";
 import { createServer } from "./index";
 import * as express from "express";
 
-const app = createServer();
+const { app, server } = createServer();
 const port = process.env.PORT || 3000;
 
 // In production, serve the built SPA files
@@ -22,10 +22,11 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
 
-app.listen(port, () => {
-  console.log(`🚀 Fusion Starter server running on port ${port}`);
+server.listen(port, () => {
+  console.log(`🚀 POSRMS server running on port ${port}`);
   console.log(`📱 Frontend: http://localhost:${port}`);
   console.log(`🔧 API: http://localhost:${port}/api`);
+  console.log(`🔌 WebSocket: ws://localhost:${port}/ws`);
 });
 
 // Graceful shutdown
