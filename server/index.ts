@@ -13,7 +13,7 @@ import { connectMongo, getMongoDb, closeMongo } from "./mongo";
 
 
 
-export function createServer() {
+export async function createServer() {
   const app = express();
   const server = createHttpServer(app);
 
