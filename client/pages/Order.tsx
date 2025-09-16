@@ -278,14 +278,18 @@ export default function Order() {
         setCart([]);
         setSessionActive(true);
         await refreshSummary();
+        // Fallback update as safety (use current cart total in selected currency)
+        const added = cart.reduce((t, it) => t + it.price * it.quantity, 0);
+        setLocalBill(prev => prev + added);
         alert(`Order ${json.data.order_number || ''} placed successfully!`);
       } catch (e: any) {
         alert(`Failed to place order: ${e?.message || e}`);
       }
       return;
     }
-    // Fallback demo
+    // Fallback demo: update local running bill
     alert(`Order placed for Table ${tableToken}!\nTotal: ${currency === 'eur' ? '€' : '$'}${cartTotal.toFixed(2)}`);
+    setLocalBill(prev => prev + cartTotal);
     setCart([]);
     setSessionActive(true);
   };
@@ -394,6 +398,24 @@ export default function Order() {
       </CardContent>
     </Card>
   );
+
+  // Load local bill from storage
+  useEffect(() => {
+    const key = `posrms_bill_${tableToken}`;
+    const val = localStorage.getItem(key);
+    if (val) setLocalBill(parseFloat(val) || 0);
+  }, [tableToken]);
+
+  // Persist local bill when it changes
+  useEffect(() => {
+    const key = `posrms_bill_${tableToken}`;
+    if (paymentStatus === 'paid') {
+      localStorage.removeItem(key);
+      setLocalBill(0);
+    } else {
+      localStorage.setItem(key, String(localBill));
+    }
+  }, [localBill, paymentStatus, tableToken]);
 
   // Poll for payment status while session is active
   useEffect(() => {
@@ -546,7 +568,7 @@ export default function Order() {
           <CardContent className="p-4 flex items-center justify-between">
             <div>
               <div className="text-sm text-gray-600">Current Bill</div>
-              <div className="text-2xl font-bold">{currency === 'eur' ? '€' : '$'}{runningTotal.toFixed(2)}</div>
+              <div className="text-2xl font-bold">{currency === 'eur' ? '€' : '$'}{(paymentStatus === 'paid' ? 0 : Math.max(runningTotal, localBill)).toFixed(2)}</div>
             </div>
             <Badge className={paymentStatus === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
               {paymentStatus === 'paid' ? 'Paid' : 'Pending'}
