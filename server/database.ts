@@ -2,7 +2,7 @@ import { createTableQueries, createIndexQueries } from "@shared/database";
 import path from "path";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import Database from "better-sqlite3";
 
 // Database configuration
@@ -238,7 +238,7 @@ class DatabaseService {
       ];
 
       for (const member of staff) {
-        const passwordHash = await bcrypt.hash(member.password, SALT_ROUNDS);
+        const passwordHash = bcrypt.hashSync(member.password, SALT_ROUNDS);
         this.db
           .prepare(
             `
@@ -412,14 +412,14 @@ class DatabaseService {
 
   // Helper methods for common operations
   public async hashPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, SALT_ROUNDS);
+    return bcrypt.hashSync(password, SALT_ROUNDS);
   }
 
   public async comparePassword(
     password: string,
     hash: string,
   ): Promise<boolean> {
-    return bcrypt.compare(password, hash);
+    return bcrypt.compareSync(password, hash);
   }
 
   public generateId(): string {
