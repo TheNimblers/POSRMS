@@ -57,7 +57,7 @@ Note: The app currently stores data in SQLite. MongoDB is connected for health/s
 Project is preconfigured via vercel.json (no dashboard tweaks needed for build):
 
 - Install Command: `pnpm install --no-frozen-lockfile` (fixes outdated lockfile CI error)
-- Build Command: `pnpm build:client`
+- Build Command: `pnpm build:client` (uses vite.config.mjs)
 - Output Directory: `dist/spa`
 
 Steps:
