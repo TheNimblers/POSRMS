@@ -6,13 +6,20 @@ export const handleStartPublicSession: RequestHandler = async (req, res) => {
   try {
     const { token } = req.body as { token: string };
     const db = getMongoDb();
-    if (!db) return res.status(500).json({ success: false, error: "DB not ready" });
+    if (!db)
+      return res.status(500).json({ success: false, error: "DB not ready" });
 
     const table = await db.collection("tables").findOne({ qr_code: token });
-    if (!table) return res.status(404).json({ success: false, error: "Invalid table token" });
+    if (!table)
+      return res
+        .status(404)
+        .json({ success: false, error: "Invalid table token" });
 
-    const active = await db.collection("sessions").findOne({ table_id: table.id, status: "active" });
-    if (active) return res.json({ success: true, data: { sessionId: active.id } });
+    const active = await db
+      .collection("sessions")
+      .findOne({ table_id: table.id, status: "active" });
+    if (active)
+      return res.json({ success: true, data: { sessionId: active.id } });
 
     const session = {
       id: uuidv4(),
@@ -38,10 +45,14 @@ export const handleGetPublicMenu: RequestHandler = async (req, res) => {
   try {
     const token = (req.query.token as string) || "";
     const db = getMongoDb();
-    if (!db) return res.status(500).json({ success: false, error: "DB not ready" });
+    if (!db)
+      return res.status(500).json({ success: false, error: "DB not ready" });
 
     const table = await db.collection("tables").findOne({ qr_code: token });
-    if (!table) return res.status(404).json({ success: false, error: "Invalid table token" });
+    if (!table)
+      return res
+        .status(404)
+        .json({ success: false, error: "Invalid table token" });
 
     const items = await db
       .collection("menu_items")
@@ -51,7 +62,10 @@ export const handleGetPublicMenu: RequestHandler = async (req, res) => {
 
     const restaurant = await db
       .collection("restaurants")
-      .findOne({ id: table.restaurant_id }, { projection: { name: 1, currency: 1, tax_rate: 1 } });
+      .findOne(
+        { id: table.restaurant_id },
+        { projection: { name: 1, currency: 1, tax_rate: 1 } },
+      );
 
     const byCategory: Record<string, any[]> = {};
     for (const it of items) {
@@ -62,7 +76,11 @@ export const handleGetPublicMenu: RequestHandler = async (req, res) => {
     res.json({
       success: true,
       data: {
-        restaurant: { name: restaurant?.name, currency: restaurant?.currency, taxRate: restaurant?.tax_rate },
+        restaurant: {
+          name: restaurant?.name,
+          currency: restaurant?.currency,
+          taxRate: restaurant?.tax_rate,
+        },
         table: { id: table.id, number: table.number, capacity: table.capacity },
         menu: byCategory,
       },
@@ -73,19 +91,34 @@ export const handleGetPublicMenu: RequestHandler = async (req, res) => {
   }
 };
 
-export const handleGetPublicSessionSummary: RequestHandler = async (req, res) => {
+export const handleGetPublicSessionSummary: RequestHandler = async (
+  req,
+  res,
+) => {
   try {
     const token = (req.query.token as string) || "";
     const db = getMongoDb();
-    if (!db) return res.status(500).json({ success: false, error: "DB not ready" });
+    if (!db)
+      return res.status(500).json({ success: false, error: "DB not ready" });
 
     const table = await db.collection("tables").findOne({ qr_code: token });
-    if (!table) return res.status(404).json({ success: false, error: "Invalid table token" });
+    if (!table)
+      return res
+        .status(404)
+        .json({ success: false, error: "Invalid table token" });
 
-    const session = await db.collection("sessions").findOne({ table_id: table.id, status: "active" });
-    if (!session) return res.status(404).json({ success: false, error: "No active session" });
+    const session = await db
+      .collection("sessions")
+      .findOne({ table_id: table.id, status: "active" });
+    if (!session)
+      return res
+        .status(404)
+        .json({ success: false, error: "No active session" });
 
-    const orders = await db.collection("orders").find({ session_id: session.id }).toArray();
+    const orders = await db
+      .collection("orders")
+      .find({ session_id: session.id })
+      .toArray();
     const total = orders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
 
     res.json({ success: true, data: { session, total, orders } });
@@ -99,12 +132,19 @@ export const handleCreatePublicOrder: RequestHandler = async (req, res) => {
   try {
     const { sessionId, items, type, notes } = req.body as any;
     const db = getMongoDb();
-    if (!db) return res.status(500).json({ success: false, error: "DB not ready" });
+    if (!db)
+      return res.status(500).json({ success: false, error: "DB not ready" });
 
-    const session = await db.collection("sessions").findOne({ id: sessionId, status: "active" });
-    if (!session) return res.status(404).json({ success: false, error: "Invalid session" });
+    const session = await db
+      .collection("sessions")
+      .findOne({ id: sessionId, status: "active" });
+    if (!session)
+      return res.status(404).json({ success: false, error: "Invalid session" });
 
-    const total = items.reduce((sum: number, it: any) => sum + it.price * it.quantity, 0);
+    const total = items.reduce(
+      (sum: number, it: any) => sum + it.price * it.quantity,
+      0,
+    );
     const order = {
       id: uuidv4(),
       order_number: `ORD-${Date.now().toString().slice(-6)}`,
@@ -121,8 +161,18 @@ export const handleCreatePublicOrder: RequestHandler = async (req, res) => {
     };
     await db.collection("orders").insertOne(order);
 
-    await db.collection("sessions").updateOne({ id: sessionId }, { $set: { updated_at: new Date().toISOString() } });
-    res.status(201).json({ success: true, data: { orderId: order.id, total: order.total_amount } });
+    await db
+      .collection("sessions")
+      .updateOne(
+        { id: sessionId },
+        { $set: { updated_at: new Date().toISOString() } },
+      );
+    res
+      .status(201)
+      .json({
+        success: true,
+        data: { orderId: order.id, total: order.total_amount },
+      });
   } catch (e) {
     console.error("Mongo create order error", e);
     res.status(500).json({ success: false, error: "Internal server error" });
