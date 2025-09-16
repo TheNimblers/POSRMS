@@ -1,6 +1,6 @@
 # POSRMS – Deployment & Environment Variables
 
-This document lists the required and recommended environment variables for deploying the POSRMS app. The current backend uses SQLite (better-sqlite3). MongoDB is optional and would require code changes.
+This document lists the required and recommended environment variables for deploying the POSRMS app. The current backend uses SQLite (better-sqlite3) and bcryptjs for hashing (to avoid native build issues on hosts). MongoDB is optional and would require code changes.
 
 ## Frontend (Vite) on Vercel
 
