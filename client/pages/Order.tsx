@@ -374,19 +374,19 @@ export default function Order() {
 
           <TabsContent value="food" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {mockMenu.food.map(renderMenuItem)}
+              {(menuSource.byCategory.food || []).map(renderMenuItem)}
             </div>
           </TabsContent>
 
           <TabsContent value="drinks" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {mockMenu.drinks.map(renderMenuItem)}
+              {(menuSource.byCategory.drinks || menuSource.byCategory.drink || []).map(renderMenuItem)}
             </div>
           </TabsContent>
 
           <TabsContent value="specials" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {mockMenu.specials.map(renderMenuItem)}
+              {(menuSource.byCategory.specials || menuSource.byCategory.special || []).map(renderMenuItem)}
             </div>
           </TabsContent>
         </Tabs>
