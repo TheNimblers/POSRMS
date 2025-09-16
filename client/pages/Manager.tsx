@@ -1,18 +1,23 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { 
-  BarChart3, 
-  Users, 
-  QrCode, 
-  Settings, 
+import {
+  BarChart3,
+  Users,
+  QrCode,
+  Settings,
   LogOut,
   Plus,
   Edit,
@@ -26,119 +31,194 @@ import {
   Coffee,
   Star,
   Eye,
-  EyeOff
+  EyeOff,
 } from "lucide-react";
-import { useAuth, hasPermission } from '@/contexts/AuthContext';
+import { useAuth, hasPermission } from "@/contexts/AuthContext";
 
 // Mock data - in real app this would come from API
 const mockTables = [
-  { id: 1, number: 'T1', capacity: 4, status: 'active', qrCode: 'QR-T1' },
-  { id: 2, number: 'T2', capacity: 2, status: 'available', qrCode: 'QR-T2' },
-  { id: 3, number: 'T3', capacity: 6, status: 'maintenance', qrCode: 'QR-T3' },
-  { id: 4, number: 'T4', capacity: 4, status: 'active', qrCode: 'QR-T4' },
-  { id: 5, number: 'T5', capacity: 8, status: 'available', qrCode: 'QR-T5' }
+  { id: 1, number: "T1", capacity: 4, status: "active", qrCode: "QR-T1" },
+  { id: 2, number: "T2", capacity: 2, status: "available", qrCode: "QR-T2" },
+  { id: 3, number: "T3", capacity: 6, status: "maintenance", qrCode: "QR-T3" },
+  { id: 4, number: "T4", capacity: 4, status: "active", qrCode: "QR-T4" },
+  { id: 5, number: "T5", capacity: 8, status: "available", qrCode: "QR-T5" },
 ];
 
 const mockMenuItems = [
-  { id: 1, name: 'Grilled Salmon', category: 'Main', price: 24.50, available: true, special: false },
-  { id: 2, name: 'Beef Tenderloin', category: 'Main', price: 32.00, available: true, special: true },
-  { id: 3, name: 'Caesar Salad', category: 'Starter', price: 14.50, available: true, special: false },
-  { id: 4, name: 'House Wine Red', category: 'Drinks', price: 8.50, available: true, special: false },
-  { id: 5, name: 'Signature Cocktail', category: 'Drinks', price: 12.00, available: false, special: true }
+  {
+    id: 1,
+    name: "Grilled Salmon",
+    category: "Main",
+    price: 24.5,
+    available: true,
+    special: false,
+  },
+  {
+    id: 2,
+    name: "Beef Tenderloin",
+    category: "Main",
+    price: 32.0,
+    available: true,
+    special: true,
+  },
+  {
+    id: 3,
+    name: "Caesar Salad",
+    category: "Starter",
+    price: 14.5,
+    available: true,
+    special: false,
+  },
+  {
+    id: 4,
+    name: "House Wine Red",
+    category: "Drinks",
+    price: 8.5,
+    available: true,
+    special: false,
+  },
+  {
+    id: 5,
+    name: "Signature Cocktail",
+    category: "Drinks",
+    price: 12.0,
+    available: false,
+    special: true,
+  },
 ];
 
 const mockStaff = [
-  { id: 1, username: 'waiter1', role: 'waiter', name: 'John Doe', status: 'active', shift: 'Evening' },
-  { id: 2, username: 'waiter2', role: 'waiter', name: 'Jane Smith', status: 'active', shift: 'Day' },
-  { id: 3, username: 'kitchen1', role: 'kitchen', name: 'Mike Johnson', status: 'active', shift: 'Evening' },
-  { id: 4, username: 'bar1', role: 'bar', name: 'Sarah Wilson', status: 'off-duty', shift: 'Day' }
+  {
+    id: 1,
+    username: "waiter1",
+    role: "waiter",
+    name: "John Doe",
+    status: "active",
+    shift: "Evening",
+  },
+  {
+    id: 2,
+    username: "waiter2",
+    role: "waiter",
+    name: "Jane Smith",
+    status: "active",
+    shift: "Day",
+  },
+  {
+    id: 3,
+    username: "kitchen1",
+    role: "kitchen",
+    name: "Mike Johnson",
+    status: "active",
+    shift: "Evening",
+  },
+  {
+    id: 4,
+    username: "bar1",
+    role: "bar",
+    name: "Sarah Wilson",
+    status: "off-duty",
+    shift: "Day",
+  },
 ];
 
 const mockOrderHistory = [
-  { 
-    id: 1, 
-    orderNumber: 'ORD-001', 
-    table: 'T1', 
-    items: ['Grilled Salmon', 'House Wine'], 
-    total: 33.00, 
-    waiter: 'waiter1',
-    timestamp: '2024-01-15T20:15:00Z',
-    status: 'completed'
+  {
+    id: 1,
+    orderNumber: "ORD-001",
+    table: "T1",
+    items: ["Grilled Salmon", "House Wine"],
+    total: 33.0,
+    waiter: "waiter1",
+    timestamp: "2024-01-15T20:15:00Z",
+    status: "completed",
   },
-  { 
-    id: 2, 
-    orderNumber: 'ORD-002', 
-    table: 'T2', 
-    items: ['Beef Tenderloin', 'Caesar Salad'], 
-    total: 46.50, 
-    waiter: 'waiter2',
-    timestamp: '2024-01-15T19:30:00Z',
-    status: 'completed'
-  }
+  {
+    id: 2,
+    orderNumber: "ORD-002",
+    table: "T2",
+    items: ["Beef Tenderloin", "Caesar Salad"],
+    total: 46.5,
+    waiter: "waiter2",
+    timestamp: "2024-01-15T19:30:00Z",
+    status: "completed",
+  },
 ];
 
 const mockAnalytics = {
-  todayRevenue: 1250.50,
+  todayRevenue: 1250.5,
   weekRevenue: 8750.25,
   monthRevenue: 35240.75,
   todayOrders: 45,
   weekOrders: 312,
   monthOrders: 1456,
-  avgOrderValue: 27.80,
+  avgOrderValue: 27.8,
   tableUtilization: 78,
   bestSellingItems: [
-    { name: 'Grilled Salmon', quantity: 23, revenue: 563.50 },
-    { name: 'Beef Tenderloin', quantity: 18, revenue: 576.00 },
-    { name: 'Caesar Salad', quantity: 31, revenue: 449.50 }
-  ]
+    { name: "Grilled Salmon", quantity: 23, revenue: 563.5 },
+    { name: "Beef Tenderloin", quantity: 18, revenue: 576.0 },
+    { name: "Caesar Salad", quantity: 31, revenue: 449.5 },
+  ],
 };
 
 export default function Manager() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
   const [tables, setTables] = useState(mockTables);
   const [menuItems, setMenuItems] = useState(mockMenuItems);
   const [staff, setStaff] = useState(mockStaff);
   const [addOpen, setAddOpen] = useState(false);
-  const [newItem, setNewItem] = useState({ name: '', category: 'Main', price: 0, available: true, special: false });
+  const [newItem, setNewItem] = useState({
+    name: "",
+    category: "Main",
+    price: 0,
+    available: true,
+    special: false,
+  });
 
   // Redirect if not logged in or wrong role
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
-    if (user.role !== 'manager' && !hasPermission(user, 'manage_menu')) {
-      navigate('/login');
+    if (user.role !== "manager" && !hasPermission(user, "manage_menu")) {
+      navigate("/login");
       return;
     }
   }, [user, navigate]);
 
   const toggleMenuItemAvailability = (itemId: number) => {
-    setMenuItems(menuItems.map(item => 
-      item.id === itemId ? { ...item, available: !item.available } : item
-    ));
+    setMenuItems(
+      menuItems.map((item) =>
+        item.id === itemId ? { ...item, available: !item.available } : item,
+      ),
+    );
   };
 
   const toggleMenuItemSpecial = (itemId: number) => {
-    setMenuItems(menuItems.map(item => 
-      item.id === itemId ? { ...item, special: !item.special } : item
-    ));
+    setMenuItems(
+      menuItems.map((item) =>
+        item.id === itemId ? { ...item, special: !item.special } : item,
+      ),
+    );
   };
 
   const generateQRCode = (tableId: number) => {
-    alert(`QR Code generated for Table ${tables.find(t => t.id === tableId)?.number}`);
+    alert(
+      `QR Code generated for Table ${tables.find((t) => t.id === tableId)?.number}`,
+    );
   };
 
   const downloadAllQRCodes = () => {
-    alert('All QR codes downloaded successfully!');
+    alert("All QR codes downloaded successfully!");
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(amount);
   };
 
@@ -158,14 +238,16 @@ export default function Manager() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <BarChart3 className="h-8 w-8 text-blue-600 mr-3" />
-              <span className="text-2xl font-bold text-gray-900">Manager Dashboard</span>
+              <span className="text-2xl font-bold text-gray-900">
+                Manager Dashboard
+              </span>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <div className="text-sm text-gray-600">
                 Welcome, {user.username}
               </div>
-              
+
               <Button variant="outline" size="sm" onClick={logout}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
@@ -194,7 +276,9 @@ export default function Manager() {
                   <div className="flex items-center">
                     <DollarSign className="h-8 w-8 text-green-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Today's Revenue</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Today's Revenue
+                      </p>
                       <p className="text-2xl font-bold text-gray-900">
                         {formatCurrency(mockAnalytics.todayRevenue)}
                       </p>
@@ -208,8 +292,12 @@ export default function Manager() {
                   <div className="flex items-center">
                     <TrendingUp className="h-8 w-8 text-blue-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Orders Today</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockAnalytics.todayOrders}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Orders Today
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockAnalytics.todayOrders}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -220,9 +308,11 @@ export default function Manager() {
                   <div className="flex items-center">
                     <Users className="h-8 w-8 text-purple-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Active Staff</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Active Staff
+                      </p>
                       <p className="text-2xl font-bold text-gray-900">
-                        {staff.filter(s => s.status === 'active').length}
+                        {staff.filter((s) => s.status === "active").length}
                       </p>
                     </div>
                   </div>
@@ -234,8 +324,12 @@ export default function Manager() {
                   <div className="flex items-center">
                     <BarChart3 className="h-8 w-8 text-orange-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Table Utilization</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockAnalytics.tableUtilization}%</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Table Utilization
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockAnalytics.tableUtilization}%
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -249,7 +343,10 @@ export default function Manager() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <Button onClick={downloadAllQRCodes} className="h-20 flex-col space-y-2">
+                  <Button
+                    onClick={downloadAllQRCodes}
+                    className="h-20 flex-col space-y-2"
+                  >
                     <QrCode className="h-6 w-6" />
                     <span>Download QR Codes</span>
                   </Button>
@@ -257,7 +354,11 @@ export default function Manager() {
                     <Users className="h-6 w-6" />
                     <span>Add Staff</span>
                   </Button>
-                  <Button variant="outline" className="h-20 flex-col space-y-2" onClick={() => setAddOpen(true)}>
+                  <Button
+                    variant="outline"
+                    className="h-20 flex-col space-y-2"
+                    onClick={() => setAddOpen(true)}
+                  >
                     <Plus className="h-6 w-6" />
                     <span>Add Menu Item</span>
                   </Button>
@@ -287,16 +388,18 @@ export default function Manager() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {tables.map(table => (
+              {tables.map((table) => (
                 <Card key={table.id}>
                   <CardHeader>
                     <div className="flex justify-between items-center">
                       <CardTitle>Table {table.number}</CardTitle>
-                      <Badge 
+                      <Badge
                         className={
-                          table.status === 'active' ? 'bg-green-100 text-green-800' :
-                          table.status === 'available' ? 'bg-gray-100 text-gray-800' :
-                          'bg-red-100 text-red-800'
+                          table.status === "active"
+                            ? "bg-green-100 text-green-800"
+                            : table.status === "available"
+                              ? "bg-gray-100 text-gray-800"
+                              : "bg-red-100 text-red-800"
                         }
                       >
                         {table.status}
@@ -307,16 +410,18 @@ export default function Manager() {
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Capacity:</span>
-                        <span className="font-medium">{table.capacity} guests</span>
+                        <span className="font-medium">
+                          {table.capacity} guests
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">QR Code:</span>
                         <span className="font-medium">{table.qrCode}</span>
                       </div>
-                      
+
                       <div className="flex space-x-2 pt-3">
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           onClick={() => generateQRCode(table.id)}
                           className="flex-1"
                         >
@@ -371,7 +476,7 @@ export default function Manager() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {menuItems.map(item => (
+                      {menuItems.map((item) => (
                         <tr key={item.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
@@ -395,22 +500,32 @@ export default function Manager() {
                             {formatCurrency(item.price)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge 
-                              className={item.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
+                            <Badge
+                              className={
+                                item.available
+                                  ? "bg-green-100 text-green-800"
+                                  : "bg-red-100 text-red-800"
+                              }
                             >
-                              {item.available ? 'Available' : 'Unavailable'}
+                              {item.available ? "Available" : "Unavailable"}
                             </Badge>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
-                              onClick={() => toggleMenuItemAvailability(item.id)}
+                              onClick={() =>
+                                toggleMenuItemAvailability(item.id)
+                              }
                             >
-                              {item.available ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                              {item.available ? (
+                                <EyeOff className="h-3 w-3" />
+                              ) : (
+                                <Eye className="h-3 w-3" />
+                              )}
                             </Button>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => toggleMenuItemSpecial(item.id)}
                             >
@@ -443,14 +558,16 @@ export default function Manager() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {staff.map(member => (
+              {staff.map((member) => (
                 <Card key={member.id}>
                   <CardHeader>
                     <div className="flex justify-between items-center">
                       <CardTitle className="text-lg">{member.name}</CardTitle>
-                      <Badge 
+                      <Badge
                         className={
-                          member.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                          member.status === "active"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-gray-100 text-gray-800"
                         }
                       >
                         {member.status}
@@ -466,9 +583,15 @@ export default function Manager() {
                       <div className="flex justify-between">
                         <span className="text-gray-600">Role:</span>
                         <Badge variant="outline">
-                          {member.role === 'waiter' && <Users className="h-3 w-3 mr-1" />}
-                          {member.role === 'kitchen' && <ChefHat className="h-3 w-3 mr-1" />}
-                          {member.role === 'bar' && <Coffee className="h-3 w-3 mr-1" />}
+                          {member.role === "waiter" && (
+                            <Users className="h-3 w-3 mr-1" />
+                          )}
+                          {member.role === "kitchen" && (
+                            <ChefHat className="h-3 w-3 mr-1" />
+                          )}
+                          {member.role === "bar" && (
+                            <Coffee className="h-3 w-3 mr-1" />
+                          )}
                           {member.role}
                         </Badge>
                       </div>
@@ -476,7 +599,7 @@ export default function Manager() {
                         <span className="text-gray-600">Shift:</span>
                         <span className="font-medium">{member.shift}</span>
                       </div>
-                      
+
                       <div className="flex space-x-2 pt-3">
                         <Button size="sm" className="flex-1">
                           Edit
@@ -495,7 +618,9 @@ export default function Manager() {
           {/* Orders Tab */}
           <TabsContent value="orders" className="mt-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Order History (Last 30 Days)</h2>
+              <h2 className="text-2xl font-bold">
+                Order History (Last 30 Days)
+              </h2>
               <div className="space-x-2">
                 <Button variant="outline">
                   <Calendar className="h-4 w-4 mr-2" />
@@ -535,7 +660,7 @@ export default function Manager() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {mockOrderHistory.map(order => (
+                      {mockOrderHistory.map((order) => (
                         <tr key={order.id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {order.orderNumber}
@@ -544,7 +669,7 @@ export default function Manager() {
                             {order.table}
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-900">
-                            {order.items.join(', ')}
+                            {order.items.join(", ")}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             {formatCurrency(order.total)}
@@ -575,15 +700,21 @@ export default function Manager() {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Today:</span>
-                      <span className="font-bold">{formatCurrency(mockAnalytics.todayRevenue)}</span>
+                      <span className="font-bold">
+                        {formatCurrency(mockAnalytics.todayRevenue)}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">This Week:</span>
-                      <span className="font-bold">{formatCurrency(mockAnalytics.weekRevenue)}</span>
+                      <span className="font-bold">
+                        {formatCurrency(mockAnalytics.weekRevenue)}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">This Month:</span>
-                      <span className="font-bold">{formatCurrency(mockAnalytics.monthRevenue)}</span>
+                      <span className="font-bold">
+                        {formatCurrency(mockAnalytics.monthRevenue)}
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -597,15 +728,21 @@ export default function Manager() {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Today:</span>
-                      <span className="font-bold">{mockAnalytics.todayOrders}</span>
+                      <span className="font-bold">
+                        {mockAnalytics.todayOrders}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">This Week:</span>
-                      <span className="font-bold">{mockAnalytics.weekOrders}</span>
+                      <span className="font-bold">
+                        {mockAnalytics.weekOrders}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Avg Order Value:</span>
-                      <span className="font-bold">{formatCurrency(mockAnalytics.avgOrderValue)}</span>
+                      <span className="font-bold">
+                        {formatCurrency(mockAnalytics.avgOrderValue)}
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -618,10 +755,15 @@ export default function Manager() {
                 <CardContent>
                   <div className="space-y-3">
                     {mockAnalytics.bestSellingItems.map((item, index) => (
-                      <div key={index} className="flex justify-between items-center">
+                      <div
+                        key={index}
+                        className="flex justify-between items-center"
+                      >
                         <div>
                           <div className="font-medium text-sm">{item.name}</div>
-                          <div className="text-xs text-gray-600">{item.quantity} sold</div>
+                          <div className="text-xs text-gray-600">
+                            {item.quantity} sold
+                          </div>
                         </div>
                         <div className="text-sm font-bold">
                           {formatCurrency(item.revenue)}
@@ -642,9 +784,15 @@ export default function Manager() {
         item={newItem}
         onChange={setNewItem}
         onSubmit={() => {
-          const id = Math.max(0, ...menuItems.map(m => m.id)) + 1;
+          const id = Math.max(0, ...menuItems.map((m) => m.id)) + 1;
           setMenuItems([{ id, ...newItem }, ...menuItems]);
-          setNewItem({ name: '', category: 'Main', price: 0, available: true, special: false });
+          setNewItem({
+            name: "",
+            category: "Main",
+            price: 0,
+            available: true,
+            special: false,
+          });
           setAddOpen(false);
         }}
       />
@@ -652,13 +800,24 @@ export default function Manager() {
   );
 }
 
-
-function AddMenuItemDialog({ open, onOpenChange, item, onChange, onSubmit }:{
+function AddMenuItemDialog({
+  open,
+  onOpenChange,
+  item,
+  onChange,
+  onSubmit,
+}: {
   open: boolean;
-  onOpenChange: (v:boolean)=>void;
-  item: { name:string; category:string; price:number; available:boolean; special:boolean };
-  onChange: (v:any)=>void;
-  onSubmit: ()=>void;
+  onOpenChange: (v: boolean) => void;
+  item: {
+    name: string;
+    category: string;
+    price: number;
+    available: boolean;
+    special: boolean;
+  };
+  onChange: (v: any) => void;
+  onSubmit: () => void;
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -669,28 +828,55 @@ function AddMenuItemDialog({ open, onOpenChange, item, onChange, onSubmit }:{
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>Name</Label>
-            <Input value={item.name} onChange={e=>onChange({ ...item, name: e.target.value })} placeholder="Item name" />
+            <Input
+              value={item.name}
+              onChange={(e) => onChange({ ...item, name: e.target.value })}
+              placeholder="Item name"
+            />
           </div>
           <div className="space-y-2">
             <Label>Category</Label>
-            <Input value={item.category} onChange={e=>onChange({ ...item, category: e.target.value })} placeholder="e.g. Main, Starter, Drinks" />
+            <Input
+              value={item.category}
+              onChange={(e) => onChange({ ...item, category: e.target.value })}
+              placeholder="e.g. Main, Starter, Drinks"
+            />
           </div>
           <div className="space-y-2">
             <Label>Price (USD)</Label>
-            <Input type="number" step="0.01" value={item.price} onChange={e=>onChange({ ...item, price: parseFloat(e.target.value) || 0 })} />
+            <Input
+              type="number"
+              step="0.01"
+              value={item.price}
+              onChange={(e) =>
+                onChange({ ...item, price: parseFloat(e.target.value) || 0 })
+              }
+            />
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Switch checked={item.available} onCheckedChange={(v)=>onChange({ ...item, available: v })} />
+              <Switch
+                checked={item.available}
+                onCheckedChange={(v) => onChange({ ...item, available: v })}
+              />
               <Label>Available</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <Switch checked={item.special} onCheckedChange={(v)=>onChange({ ...item, special: v })} />
+              <Switch
+                checked={item.special}
+                onCheckedChange={(v) => onChange({ ...item, special: v })}
+              />
               <Label>Special</Label>
             </div>
           </div>
           <div className="pt-2">
-            <Button className="w-full" disabled={!item.name || !item.category || item.price <= 0} onClick={onSubmit}>Save</Button>
+            <Button
+              className="w-full"
+              disabled={!item.name || !item.category || item.price <= 0}
+              onClick={onSubmit}
+            >
+              Save
+            </Button>
           </div>
         </div>
       </DialogContent>

@@ -9,7 +9,11 @@ interface PlaceholderPageProps {
   expectedFeatures?: string[];
 }
 
-export default function PlaceholderPage({ title, description, expectedFeatures }: PlaceholderPageProps) {
+export default function PlaceholderPage({
+  title,
+  description,
+  expectedFeatures,
+}: PlaceholderPageProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
@@ -18,11 +22,15 @@ export default function PlaceholderPage({ title, description, expectedFeatures }
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center">
               <ArrowLeft className="h-5 w-5 mr-2" />
-              <span className="text-2xl font-bold text-gray-900">🍽️ POSRMS</span>
+              <span className="text-2xl font-bold text-gray-900">
+                🍽️ POSRMS
+              </span>
             </Link>
             <div className="flex items-center space-x-4">
               <Link to="/login">
-                <Button variant="outline" size="sm">Restaurant Login</Button>
+                <Button variant="outline" size="sm">
+                  Restaurant Login
+                </Button>
               </Link>
               <Link to="/team/login">
                 <Button size="sm">POSRMS Owner Login</Button>
@@ -49,10 +57,15 @@ export default function PlaceholderPage({ title, description, expectedFeatures }
           <CardContent>
             {expectedFeatures && (
               <div className="mb-8">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Expected Features:</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Expected Features:
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
                   {expectedFeatures.map((feature, index) => (
-                    <div key={index} className="flex items-center text-gray-600">
+                    <div
+                      key={index}
+                      className="flex items-center text-gray-600"
+                    >
                       <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
                       {feature}
                     </div>
@@ -60,10 +73,11 @@ export default function PlaceholderPage({ title, description, expectedFeatures }
                 </div>
               </div>
             )}
-            
+
             <div className="space-y-4">
               <p className="text-gray-500">
-                This page is currently under development. Continue prompting to have me implement the specific functionality for this section.
+                This page is currently under development. Continue prompting to
+                have me implement the specific functionality for this section.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/">
@@ -72,9 +86,7 @@ export default function PlaceholderPage({ title, description, expectedFeatures }
                     Back to Home
                   </Button>
                 </Link>
-                <Button>
-                  Request Implementation
-                </Button>
+                <Button>Request Implementation</Button>
               </div>
             </div>
           </CardContent>

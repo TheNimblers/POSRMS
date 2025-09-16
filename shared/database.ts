@@ -5,13 +5,13 @@ export interface Staff {
   id: string;
   username: string;
   password_hash: string;
-  role: 'waiter' | 'kitchen' | 'bar' | 'manager' | 'admin' | 'team';
+  role: "waiter" | "kitchen" | "bar" | "manager" | "admin" | "team";
   restaurant_id?: string;
   name: string;
   email?: string;
-  status: 'active' | 'inactive' | 'suspended';
+  status: "active" | "inactive" | "suspended";
   permissions: string[];
-  shift?: 'day' | 'evening' | 'night';
+  shift?: "day" | "evening" | "night";
   created_at: string;
   updated_at: string;
   last_login?: string;
@@ -22,7 +22,7 @@ export interface Table {
   restaurant_id: string;
   number: string;
   capacity: number;
-  status: 'available' | 'active' | 'maintenance' | 'reserved';
+  status: "available" | "active" | "maintenance" | "reserved";
   assigned_waiter?: string;
   qr_code: string;
   position_x?: number;
@@ -38,8 +38,8 @@ export interface Order {
   restaurant_id: string;
   table_id: number;
   items: OrderItem[];
-  status: 'new' | 'preparing' | 'ready' | 'served' | 'paid' | 'cancelled';
-  type: 'food' | 'drink' | 'mixed';
+  status: "new" | "preparing" | "ready" | "served" | "paid" | "cancelled";
+  type: "food" | "drink" | "mixed";
   total_amount: number;
   notes?: string;
   waiter_id?: string;
@@ -57,7 +57,7 @@ export interface OrderItem {
   price: number;
   category: string;
   notes?: string;
-  status: 'pending' | 'preparing' | 'ready' | 'served';
+  status: "pending" | "preparing" | "ready" | "served";
 }
 
 export interface Session {
@@ -69,9 +69,9 @@ export interface Session {
   total_amount: number;
   customer_count: number;
   waiter_id?: string;
-  status: 'active' | 'completed' | 'cancelled';
-  payment_status: 'pending' | 'partial' | 'paid';
-  payment_method?: 'cash' | 'card' | 'digital';
+  status: "active" | "completed" | "cancelled";
+  payment_status: "pending" | "partial" | "paid";
+  payment_method?: "cash" | "card" | "digital";
   tip_amount?: number;
   created_at: string;
   updated_at: string;
@@ -82,7 +82,15 @@ export interface MenuItem {
   restaurant_id: string;
   name: string;
   description?: string;
-  category: 'starter' | 'main' | 'dessert' | 'drink' | 'wine' | 'beer' | 'cocktail' | 'special';
+  category:
+    | "starter"
+    | "main"
+    | "dessert"
+    | "drink"
+    | "wine"
+    | "beer"
+    | "cocktail"
+    | "special";
   price_eur: number;
   price_usd: number;
   available: boolean;
@@ -99,14 +107,14 @@ export interface Restaurant {
   id: string;
   name: string;
   slug: string;
-  subscription_status: 'trial' | 'active' | 'suspended' | 'cancelled';
-  subscription_plan: 'trial' | 'monthly' | 'yearly';
+  subscription_status: "trial" | "active" | "suspended" | "cancelled";
+  subscription_plan: "trial" | "monthly" | "yearly";
   admins: string[];
   contact_email: string;
   address?: string;
   phone?: string;
   timezone: string;
-  currency: 'EUR' | 'USD';
+  currency: "EUR" | "USD";
   tax_rate: number;
   service_charge: number;
   settings: RestaurantSettings;
@@ -132,12 +140,18 @@ export interface Notification {
   id: string;
   restaurant_id: string;
   user_id?: string;
-  type: 'table_activated' | 'call_waiter' | 'payment_requested' | 'order_ready' | 'system' | 'subscription';
+  type:
+    | "table_activated"
+    | "call_waiter"
+    | "payment_requested"
+    | "order_ready"
+    | "system"
+    | "subscription";
   title: string;
   message: string;
   data?: any;
   read: boolean;
-  priority: 'low' | 'normal' | 'high' | 'urgent';
+  priority: "low" | "normal" | "high" | "urgent";
   created_at: string;
   expires_at?: string;
 }
@@ -147,7 +161,7 @@ export interface AuditLog {
   restaurant_id?: string;
   user_id: string;
   action: string;
-  entity_type: 'order' | 'table' | 'menu' | 'staff' | 'restaurant' | 'system';
+  entity_type: "order" | "table" | "menu" | "staff" | "restaurant" | "system";
   entity_id?: string;
   details: string;
   ip_address?: string;
@@ -158,14 +172,14 @@ export interface AuditLog {
 export interface Subscription {
   id: string;
   restaurant_id: string;
-  plan: 'trial' | 'monthly' | 'yearly';
-  status: 'active' | 'cancelled' | 'past_due' | 'trialing';
+  plan: "trial" | "monthly" | "yearly";
+  status: "active" | "cancelled" | "past_due" | "trialing";
   current_period_start: string;
   current_period_end: string;
   price: number;
-  currency: 'EUR' | 'USD';
+  currency: "EUR" | "USD";
   payment_method?: string;
-  payment_provider?: 'stripe' | 'paypal' | 'mollie';
+  payment_provider?: "stripe" | "paypal" | "mollie";
   payment_provider_id?: string;
   created_at: string;
   updated_at: string;
@@ -177,10 +191,10 @@ export interface Payment {
   session_id: string;
   restaurant_id: string;
   amount: number;
-  currency: 'EUR' | 'USD';
-  method: 'cash' | 'card' | 'digital';
-  status: 'pending' | 'completed' | 'failed' | 'refunded';
-  provider?: 'stripe' | 'paypal' | 'mollie';
+  currency: "EUR" | "USD";
+  method: "cash" | "card" | "digital";
+  status: "pending" | "completed" | "failed" | "refunded";
+  provider?: "stripe" | "paypal" | "mollie";
   provider_transaction_id?: string;
   tip_amount?: number;
   processing_fee?: number;
@@ -201,7 +215,7 @@ export interface Review {
   atmosphere_rating?: number;
   customer_name?: string;
   customer_email?: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: "pending" | "approved" | "rejected";
   created_at: string;
   updated_at: string;
 }
@@ -448,22 +462,22 @@ export const createTableQueries = {
       FOREIGN KEY (restaurant_id) REFERENCES restaurants(id),
       FOREIGN KEY (table_id) REFERENCES tables(id)
     )
-  `
+  `,
 };
 
 // Indexes for better performance
 export const createIndexQueries = [
-  'CREATE INDEX IF NOT EXISTS idx_staff_restaurant ON staff(restaurant_id)',
-  'CREATE INDEX IF NOT EXISTS idx_staff_username ON staff(username)',
-  'CREATE INDEX IF NOT EXISTS idx_tables_restaurant ON tables(restaurant_id)',
-  'CREATE INDEX IF NOT EXISTS idx_sessions_table ON sessions(table_id)',
-  'CREATE INDEX IF NOT EXISTS idx_sessions_restaurant ON sessions(restaurant_id)',
-  'CREATE INDEX IF NOT EXISTS idx_orders_session ON orders(session_id)',
-  'CREATE INDEX IF NOT EXISTS idx_orders_restaurant ON orders(restaurant_id)',
-  'CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status)',
-  'CREATE INDEX IF NOT EXISTS idx_menu_restaurant ON menu_items(restaurant_id)',
-  'CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id)',
-  'CREATE INDEX IF NOT EXISTS idx_notifications_restaurant ON notifications(restaurant_id)',
-  'CREATE INDEX IF NOT EXISTS idx_audit_restaurant ON audit_logs(restaurant_id)',
-  'CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_logs(user_id)'
+  "CREATE INDEX IF NOT EXISTS idx_staff_restaurant ON staff(restaurant_id)",
+  "CREATE INDEX IF NOT EXISTS idx_staff_username ON staff(username)",
+  "CREATE INDEX IF NOT EXISTS idx_tables_restaurant ON tables(restaurant_id)",
+  "CREATE INDEX IF NOT EXISTS idx_sessions_table ON sessions(table_id)",
+  "CREATE INDEX IF NOT EXISTS idx_sessions_restaurant ON sessions(restaurant_id)",
+  "CREATE INDEX IF NOT EXISTS idx_orders_session ON orders(session_id)",
+  "CREATE INDEX IF NOT EXISTS idx_orders_restaurant ON orders(restaurant_id)",
+  "CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status)",
+  "CREATE INDEX IF NOT EXISTS idx_menu_restaurant ON menu_items(restaurant_id)",
+  "CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id)",
+  "CREATE INDEX IF NOT EXISTS idx_notifications_restaurant ON notifications(restaurant_id)",
+  "CREATE INDEX IF NOT EXISTS idx_audit_restaurant ON audit_logs(restaurant_id)",
+  "CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_logs(user_id)",
 ];

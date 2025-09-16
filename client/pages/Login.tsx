@@ -1,58 +1,65 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, ArrowLeft, Users, ChefHat, BarChart3, Shield } from "lucide-react";
-import { useAuth, UserRole } from '@/contexts/AuthContext';
+import {
+  Loader2,
+  ArrowLeft,
+  Users,
+  ChefHat,
+  BarChart3,
+  Shield,
+} from "lucide-react";
+import { useAuth, UserRole } from "@/contexts/AuthContext";
 
 const roleDescriptions = {
   waiter: {
     icon: Users,
-    title: 'Waiter',
-    description: 'Manage tables, take orders, and serve customers',
-    redirect: '/waiter'
+    title: "Waiter",
+    description: "Manage tables, take orders, and serve customers",
+    redirect: "/waiter",
   },
   kitchen: {
     icon: ChefHat,
-    title: 'Kitchen',
-    description: 'View and manage food orders',
-    redirect: '/kitchen'
+    title: "Kitchen",
+    description: "View and manage food orders",
+    redirect: "/kitchen",
   },
   bar: {
     icon: ChefHat,
-    title: 'Bar',
-    description: 'View and manage drink orders',
-    redirect: '/bar'
+    title: "Bar",
+    description: "View and manage drink orders",
+    redirect: "/bar",
   },
   manager: {
     icon: BarChart3,
-    title: 'Manager',
-    description: 'Manage restaurant operations and staff',
-    redirect: '/manager'
+    title: "Manager",
+    description: "Manage restaurant operations and staff",
+    redirect: "/manager",
   },
   admin: {
     icon: Shield,
-    title: 'Administrator',
-    description: 'Full system access and control',
-    redirect: '/admin'
+    title: "Administrator",
+    description: "Full system access and control",
+    redirect: "/admin",
   },
   team: {
     icon: Shield,
-    title: 'POSRMS Team',
-    description: 'SaaS platform management',
-    redirect: '/team'
-  }
+    title: "POSRMS Team",
+    description: "SaaS platform management",
+    redirect: "/team",
+  },
 };
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
-  
+
   const { login, isLoading, user } = useAuth();
   const navigate = useNavigate();
 
@@ -66,31 +73,39 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!username || !password) {
-      setError('Please enter both username and password');
+      setError("Please enter both username and password");
       return;
     }
 
     const success = await login(username, password);
     if (!success) {
-      setError('Invalid username or password');
+      setError("Invalid username or password");
     }
   };
 
   const demoCredentials = [
-    { role: 'waiter', username: 'waiter1', description: 'Demo waiter account' },
-    { role: 'kitchen', username: 'kitchen1', description: 'Kitchen staff account' },
-    { role: 'bar', username: 'bar1', description: 'Bar staff account' },
-    { role: 'manager', username: 'manager1', description: 'Restaurant manager' },
-    { role: 'admin', username: 'admin1', description: 'System administrator' },
-    { role: 'team', username: 'team1', description: 'POSRMS team member' }
+    { role: "waiter", username: "waiter1", description: "Demo waiter account" },
+    {
+      role: "kitchen",
+      username: "kitchen1",
+      description: "Kitchen staff account",
+    },
+    { role: "bar", username: "bar1", description: "Bar staff account" },
+    {
+      role: "manager",
+      username: "manager1",
+      description: "Restaurant manager",
+    },
+    { role: "admin", username: "admin1", description: "System administrator" },
+    { role: "team", username: "team1", description: "POSRMS team member" },
   ];
 
   const fillDemoCredentials = (username: string) => {
     setUsername(username);
-    setPassword('password');
+    setPassword("password");
   };
 
   return (
@@ -108,10 +123,14 @@ export default function Login() {
             </Link>
             <div className="flex items-center space-x-2">
               <Link to="/order?token=QR-T1">
-                <Button size="sm" variant="secondary">Customer Demo</Button>
+                <Button size="sm" variant="secondary">
+                  Customer Demo
+                </Button>
               </Link>
               <Link to="/team/login">
-                <Button variant="outline" size="sm">POSRMS Owner Login</Button>
+                <Button variant="outline" size="sm">
+                  POSRMS Owner Login
+                </Button>
               </Link>
             </div>
           </div>
@@ -162,9 +181,9 @@ export default function Login() {
                   </Alert>
                 )}
 
-                <Button 
-                  type="submit" 
-                  className="w-full" 
+                <Button
+                  type="submit"
+                  className="w-full"
                   size="lg"
                   disabled={isLoading}
                 >
@@ -174,7 +193,7 @@ export default function Login() {
                       Signing in...
                     </>
                   ) : (
-                    'Sign In'
+                    "Sign In"
                   )}
                 </Button>
               </form>
@@ -190,11 +209,10 @@ export default function Login() {
           {/* Demo Accounts */}
           <Card className="w-full">
             <CardHeader>
-              <CardTitle className="text-xl font-bold">
-                Demo Accounts
-              </CardTitle>
+              <CardTitle className="text-xl font-bold">Demo Accounts</CardTitle>
               <p className="text-gray-600">
-                Try different roles with these demo accounts (password: "password")
+                Try different roles with these demo accounts (password:
+                "password")
               </p>
             </CardHeader>
             <CardContent>
@@ -202,10 +220,10 @@ export default function Login() {
                 {demoCredentials.map((demo) => {
                   const roleInfo = roleDescriptions[demo.role as UserRole];
                   const IconComponent = roleInfo.icon;
-                  
+
                   return (
-                    <Card 
-                      key={demo.role} 
+                    <Card
+                      key={demo.role}
                       className="cursor-pointer hover:bg-gray-50 transition-colors"
                       onClick={() => fillDemoCredentials(demo.username)}
                     >

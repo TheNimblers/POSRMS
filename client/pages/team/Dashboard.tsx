@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  Globe, 
-  Users, 
-  DollarSign, 
+import {
+  Globe,
+  Users,
+  DollarSign,
   TrendingUp,
   Building2,
   CreditCard,
@@ -27,60 +27,60 @@ import {
   Crown,
   AlertTriangle,
   CheckCircle,
-  Clock
+  Clock,
 } from "lucide-react";
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from "@/contexts/AuthContext";
 
 // Mock SaaS data - in real app this would come from API
 const mockRestaurants = [
   {
     id: 1,
-    name: 'Bella Vista Restaurant',
-    admin: 'admin1@bellavista.com',
-    subscription: 'yearly',
-    status: 'active',
-    monthlyRevenue: 12450.50,
+    name: "Bella Vista Restaurant",
+    admin: "admin1@bellavista.com",
+    subscription: "yearly",
+    status: "active",
+    monthlyRevenue: 12450.5,
     tablesCount: 24,
     staffCount: 15,
-    lastActivity: '2024-01-15T20:30:00Z',
-    createdDate: '2023-06-15T00:00:00Z'
+    lastActivity: "2024-01-15T20:30:00Z",
+    createdDate: "2023-06-15T00:00:00Z",
   },
   {
     id: 2,
-    name: 'Downtown Bistro',
-    admin: 'manager@downtown.com',
-    subscription: 'monthly',
-    status: 'active',
+    name: "Downtown Bistro",
+    admin: "manager@downtown.com",
+    subscription: "monthly",
+    status: "active",
     monthlyRevenue: 8750.25,
     tablesCount: 18,
     staffCount: 12,
-    lastActivity: '2024-01-15T19:45:00Z',
-    createdDate: '2023-09-22T00:00:00Z'
+    lastActivity: "2024-01-15T19:45:00Z",
+    createdDate: "2023-09-22T00:00:00Z",
   },
   {
     id: 3,
-    name: 'Coastal Cafe',
-    admin: 'admin@coastal.com',
-    subscription: 'trial',
-    status: 'trial',
-    monthlyRevenue: 3200.00,
+    name: "Coastal Cafe",
+    admin: "admin@coastal.com",
+    subscription: "trial",
+    status: "trial",
+    monthlyRevenue: 3200.0,
     tablesCount: 8,
     staffCount: 6,
-    lastActivity: '2024-01-15T18:20:00Z',
-    createdDate: '2024-01-10T00:00:00Z'
+    lastActivity: "2024-01-15T18:20:00Z",
+    createdDate: "2024-01-10T00:00:00Z",
   },
   {
     id: 4,
-    name: 'Urban Grill',
-    admin: 'contact@urbangrill.com',
-    subscription: 'monthly',
-    status: 'suspended',
+    name: "Urban Grill",
+    admin: "contact@urbangrill.com",
+    subscription: "monthly",
+    status: "suspended",
     monthlyRevenue: 0,
     tablesCount: 16,
     staffCount: 10,
-    lastActivity: '2024-01-10T12:00:00Z',
-    createdDate: '2023-11-08T00:00:00Z'
-  }
+    lastActivity: "2024-01-10T12:00:00Z",
+    createdDate: "2023-11-08T00:00:00Z",
+  },
 ];
 
 const mockPlatformStats = {
@@ -88,97 +88,105 @@ const mockPlatformStats = {
   activeRestaurants: 198,
   trialRestaurants: 23,
   suspendedRestaurants: 26,
-  totalRevenue: 485750.50,
+  totalRevenue: 485750.5,
   monthlyRecurringRevenue: 89450.25,
   totalUsers: 1823,
   activeUsers: 1567,
   supportTickets: 12,
-  systemUptime: 99.97
+  systemUptime: 99.97,
 };
 
 const mockSubscriptionPlans = [
   {
-    id: 'trial',
-    name: 'Trial',
+    id: "trial",
+    name: "Trial",
     price: 0,
-    duration: '14 days',
-    features: ['Up to 5 tables', 'Basic features', 'Email support'],
+    duration: "14 days",
+    features: ["Up to 5 tables", "Basic features", "Email support"],
     customers: 23,
-    revenue: 0
+    revenue: 0,
   },
   {
-    id: 'monthly',
-    name: 'Monthly',
+    id: "monthly",
+    name: "Monthly",
     price: 99,
-    duration: 'per month',
-    features: ['Unlimited tables', 'All features', 'Priority support'],
+    duration: "per month",
+    features: ["Unlimited tables", "All features", "Priority support"],
     customers: 156,
-    revenue: 15444
+    revenue: 15444,
   },
   {
-    id: 'yearly',
-    name: 'Yearly',
+    id: "yearly",
+    name: "Yearly",
     price: 990,
-    duration: 'per year',
-    features: ['Everything in Monthly', 'White-label', 'Dedicated support'],
+    duration: "per year",
+    features: ["Everything in Monthly", "White-label", "Dedicated support"],
     customers: 68,
-    revenue: 67320
-  }
+    revenue: 67320,
+  },
 ];
 
 const mockAnalytics = {
   newSignups: [
-    { date: '2024-01-01', count: 5 },
-    { date: '2024-01-02', count: 8 },
-    { date: '2024-01-03', count: 12 },
-    { date: '2024-01-04', count: 7 },
-    { date: '2024-01-05', count: 15 }
+    { date: "2024-01-01", count: 5 },
+    { date: "2024-01-02", count: 8 },
+    { date: "2024-01-03", count: 12 },
+    { date: "2024-01-04", count: 7 },
+    { date: "2024-01-05", count: 15 },
   ],
   churnRate: 2.3,
-  averageRevenuePerUser: 127.50,
-  customerLifetimeValue: 1485.00
+  averageRevenuePerUser: 127.5,
+  customerLifetimeValue: 1485.0,
 };
 
 export default function TeamDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
   const [restaurants, setRestaurants] = useState(mockRestaurants);
 
   // Redirect if not logged in or wrong role
   useEffect(() => {
     if (!user) {
-      navigate('/team/login');
+      navigate("/team/login");
       return;
     }
-    if (user.role !== 'team') {
-      navigate('/team/login');
+    if (user.role !== "team") {
+      navigate("/team/login");
       return;
     }
   }, [user, navigate]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'trial': return 'bg-blue-100 text-blue-800';
-      case 'suspended': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "active":
+        return "bg-green-100 text-green-800";
+      case "trial":
+        return "bg-blue-100 text-blue-800";
+      case "suspended":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getSubscriptionColor = (subscription: string) => {
     switch (subscription) {
-      case 'yearly': return 'bg-purple-100 text-purple-800';
-      case 'monthly': return 'bg-orange-100 text-orange-800';
-      case 'trial': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "yearly":
+        return "bg-purple-100 text-purple-800";
+      case "monthly":
+        return "bg-orange-100 text-orange-800";
+      case "trial":
+        return "bg-gray-100 text-gray-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(amount);
   };
 
@@ -187,15 +195,21 @@ export default function TeamDashboard() {
   };
 
   const addRestaurant = () => {
-    alert('Add Restaurant functionality would open a form here');
+    alert("Add Restaurant functionality would open a form here");
   };
 
   const suspendRestaurant = (restaurantId: number) => {
-    setRestaurants(restaurants.map(restaurant => 
-      restaurant.id === restaurantId 
-        ? { ...restaurant, status: restaurant.status === 'suspended' ? 'active' : 'suspended' }
-        : restaurant
-    ));
+    setRestaurants(
+      restaurants.map((restaurant) =>
+        restaurant.id === restaurantId
+          ? {
+              ...restaurant,
+              status:
+                restaurant.status === "suspended" ? "active" : "suspended",
+            }
+          : restaurant,
+      ),
+    );
   };
 
   if (!user) {
@@ -210,10 +224,14 @@ export default function TeamDashboard() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Globe className="h-8 w-8 text-blue-600 mr-3" />
-              <span className="text-2xl font-bold text-gray-900">POSRMS SaaS Dashboard</span>
-              <Badge className="ml-4 bg-blue-100 text-blue-800">Platform Admin</Badge>
+              <span className="text-2xl font-bold text-gray-900">
+                POSRMS SaaS Dashboard
+              </span>
+              <Badge className="ml-4 bg-blue-100 text-blue-800">
+                Platform Admin
+              </Badge>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <div className="relative">
                 <Bell className="h-6 w-6 text-gray-600" />
@@ -221,11 +239,11 @@ export default function TeamDashboard() {
                   {mockPlatformStats.supportTickets}
                 </Badge>
               </div>
-              
+
               <div className="text-sm text-gray-600">
                 POSRMS Team: {user.username}
               </div>
-              
+
               <Button variant="outline" size="sm" onClick={logout}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
@@ -254,8 +272,12 @@ export default function TeamDashboard() {
                   <div className="flex items-center">
                     <Building2 className="h-8 w-8 text-blue-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Total Restaurants</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockPlatformStats.totalRestaurants}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Total Restaurants
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockPlatformStats.totalRestaurants}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -266,9 +288,13 @@ export default function TeamDashboard() {
                   <div className="flex items-center">
                     <DollarSign className="h-8 w-8 text-green-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Monthly Recurring Revenue</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Monthly Recurring Revenue
+                      </p>
                       <p className="text-2xl font-bold text-gray-900">
-                        {formatCurrency(mockPlatformStats.monthlyRecurringRevenue)}
+                        {formatCurrency(
+                          mockPlatformStats.monthlyRecurringRevenue,
+                        )}
                       </p>
                     </div>
                   </div>
@@ -280,8 +306,12 @@ export default function TeamDashboard() {
                   <div className="flex items-center">
                     <Users className="h-8 w-8 text-purple-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Active Users</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockPlatformStats.activeUsers.toLocaleString()}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Active Users
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockPlatformStats.activeUsers.toLocaleString()}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -292,8 +322,12 @@ export default function TeamDashboard() {
                   <div className="flex items-center">
                     <TrendingUp className="h-8 w-8 text-orange-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">System Uptime</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockPlatformStats.systemUptime}%</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        System Uptime
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockPlatformStats.systemUptime}%
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -310,15 +344,21 @@ export default function TeamDashboard() {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Active:</span>
-                      <span className="font-bold text-green-600">{mockPlatformStats.activeRestaurants}</span>
+                      <span className="font-bold text-green-600">
+                        {mockPlatformStats.activeRestaurants}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Trial:</span>
-                      <span className="font-bold text-blue-600">{mockPlatformStats.trialRestaurants}</span>
+                      <span className="font-bold text-blue-600">
+                        {mockPlatformStats.trialRestaurants}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Suspended:</span>
-                      <span className="font-bold text-red-600">{mockPlatformStats.suspendedRestaurants}</span>
+                      <span className="font-bold text-red-600">
+                        {mockPlatformStats.suspendedRestaurants}
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -332,15 +372,21 @@ export default function TeamDashboard() {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Total Revenue:</span>
-                      <span className="font-bold">{formatCurrency(mockPlatformStats.totalRevenue)}</span>
+                      <span className="font-bold">
+                        {formatCurrency(mockPlatformStats.totalRevenue)}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Avg per Restaurant:</span>
-                      <span className="font-bold">{formatCurrency(mockAnalytics.averageRevenuePerUser)}</span>
+                      <span className="font-bold">
+                        {formatCurrency(mockAnalytics.averageRevenuePerUser)}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Customer LTV:</span>
-                      <span className="font-bold">{formatCurrency(mockAnalytics.customerLifetimeValue)}</span>
+                      <span className="font-bold">
+                        {formatCurrency(mockAnalytics.customerLifetimeValue)}
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -354,15 +400,21 @@ export default function TeamDashboard() {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Support Tickets:</span>
-                      <span className="font-bold text-orange-600">{mockPlatformStats.supportTickets}</span>
+                      <span className="font-bold text-orange-600">
+                        {mockPlatformStats.supportTickets}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Churn Rate:</span>
-                      <span className="font-bold text-red-600">{mockAnalytics.churnRate}%</span>
+                      <span className="font-bold text-red-600">
+                        {mockAnalytics.churnRate}%
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">System Status:</span>
-                      <Badge className="bg-green-100 text-green-800">Healthy</Badge>
+                      <Badge className="bg-green-100 text-green-800">
+                        Healthy
+                      </Badge>
                     </div>
                   </div>
                 </CardContent>
@@ -407,13 +459,16 @@ export default function TeamDashboard() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {restaurants.map(restaurant => (
+                      {restaurants.map((restaurant) => (
                         <tr key={restaurant.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div>
-                              <div className="text-sm font-medium text-gray-900">{restaurant.name}</div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {restaurant.name}
+                              </div>
                               <div className="text-sm text-gray-500">
-                                {restaurant.tablesCount} tables • {restaurant.staffCount} staff
+                                {restaurant.tablesCount} tables •{" "}
+                                {restaurant.staffCount} staff
                               </div>
                             </div>
                           </td>
@@ -421,12 +476,18 @@ export default function TeamDashboard() {
                             {restaurant.admin}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge className={getSubscriptionColor(restaurant.subscription)}>
+                            <Badge
+                              className={getSubscriptionColor(
+                                restaurant.subscription,
+                              )}
+                            >
                               {restaurant.subscription}
                             </Badge>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge className={getStatusColor(restaurant.status)}>
+                            <Badge
+                              className={getStatusColor(restaurant.status)}
+                            >
                               {restaurant.status}
                             </Badge>
                           </td>
@@ -437,12 +498,14 @@ export default function TeamDashboard() {
                             <Button size="sm" variant="outline">
                               <Edit className="h-3 w-3" />
                             </Button>
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => suspendRestaurant(restaurant.id)}
                             >
-                              {restaurant.status === 'suspended' ? 'Activate' : 'Suspend'}
+                              {restaurant.status === "suspended"
+                                ? "Activate"
+                                : "Suspend"}
                             </Button>
                             <Button size="sm" variant="outline">
                               <BarChart3 className="h-3 w-3" />
@@ -460,12 +523,12 @@ export default function TeamDashboard() {
           {/* Subscriptions Tab */}
           <TabsContent value="subscriptions" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              {mockSubscriptionPlans.map(plan => (
+              {mockSubscriptionPlans.map((plan) => (
                 <Card key={plan.id}>
                   <CardHeader>
                     <div className="flex justify-between items-center">
                       <CardTitle className="text-lg">{plan.name}</CardTitle>
-                      {plan.id === 'yearly' && (
+                      {plan.id === "yearly" && (
                         <Crown className="h-5 w-5 text-yellow-500" />
                       )}
                     </div>
@@ -486,15 +549,19 @@ export default function TeamDashboard() {
                           ))}
                         </ul>
                       </div>
-                      
+
                       <div className="border-t pt-4">
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">Customers:</span>
                           <span className="font-bold">{plan.customers}</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Monthly Revenue:</span>
-                          <span className="font-bold">{formatCurrency(plan.revenue)}</span>
+                          <span className="text-gray-600">
+                            Monthly Revenue:
+                          </span>
+                          <span className="font-bold">
+                            {formatCurrency(plan.revenue)}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -526,9 +593,13 @@ export default function TeamDashboard() {
                   <div className="flex items-center">
                     <TrendingUp className="h-8 w-8 text-green-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">New Signups (7d)</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        New Signups (7d)
+                      </p>
                       <p className="text-2xl font-bold text-gray-900">47</p>
-                      <p className="text-xs text-green-600">+12% from last week</p>
+                      <p className="text-xs text-green-600">
+                        +12% from last week
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -540,7 +611,9 @@ export default function TeamDashboard() {
                     <DollarSign className="h-8 w-8 text-blue-600" />
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">ARPU</p>
-                      <p className="text-2xl font-bold text-gray-900">{formatCurrency(mockAnalytics.averageRevenuePerUser)}</p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {formatCurrency(mockAnalytics.averageRevenuePerUser)}
+                      </p>
                       <p className="text-xs text-blue-600">+5.2% MoM</p>
                     </div>
                   </div>
@@ -552,8 +625,12 @@ export default function TeamDashboard() {
                   <div className="flex items-center">
                     <Users className="h-8 w-8 text-purple-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Churn Rate</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockAnalytics.churnRate}%</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Churn Rate
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockAnalytics.churnRate}%
+                      </p>
                       <p className="text-xs text-red-600">+0.3% MoM</p>
                     </div>
                   </div>
@@ -566,7 +643,9 @@ export default function TeamDashboard() {
                     <Crown className="h-8 w-8 text-yellow-600" />
                     <div className="ml-4">
                       <p className="text-sm font-medium text-gray-600">LTV</p>
-                      <p className="text-2xl font-bold text-gray-900">{formatCurrency(mockAnalytics.customerLifetimeValue)}</p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {formatCurrency(mockAnalytics.customerLifetimeValue)}
+                      </p>
                       <p className="text-xs text-green-600">+8.7% MoM</p>
                     </div>
                   </div>
@@ -587,7 +666,9 @@ export default function TeamDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-red-600 mb-2">3</div>
-                  <p className="text-sm text-gray-600">Require immediate attention</p>
+                  <p className="text-sm text-gray-600">
+                    Require immediate attention
+                  </p>
                 </CardContent>
               </Card>
 
@@ -599,7 +680,9 @@ export default function TeamDashboard() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-yellow-600 mb-2">9</div>
+                  <div className="text-3xl font-bold text-yellow-600 mb-2">
+                    9
+                  </div>
                   <p className="text-sm text-gray-600">Awaiting response</p>
                 </CardContent>
               </Card>
@@ -612,8 +695,12 @@ export default function TeamDashboard() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-green-600 mb-2">15</div>
-                  <p className="text-sm text-gray-600">Average resolution: 2.3h</p>
+                  <div className="text-3xl font-bold text-green-600 mb-2">
+                    15
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    Average resolution: 2.3h
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -666,7 +753,9 @@ export default function TeamDashboard() {
                     <Label>Maintenance Mode</Label>
                     <input type="checkbox" className="rounded" />
                   </div>
-                  <Button variant="outline" className="w-full">Update Settings</Button>
+                  <Button variant="outline" className="w-full">
+                    Update Settings
+                  </Button>
                 </CardContent>
               </Card>
             </div>

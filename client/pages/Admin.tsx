@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  Shield, 
-  Users, 
-  BarChart3, 
-  Settings, 
+import {
+  Shield,
+  Users,
+  BarChart3,
+  Settings,
   LogOut,
   Plus,
   Edit,
@@ -28,31 +28,52 @@ import {
   Key,
   Monitor,
   Wifi,
-  HardDrive
+  HardDrive,
 } from "lucide-react";
-import { useAuth, hasPermission } from '@/contexts/AuthContext';
+import { useAuth, hasPermission } from "@/contexts/AuthContext";
 
 // Mock admin data - in real app this would come from API
 const mockSystemStats = {
   totalUsers: 25,
   activeUsers: 18,
   totalOrders: 1456,
-  systemUptime: '99.8%',
-  storageUsed: '2.4 GB',
+  systemUptime: "99.8%",
+  storageUsed: "2.4 GB",
   dailyActiveUsers: 15,
-  errorRate: '0.02%'
+  errorRate: "0.02%",
 };
 
 const mockManagers = [
-  { id: 1, username: 'manager1', name: 'Alice Johnson', email: 'alice@restaurant.com', status: 'active', lastLogin: '2024-01-15T20:15:00Z' },
-  { id: 2, username: 'manager2', name: 'Bob Wilson', email: 'bob@restaurant.com', status: 'active', lastLogin: '2024-01-15T19:30:00Z' },
-  { id: 3, username: 'manager3', name: 'Carol Davis', email: 'carol@restaurant.com', status: 'inactive', lastLogin: '2024-01-10T15:45:00Z' }
+  {
+    id: 1,
+    username: "manager1",
+    name: "Alice Johnson",
+    email: "alice@restaurant.com",
+    status: "active",
+    lastLogin: "2024-01-15T20:15:00Z",
+  },
+  {
+    id: 2,
+    username: "manager2",
+    name: "Bob Wilson",
+    email: "bob@restaurant.com",
+    status: "active",
+    lastLogin: "2024-01-15T19:30:00Z",
+  },
+  {
+    id: 3,
+    username: "manager3",
+    name: "Carol Davis",
+    email: "carol@restaurant.com",
+    status: "inactive",
+    lastLogin: "2024-01-10T15:45:00Z",
+  },
 ];
 
 const mockSystemSettings = {
-  restaurantName: 'Demo Restaurant',
-  timezone: 'America/New_York',
-  currency: 'USD',
+  restaurantName: "Demo Restaurant",
+  timezone: "America/New_York",
+  currency: "USD",
   taxRate: 8.5,
   serviceCharge: 15.0,
   autoBackup: true,
@@ -60,50 +81,79 @@ const mockSystemSettings = {
   maintenanceMode: false,
   allowGuestOrders: true,
   maxTableCapacity: 12,
-  orderTimeout: 30
+  orderTimeout: 30,
 };
 
 const mockAuditLogs = [
-  { id: 1, action: 'User Login', user: 'manager1', timestamp: '2024-01-15T20:15:00Z', details: 'Successful login from 192.168.1.100' },
-  { id: 2, action: 'Menu Updated', user: 'manager2', timestamp: '2024-01-15T19:30:00Z', details: 'Added new item: Truffle Pasta' },
-  { id: 3, action: 'Staff Added', user: 'admin1', timestamp: '2024-01-15T18:45:00Z', details: 'Added waiter: John Doe' },
-  { id: 4, action: 'Settings Changed', user: 'admin1', timestamp: '2024-01-15T17:20:00Z', details: 'Updated tax rate to 8.5%' }
+  {
+    id: 1,
+    action: "User Login",
+    user: "manager1",
+    timestamp: "2024-01-15T20:15:00Z",
+    details: "Successful login from 192.168.1.100",
+  },
+  {
+    id: 2,
+    action: "Menu Updated",
+    user: "manager2",
+    timestamp: "2024-01-15T19:30:00Z",
+    details: "Added new item: Truffle Pasta",
+  },
+  {
+    id: 3,
+    action: "Staff Added",
+    user: "admin1",
+    timestamp: "2024-01-15T18:45:00Z",
+    details: "Added waiter: John Doe",
+  },
+  {
+    id: 4,
+    action: "Settings Changed",
+    user: "admin1",
+    timestamp: "2024-01-15T17:20:00Z",
+    details: "Updated tax rate to 8.5%",
+  },
 ];
 
 const mockPerformanceMetrics = {
-  responseTime: '245ms',
-  throughput: '1.2k requests/min',
-  errorRate: '0.02%',
-  cpuUsage: '34%',
-  memoryUsage: '67%',
-  diskUsage: '45%'
+  responseTime: "245ms",
+  throughput: "1.2k requests/min",
+  errorRate: "0.02%",
+  cpuUsage: "34%",
+  memoryUsage: "67%",
+  diskUsage: "45%",
 };
 
 export default function Admin() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
   const [managers, setManagers] = useState(mockManagers);
   const [systemSettings, setSystemSettings] = useState(mockSystemSettings);
 
   // Redirect if not logged in or wrong role
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
-    if (user.role !== 'admin' && !hasPermission(user, 'full_access')) {
-      navigate('/login');
+    if (user.role !== "admin" && !hasPermission(user, "full_access")) {
+      navigate("/login");
       return;
     }
   }, [user, navigate]);
 
   const toggleManagerStatus = (managerId: number) => {
-    setManagers(managers.map(manager => 
-      manager.id === managerId 
-        ? { ...manager, status: manager.status === 'active' ? 'inactive' : 'active' }
-        : manager
-    ));
+    setManagers(
+      managers.map((manager) =>
+        manager.id === managerId
+          ? {
+              ...manager,
+              status: manager.status === "active" ? "inactive" : "active",
+            }
+          : manager,
+      ),
+    );
   };
 
   const updateSystemSetting = (key: string, value: any) => {
@@ -115,7 +165,7 @@ export default function Admin() {
   };
 
   const performBackup = () => {
-    alert('System backup initiated successfully!');
+    alert("System backup initiated successfully!");
   };
 
   const formatTime = (dateString: string) => {
@@ -123,9 +173,9 @@ export default function Admin() {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(amount);
   };
 
@@ -141,15 +191,19 @@ export default function Admin() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Shield className="h-8 w-8 text-red-600 mr-3" />
-              <span className="text-2xl font-bold text-gray-900">Admin Panel</span>
-              <Badge className="ml-4 bg-red-100 text-red-800">Full Access</Badge>
+              <span className="text-2xl font-bold text-gray-900">
+                Admin Panel
+              </span>
+              <Badge className="ml-4 bg-red-100 text-red-800">
+                Full Access
+              </Badge>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <div className="text-sm text-gray-600">
                 System Administrator: {user.username}
               </div>
-              
+
               <Button variant="outline" size="sm" onClick={logout}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
@@ -179,8 +233,12 @@ export default function Admin() {
                   <div className="flex items-center">
                     <Users className="h-8 w-8 text-blue-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Total Users</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockSystemStats.totalUsers}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Total Users
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockSystemStats.totalUsers}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -191,8 +249,12 @@ export default function Admin() {
                   <div className="flex items-center">
                     <Monitor className="h-8 w-8 text-green-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">System Uptime</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockSystemStats.systemUptime}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        System Uptime
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockSystemStats.systemUptime}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -203,8 +265,12 @@ export default function Admin() {
                   <div className="flex items-center">
                     <BarChart3 className="h-8 w-8 text-purple-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockSystemStats.totalOrders.toLocaleString()}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Total Orders
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockSystemStats.totalOrders.toLocaleString()}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -215,8 +281,12 @@ export default function Admin() {
                   <div className="flex items-center">
                     <HardDrive className="h-8 w-8 text-orange-600" />
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Storage Used</p>
-                      <p className="text-2xl font-bold text-gray-900">{mockSystemStats.storageUsed}</p>
+                      <p className="text-sm font-medium text-gray-600">
+                        Storage Used
+                      </p>
+                      <p className="text-2xl font-bold text-gray-900">
+                        {mockSystemStats.storageUsed}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -233,19 +303,27 @@ export default function Admin() {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Response Time:</span>
-                      <span className="font-medium">{mockPerformanceMetrics.responseTime}</span>
+                      <span className="font-medium">
+                        {mockPerformanceMetrics.responseTime}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">CPU Usage:</span>
-                      <span className="font-medium">{mockPerformanceMetrics.cpuUsage}</span>
+                      <span className="font-medium">
+                        {mockPerformanceMetrics.cpuUsage}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Memory Usage:</span>
-                      <span className="font-medium">{mockPerformanceMetrics.memoryUsage}</span>
+                      <span className="font-medium">
+                        {mockPerformanceMetrics.memoryUsage}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Error Rate:</span>
-                      <span className="font-medium text-green-600">{mockPerformanceMetrics.errorRate}</span>
+                      <span className="font-medium text-green-600">
+                        {mockPerformanceMetrics.errorRate}
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -257,19 +335,31 @@ export default function Admin() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4">
-                    <Button onClick={performBackup} className="h-16 flex-col space-y-1">
+                    <Button
+                      onClick={performBackup}
+                      className="h-16 flex-col space-y-1"
+                    >
                       <Archive className="h-5 w-5" />
                       <span className="text-sm">Backup Now</span>
                     </Button>
-                    <Button variant="outline" className="h-16 flex-col space-y-1">
+                    <Button
+                      variant="outline"
+                      className="h-16 flex-col space-y-1"
+                    >
                       <UserPlus className="h-5 w-5" />
                       <span className="text-sm">Add Manager</span>
                     </Button>
-                    <Button variant="outline" className="h-16 flex-col space-y-1">
+                    <Button
+                      variant="outline"
+                      className="h-16 flex-col space-y-1"
+                    >
                       <Download className="h-5 w-5" />
                       <span className="text-sm">Export Data</span>
                     </Button>
-                    <Button variant="outline" className="h-16 flex-col space-y-1">
+                    <Button
+                      variant="outline"
+                      className="h-16 flex-col space-y-1"
+                    >
                       <Settings className="h-5 w-5" />
                       <span className="text-sm">System Config</span>
                     </Button>
@@ -313,20 +403,28 @@ export default function Admin() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {managers.map(manager => (
+                      {managers.map((manager) => (
                         <tr key={manager.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div>
-                              <div className="text-sm font-medium text-gray-900">{manager.name}</div>
-                              <div className="text-sm text-gray-500">@{manager.username}</div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {manager.name}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                @{manager.username}
+                              </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             {manager.email}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge 
-                              className={manager.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}
+                            <Badge
+                              className={
+                                manager.status === "active"
+                                  ? "bg-green-100 text-green-800"
+                                  : "bg-gray-100 text-gray-800"
+                              }
                             >
                               {manager.status}
                             </Badge>
@@ -335,12 +433,14 @@ export default function Admin() {
                             {formatTime(manager.lastLogin)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                            <Button 
-                              size="sm" 
+                            <Button
+                              size="sm"
                               variant="outline"
                               onClick={() => toggleManagerStatus(manager.id)}
                             >
-                              {manager.status === 'active' ? 'Deactivate' : 'Activate'}
+                              {manager.status === "active"
+                                ? "Deactivate"
+                                : "Activate"}
                             </Button>
                             <Button size="sm" variant="outline">
                               <Edit className="h-3 w-3" />
@@ -367,7 +467,7 @@ export default function Admin() {
                   <Calendar className="h-4 w-4 mr-2" />
                   Custom Date Range
                 </Button>
-                <Button onClick={() => exportData('Analytics')}>
+                <Button onClick={() => exportData("Analytics")}>
                   <Download className="h-4 w-4 mr-2" />
                   Export Report
                 </Button>
@@ -453,35 +553,46 @@ export default function Admin() {
                 <CardContent className="space-y-4">
                   <div>
                     <Label htmlFor="restaurantName">Restaurant Name</Label>
-                    <Input 
+                    <Input
                       id="restaurantName"
                       value={systemSettings.restaurantName}
-                      onChange={(e) => updateSystemSetting('restaurantName', e.target.value)}
+                      onChange={(e) =>
+                        updateSystemSetting("restaurantName", e.target.value)
+                      }
                     />
                   </div>
                   <div>
                     <Label htmlFor="timezone">Timezone</Label>
-                    <Input 
+                    <Input
                       id="timezone"
                       value={systemSettings.timezone}
-                      onChange={(e) => updateSystemSetting('timezone', e.target.value)}
+                      onChange={(e) =>
+                        updateSystemSetting("timezone", e.target.value)
+                      }
                     />
                   </div>
                   <div>
                     <Label htmlFor="currency">Currency</Label>
-                    <Input 
+                    <Input
                       id="currency"
                       value={systemSettings.currency}
-                      onChange={(e) => updateSystemSetting('currency', e.target.value)}
+                      onChange={(e) =>
+                        updateSystemSetting("currency", e.target.value)
+                      }
                     />
                   </div>
                   <div>
                     <Label htmlFor="taxRate">Tax Rate (%)</Label>
-                    <Input 
+                    <Input
                       id="taxRate"
                       type="number"
                       value={systemSettings.taxRate}
-                      onChange={(e) => updateSystemSetting('taxRate', parseFloat(e.target.value))}
+                      onChange={(e) =>
+                        updateSystemSetting(
+                          "taxRate",
+                          parseFloat(e.target.value),
+                        )
+                      }
                     />
                   </div>
                 </CardContent>
@@ -498,7 +609,9 @@ export default function Admin() {
                       type="checkbox"
                       id="autoBackup"
                       checked={systemSettings.autoBackup}
-                      onChange={(e) => updateSystemSetting('autoBackup', e.target.checked)}
+                      onChange={(e) =>
+                        updateSystemSetting("autoBackup", e.target.checked)
+                      }
                       className="rounded"
                     />
                   </div>
@@ -508,7 +621,9 @@ export default function Admin() {
                       type="checkbox"
                       id="notifications"
                       checked={systemSettings.notifications}
-                      onChange={(e) => updateSystemSetting('notifications', e.target.checked)}
+                      onChange={(e) =>
+                        updateSystemSetting("notifications", e.target.checked)
+                      }
                       className="rounded"
                     />
                   </div>
@@ -518,17 +633,26 @@ export default function Admin() {
                       type="checkbox"
                       id="maintenanceMode"
                       checked={systemSettings.maintenanceMode}
-                      onChange={(e) => updateSystemSetting('maintenanceMode', e.target.checked)}
+                      onChange={(e) =>
+                        updateSystemSetting("maintenanceMode", e.target.checked)
+                      }
                       className="rounded"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="orderTimeout">Order Timeout (minutes)</Label>
-                    <Input 
+                    <Label htmlFor="orderTimeout">
+                      Order Timeout (minutes)
+                    </Label>
+                    <Input
                       id="orderTimeout"
                       type="number"
                       value={systemSettings.orderTimeout}
-                      onChange={(e) => updateSystemSetting('orderTimeout', parseInt(e.target.value))}
+                      onChange={(e) =>
+                        updateSystemSetting(
+                          "orderTimeout",
+                          parseInt(e.target.value),
+                        )
+                      }
                     />
                   </div>
                 </CardContent>
@@ -549,7 +673,9 @@ export default function Admin() {
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label>Two-Factor Authentication</Label>
-                    <Badge className="bg-green-100 text-green-800">Enabled</Badge>
+                    <Badge className="bg-green-100 text-green-800">
+                      Enabled
+                    </Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <Label>Session Timeout</Label>
@@ -580,7 +706,9 @@ export default function Admin() {
                   </div>
                   <div className="flex items-center justify-between">
                     <Label>Firewall Status</Label>
-                    <Badge className="bg-green-100 text-green-800">Active</Badge>
+                    <Badge className="bg-green-100 text-green-800">
+                      Active
+                    </Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <Label>Failed Login Attempts</Label>
@@ -633,16 +761,28 @@ export default function Admin() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Button onClick={() => exportData('Orders')} variant="outline" className="w-full">
+                  <Button
+                    onClick={() => exportData("Orders")}
+                    variant="outline"
+                    className="w-full"
+                  >
                     Export Order Data
                   </Button>
-                  <Button onClick={() => exportData('Users')} variant="outline" className="w-full">
+                  <Button
+                    onClick={() => exportData("Users")}
+                    variant="outline"
+                    className="w-full"
+                  >
                     Export User Data
                   </Button>
-                  <Button onClick={() => exportData('Analytics')} variant="outline" className="w-full">
+                  <Button
+                    onClick={() => exportData("Analytics")}
+                    variant="outline"
+                    className="w-full"
+                  >
                     Export Analytics
                   </Button>
-                  <Button onClick={() => exportData('All')} className="w-full">
+                  <Button onClick={() => exportData("All")} className="w-full">
                     <Download className="h-4 w-4 mr-2" />
                     Export All Data
                   </Button>
@@ -655,7 +795,7 @@ export default function Admin() {
           <TabsContent value="logs" className="mt-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Audit Logs</h2>
-              <Button onClick={() => exportData('Logs')}>
+              <Button onClick={() => exportData("Logs")}>
                 <Download className="h-4 w-4 mr-2" />
                 Export Logs
               </Button>
@@ -682,7 +822,7 @@ export default function Admin() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {mockAuditLogs.map(log => (
+                      {mockAuditLogs.map((log) => (
                         <tr key={log.id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {log.action}

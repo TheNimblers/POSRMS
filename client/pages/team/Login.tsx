@@ -1,48 +1,55 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, ArrowLeft, Shield, Globe, BarChart3, Users } from "lucide-react";
-import { useAuth } from '@/contexts/AuthContext';
+import {
+  Loader2,
+  ArrowLeft,
+  Shield,
+  Globe,
+  BarChart3,
+  Users,
+} from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function TeamLogin() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
   const { login, isLoading, user } = useAuth();
   const navigate = useNavigate();
 
   // Redirect if already logged in as team member
   useEffect(() => {
-    if (user && user.role === 'team') {
-      navigate('/team');
+    if (user && user.role === "team") {
+      navigate("/team");
     }
   }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!username || !password) {
-      setError('Please enter both username and password');
+      setError("Please enter both username and password");
       return;
     }
 
     const success = await login(username, password);
     if (!success) {
-      setError('Invalid credentials or insufficient permissions');
-    } else if (user && user.role !== 'team') {
-      setError('This login is for POSRMS team members only');
+      setError("Invalid credentials or insufficient permissions");
+    } else if (user && user.role !== "team") {
+      setError("This login is for POSRMS team members only");
     }
   };
 
   const fillDemoCredentials = () => {
-    setUsername('team1');
-    setPassword('password');
+    setUsername("team1");
+    setPassword("password");
   };
 
   return (
@@ -57,7 +64,11 @@ export default function TeamLogin() {
             </Link>
             <div className="flex items-center space-x-4">
               <Link to="/login">
-                <Button variant="outline" size="sm" className="border-white/20 text-white hover:bg-white/10">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-white/20 text-white hover:bg-white/10"
+                >
                   Restaurant Login
                 </Button>
               </Link>
@@ -73,7 +84,9 @@ export default function TeamLogin() {
             <div className="mx-auto h-16 w-16 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mb-6">
               <Shield className="h-8 w-8 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-white">POSRMS Team Portal</h2>
+            <h2 className="text-3xl font-bold text-white">
+              POSRMS Team Portal
+            </h2>
             <p className="mt-2 text-lg text-gray-300">
               Secure access for SaaS administrators and platform managers
             </p>
@@ -89,7 +102,9 @@ export default function TeamLogin() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="username" className="text-white">Username</Label>
+                  <Label htmlFor="username" className="text-white">
+                    Username
+                  </Label>
                   <Input
                     id="username"
                     type="text"
@@ -102,7 +117,9 @@ export default function TeamLogin() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-white">Password</Label>
+                  <Label htmlFor="password" className="text-white">
+                    Password
+                  </Label>
                   <Input
                     id="password"
                     type="password"
@@ -115,14 +132,17 @@ export default function TeamLogin() {
                 </div>
 
                 {error && (
-                  <Alert variant="destructive" className="bg-red-500/20 border-red-500/20 text-red-100">
+                  <Alert
+                    variant="destructive"
+                    className="bg-red-500/20 border-red-500/20 text-red-100"
+                  >
                     <AlertDescription>{error}</AlertDescription>
                   </Alert>
                 )}
 
-                <Button 
-                  type="submit" 
-                  className="w-full bg-white text-gray-900 hover:bg-gray-100" 
+                <Button
+                  type="submit"
+                  className="w-full bg-white text-gray-900 hover:bg-gray-100"
                   size="lg"
                   disabled={isLoading}
                 >
@@ -132,21 +152,23 @@ export default function TeamLogin() {
                       Authenticating...
                     </>
                   ) : (
-                    'Access Team Portal'
+                    "Access Team Portal"
                   )}
                 </Button>
               </form>
 
               {/* Demo Credentials */}
               <div className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10">
-                <h3 className="text-sm font-semibold text-white mb-2">Demo Access</h3>
+                <h3 className="text-sm font-semibold text-white mb-2">
+                  Demo Access
+                </h3>
                 <p className="text-xs text-gray-300 mb-3">
                   Use demo credentials to explore the team dashboard
                 </p>
-                <Button 
+                <Button
                   onClick={fillDemoCredentials}
-                  variant="outline" 
-                  size="sm" 
+                  variant="outline"
+                  size="sm"
                   className="w-full border-white/20 text-white hover:bg-white/10"
                 >
                   Use Demo Account (team1)
@@ -166,8 +188,12 @@ export default function TeamLogin() {
             <Card className="bg-white/5 backdrop-blur-sm border-white/10">
               <CardContent className="p-4 text-center">
                 <Globe className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                <h3 className="text-sm font-semibold text-white">Multi-Restaurant</h3>
-                <p className="text-xs text-gray-300">Manage all restaurant locations</p>
+                <h3 className="text-sm font-semibold text-white">
+                  Multi-Restaurant
+                </h3>
+                <p className="text-xs text-gray-300">
+                  Manage all restaurant locations
+                </p>
               </CardContent>
             </Card>
 
@@ -182,8 +208,12 @@ export default function TeamLogin() {
             <Card className="bg-white/5 backdrop-blur-sm border-white/10">
               <CardContent className="p-4 text-center">
                 <Users className="h-8 w-8 text-purple-400 mx-auto mb-2" />
-                <h3 className="text-sm font-semibold text-white">Subscriptions</h3>
-                <p className="text-xs text-gray-300">Billing & customer management</p>
+                <h3 className="text-sm font-semibold text-white">
+                  Subscriptions
+                </h3>
+                <p className="text-xs text-gray-300">
+                  Billing & customer management
+                </p>
               </CardContent>
             </Card>
           </div>

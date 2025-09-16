@@ -14,7 +14,7 @@ import {
   handleUpdatePassword,
   handleLogout,
   authenticateToken,
-  requirePermission
+  requirePermission,
 } from "./routes/auth";
 
 import {
@@ -23,7 +23,7 @@ import {
   handleGetOrder,
   handleUpdateOrderStatus,
   handleGetOrderAnalytics,
-  handleDeleteOrder
+  handleDeleteOrder,
 } from "./routes/orders";
 
 import {
@@ -34,7 +34,7 @@ import {
   handleAssignWaiter,
   handleGenerateQR,
   handleDeleteTable,
-  handleGetTableQRCodes
+  handleGetTableQRCodes,
 } from "./routes/tables";
 
 import {
@@ -45,7 +45,7 @@ import {
   handleUpdateMenuItem,
   handleToggleAvailability,
   handleDeleteMenuItem,
-  handleGetCategories
+  handleGetCategories,
 } from "./routes/menu";
 
 import {
@@ -63,15 +63,15 @@ export function createServer() {
   const server = createHttpServer(app);
 
   // Initialize database (this happens automatically in the constructor)
-  console.log('🗄️ Database initialized');
+  console.log("🗄️ Database initialized");
 
   // Initialize WebSocket server
   webSocketManager.initialize(server);
 
   // Middleware
   app.use(cors());
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+  app.use(express.json({ limit: "10mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
   // Health check
   app.get("/api/health", (_req, res) => {
@@ -79,7 +79,7 @@ export function createServer() {
       status: "healthy",
       timestamp: new Date().toISOString(),
       database: "connected",
-      websocket: "active"
+      websocket: "active",
     });
   });
 
@@ -110,64 +110,168 @@ export function createServer() {
   // Authentication routes (protected)
   app.get("/api/auth/profile", authenticateToken, handleProfile);
   app.put("/api/auth/password", authenticateToken, handleUpdatePassword);
-  app.post("/api/auth/register", authenticateToken, requirePermission('manage_staff'), handleRegister);
+  app.post(
+    "/api/auth/register",
+    authenticateToken,
+    requirePermission("manage_staff"),
+    handleRegister,
+  );
 
   // Order routes
   app.post("/api/orders", authenticateToken, handleCreateOrder);
   app.get("/api/orders", authenticateToken, handleGetOrders);
-  app.get("/api/orders/analytics", authenticateToken, requirePermission('view_analytics'), handleGetOrderAnalytics);
+  app.get(
+    "/api/orders/analytics",
+    authenticateToken,
+    requirePermission("view_analytics"),
+    handleGetOrderAnalytics,
+  );
   app.get("/api/orders/:orderId", authenticateToken, handleGetOrder);
-  app.put("/api/orders/:orderId/status", authenticateToken, handleUpdateOrderStatus);
-  app.delete("/api/orders/:orderId", authenticateToken, requirePermission('full_access'), handleDeleteOrder);
+  app.put(
+    "/api/orders/:orderId/status",
+    authenticateToken,
+    handleUpdateOrderStatus,
+  );
+  app.delete(
+    "/api/orders/:orderId",
+    authenticateToken,
+    requirePermission("full_access"),
+    handleDeleteOrder,
+  );
 
   // Sessions (staff)
-  app.post("/api/sessions/:sessionId/pay", authenticateToken, requirePermission('manage_orders'), handleMarkSessionPaid);
+  app.post(
+    "/api/sessions/:sessionId/pay",
+    authenticateToken,
+    requirePermission("manage_orders"),
+    handleMarkSessionPaid,
+  );
 
   // Table routes
-  app.get("/api/tables", authenticateToken, requirePermission('view_tables'), handleGetTables);
-  app.post("/api/tables", authenticateToken, requirePermission('manage_staff'), handleCreateTable);
-  app.get("/api/tables/qr-codes", authenticateToken, requirePermission('view_tables'), handleGetTableQRCodes);
-  app.get("/api/tables/:tableId", authenticateToken, requirePermission('view_tables'), handleGetTable);
-  app.put("/api/tables/:tableId", authenticateToken, requirePermission('manage_staff'), handleUpdateTable);
-  app.put("/api/tables/:tableId/assign", authenticateToken, requirePermission('view_tables'), handleAssignWaiter);
-  app.post("/api/tables/:tableId/qr", authenticateToken, requirePermission('manage_staff'), handleGenerateQR);
-  app.delete("/api/tables/:tableId", authenticateToken, requirePermission('full_access'), handleDeleteTable);
+  app.get(
+    "/api/tables",
+    authenticateToken,
+    requirePermission("view_tables"),
+    handleGetTables,
+  );
+  app.post(
+    "/api/tables",
+    authenticateToken,
+    requirePermission("manage_staff"),
+    handleCreateTable,
+  );
+  app.get(
+    "/api/tables/qr-codes",
+    authenticateToken,
+    requirePermission("view_tables"),
+    handleGetTableQRCodes,
+  );
+  app.get(
+    "/api/tables/:tableId",
+    authenticateToken,
+    requirePermission("view_tables"),
+    handleGetTable,
+  );
+  app.put(
+    "/api/tables/:tableId",
+    authenticateToken,
+    requirePermission("manage_staff"),
+    handleUpdateTable,
+  );
+  app.put(
+    "/api/tables/:tableId/assign",
+    authenticateToken,
+    requirePermission("view_tables"),
+    handleAssignWaiter,
+  );
+  app.post(
+    "/api/tables/:tableId/qr",
+    authenticateToken,
+    requirePermission("manage_staff"),
+    handleGenerateQR,
+  );
+  app.delete(
+    "/api/tables/:tableId",
+    authenticateToken,
+    requirePermission("full_access"),
+    handleDeleteTable,
+  );
 
   // Menu routes
   app.get("/api/menu", authenticateToken, handleGetMenuItems);
-  app.post("/api/menu", authenticateToken, requirePermission('manage_menu'), handleCreateMenuItem);
+  app.post(
+    "/api/menu",
+    authenticateToken,
+    requirePermission("manage_menu"),
+    handleCreateMenuItem,
+  );
   app.get("/api/menu/categories", authenticateToken, handleGetCategories);
   app.get("/api/menu/:itemId", authenticateToken, handleGetMenuItem);
-  app.put("/api/menu/:itemId", authenticateToken, requirePermission('manage_menu'), handleUpdateMenuItem);
-  app.put("/api/menu/:itemId/toggle", authenticateToken, requirePermission('manage_menu'), handleToggleAvailability);
-  app.delete("/api/menu/:itemId", authenticateToken, requirePermission('full_access'), handleDeleteMenuItem);
+  app.put(
+    "/api/menu/:itemId",
+    authenticateToken,
+    requirePermission("manage_menu"),
+    handleUpdateMenuItem,
+  );
+  app.put(
+    "/api/menu/:itemId/toggle",
+    authenticateToken,
+    requirePermission("manage_menu"),
+    handleToggleAvailability,
+  );
+  app.delete(
+    "/api/menu/:itemId",
+    authenticateToken,
+    requirePermission("full_access"),
+    handleDeleteMenuItem,
+  );
 
   // WebSocket management routes
-  app.get("/api/websocket/stats", authenticateToken, requirePermission('view_analytics'), (_req, res) => {
-    const stats = webSocketManager.getStats();
-    res.json({ success: true, data: stats });
-  });
+  app.get(
+    "/api/websocket/stats",
+    authenticateToken,
+    requirePermission("view_analytics"),
+    (_req, res) => {
+      const stats = webSocketManager.getStats();
+      res.json({ success: true, data: stats });
+    },
+  );
 
-  app.get("/api/websocket/clients", authenticateToken, requirePermission('view_analytics'), (_req, res) => {
-    const clients = webSocketManager.getConnectedClients();
-    res.json({ success: true, data: { clients } });
-  });
+  app.get(
+    "/api/websocket/clients",
+    authenticateToken,
+    requirePermission("view_analytics"),
+    (_req, res) => {
+      const clients = webSocketManager.getConnectedClients();
+      res.json({ success: true, data: { clients } });
+    },
+  );
 
   // Error handling middleware
-  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error('API Error:', err);
-    res.status(500).json({
-      success: false,
-      error: 'Internal server error',
-      message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
-    });
-  });
+  app.use(
+    (
+      err: any,
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction,
+    ) => {
+      console.error("API Error:", err);
+      res.status(500).json({
+        success: false,
+        error: "Internal server error",
+        message:
+          process.env.NODE_ENV === "development"
+            ? err.message
+            : "Something went wrong",
+      });
+    },
+  );
 
   // 404 handler for API routes
-  app.use('/api/*', (_req, res) => {
+  app.use("/api/*", (_req, res) => {
     res.status(404).json({
       success: false,
-      error: 'API endpoint not found'
+      error: "API endpoint not found",
     });
   });
 
