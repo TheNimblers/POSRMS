@@ -72,8 +72,8 @@ export default function Index() {
     <div className="min-h-screen bg-white">
       {/* Decorative background */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -left-48 -top-48 h-[32rem] w-[32rem] rounded-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 blur-3xl" />
-        <div className="absolute right-[-10%] top-1/3 h-[28rem] w-[28rem] rounded-full bg-gradient-to-br from-cyan-400/20 to-emerald-400/20 blur-3xl" />
+        <div className="absolute -left-48 -top-48 h-[32rem] w-[32rem] rounded-full bg-gradient-to-br from-orange-500/20 to-rose-500/20 blur-3xl" />
+        <div className="absolute right-[-10%] top-1/3 h-[28rem] w-[28rem] rounded-full bg-gradient-to-br from-amber-400/20 to-emerald-400/20 blur-3xl" />
       </div>
 
       {/* Navigation */}
@@ -105,7 +105,7 @@ export default function Index() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <div className="inline-flex items-center rounded-full border bg-white/60 backdrop-blur px-3 py-1 text-xs font-medium text-gray-700 shadow-sm mb-4">
-                <Sparkles className="h-3.5 w-3.5 mr-1.5 text-blue-600" /> Live customer demo available
+                <Sparkles className="h-3.5 w-3.5 mr-1.5 text-orange-600" /> Live customer demo available
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900">
                 Modern Restaurant OS
@@ -211,7 +211,7 @@ export default function Index() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card>
               <CardContent className="p-6">
-                <div className="h-10 w-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center mb-3"><LayoutGrid className="h-5 w-5" /></div>
+                <div className="h-10 w-10 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center mb-3"><LayoutGrid className="h-5 w-5" /></div>
                 <h3 className="font-semibold">Unified Dashboards</h3>
                 <p className="text-sm text-gray-600 mt-1">Customer, Waiter, Kitchen, Bar, Manager — all streamlined.</p>
               </CardContent>
@@ -461,7 +461,7 @@ export default function Index() {
               <CardHeader>
                 <CardTitle className="text-center">
                   <div className="text-2xl font-bold">Trial</div>
-                  <div className="text-4xl font-bold text-blue-600 mt-2">Free</div>
+                  <div className="text-4xl font-bold text-orange-600 mt-2">Free</div>
                   <div className="text-gray-600">14 days</div>
                 </CardTitle>
               </CardHeader>
@@ -476,12 +476,12 @@ export default function Index() {
               </CardContent>
             </Card>
 
-            <Card className="relative border-2 border-blue-500">
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500">Most Popular</Badge>
+            <Card className="relative border-2 border-orange-500">
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500">Most Popular</Badge>
               <CardHeader>
                 <CardTitle className="text-center">
                   <div className="text-2xl font-bold">Monthly</div>
-                  <div className="text-4xl font-bold text-blue-600 mt-2">$99</div>
+                  <div className="text-4xl font-bold text-orange-600 mt-2">$99</div>
                   <div className="text-gray-600">per month</div>
                 </CardTitle>
               </CardHeader>
@@ -500,7 +500,7 @@ export default function Index() {
               <CardHeader>
                 <CardTitle className="text-center">
                   <div className="text-2xl font-bold">Yearly</div>
-                  <div className="text-4xl font-bold text-blue-600 mt-2">$990</div>
+                  <div className="text-4xl font-bold text-orange-600 mt-2">$990</div>
                   <div className="text-gray-600">per year</div>
                   <Badge variant="secondary" className="mt-2">Save 17%</Badge>
                 </CardTitle>
@@ -533,7 +533,7 @@ export default function Index() {
                 <div className="mt-3 text-sm text-gray-500">— Coastal Bistro</div>
               </CardContent>
             </Card>
-            <Card className="border-l-4 border-l-blue-500">
+            <Card className="border-l-4 border-l-orange-500">
               <CardContent className="p-6 text-gray-700">
                 “Staff learned it in a day. The customer menu is gorgeous on mobile.”
                 <div className="mt-3 text-sm text-gray-500">— Urban Grill</div>
