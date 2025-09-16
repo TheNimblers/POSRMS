@@ -5,6 +5,7 @@ import { createServer as createHttpServer } from "http";
 import { handleDemo } from "./routes/demo";
 import { webSocketManager } from "./websocket";
 import { db } from "./database";
+import { connectMongo, getMongoDb, closeMongo } from "./mongo";
 
 // Import API routes
 import {
@@ -65,6 +66,15 @@ export function createServer() {
   // Initialize database (this happens automatically in the constructor)
   console.log("🗄️ Database initialized");
 
+  // Optionally initialize MongoDB (if configured)
+  const useMongo = process.env.USE_MONGODB === "true";
+  if (useMongo) {
+    connectMongo().then((conn) => {
+      if (conn) console.log("✅ Mongo ready");
+      else console.warn("⚠️ Mongo not connected. Falling back to SQLite only.");
+    });
+  }
+
   // Initialize WebSocket server
   webSocketManager.initialize(server);
 
@@ -80,6 +90,7 @@ export function createServer() {
       timestamp: new Date().toISOString(),
       database: "connected",
       websocket: "active",
+      mongo: getMongoDb() ? "connected" : useMongo ? "disconnected" : "disabled",
     });
   });
 
@@ -273,6 +284,11 @@ export function createServer() {
       success: false,
       error: "API endpoint not found",
     });
+  });
+
+  // Graceful shutdown
+  process.on("SIGTERM", async () => {
+    await closeMongo();
   });
 
   return { app, server };
