@@ -62,4 +62,21 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+declare global {
+  interface Window {
+    __POSRMS_ROOT__?: ReturnType<typeof createRoot>;
+  }
+}
+
+const container = document.getElementById("root")!;
+if (!window.__POSRMS_ROOT__) {
+  window.__POSRMS_ROOT__ = createRoot(container);
+}
+window.__POSRMS_ROOT__.render(<App />);
+
+// Enable HMR without recreating root
+// @ts-ignore
+if (import.meta && import.meta.hot) {
+  // @ts-ignore
+  import.meta.hot.accept?.();
+}
