@@ -140,30 +140,60 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Customer Demo CTA */}
+      {/* Product Demos (Tabs) */}
       <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-          <div className="lg:col-span-2">
-            <div className="rounded-2xl border bg-white p-6 shadow-sm">
-              <div className="text-sm text-gray-500 mb-2">Live demo</div>
-              <h3 className="text-2xl font-bold mb-2">Experience the Customer Panel</h3>
-              <p className="text-gray-600">Open the demo, add items, call a waiter, and request payment. Your bill updates in real-time until staff marks it paid.</p>
-              <div className="mt-4 flex gap-3">
-                <Link to="/order?token=QR-T1"><Button>Open Customer Demo</Button></Link>
-                <Link to="/login"><Button variant="outline">Open Staff Demo</Button></Link>
-              </div>
-            </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-gray-900">Explore the product</h2>
+            <p className="text-gray-600">Switch between panels to preview the experience</p>
           </div>
-          <div>
-            <div className="rounded-2xl border bg-white p-6 shadow-sm">
-              <h4 className="font-semibold mb-2">Roles supported</h4>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div className="flex items-center gap-2"><Users className="h-4 w-4 text-blue-600" /> Waiter</div>
-                <div className="flex items-center gap-2"><ChefHat className="h-4 w-4 text-red-600" /> Kitchen</div>
-                <div className="flex items-center gap-2"><CoffeeIcon /> Bar</div>
-                <div className="flex items-center gap-2"><BarChart3 className="h-4 w-4 text-indigo-600" /> Manager</div>
+          <div className="rounded-2xl border bg-white shadow-sm p-6">
+            <Tabs defaultValue="customer" className="w-full">
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <TabsList className="bg-gray-100">
+                  <TabsTrigger value="customer" className="data-[state=active]:bg-white data-[state=active]:text-gray-900">Customer</TabsTrigger>
+                  <TabsTrigger value="waiter" className="data-[state=active]:bg-white data-[state=active]:text-gray-900">Waiter</TabsTrigger>
+                  <TabsTrigger value="kitchen" className="data-[state=active]:bg-white data-[state=active]:text-gray-900">Kitchen</TabsTrigger>
+                  <TabsTrigger value="manager" className="data-[state=active]:bg-white data-[state=active]:text-gray-900">Manager</TabsTrigger>
+                </TabsList>
+                <div className="flex gap-2">
+                  <Link to="/order?token=QR-T1"><Button size="sm">Open Customer Demo</Button></Link>
+                  <Link to="/login"><Button size="sm" variant="outline">Open Staff Demo</Button></Link>
+                </div>
               </div>
-            </div>
+
+              <TabsContent value="customer" className="mt-6">
+                <div className="rounded-xl overflow-hidden border bg-white">
+                  <img src="/demos/customer.svg" alt="Customer demo" className="w-full h-auto" />
+                </div>
+              </TabsContent>
+              <TabsContent value="waiter" className="mt-6">
+                <div className="rounded-xl overflow-hidden border bg-white">
+                  <img src="/demos/waiter.svg" alt="Waiter demo" className="w-full h-auto" />
+                </div>
+              </TabsContent>
+              <TabsContent value="kitchen" className="mt-6">
+                <div className="rounded-xl overflow-hidden border bg-white">
+                  <img src="/demos/kitchen.svg" alt="Kitchen demo" className="w-full h-auto" />
+                </div>
+              </TabsContent>
+              <TabsContent value="manager" className="mt-6">
+                <div className="rounded-xl overflow-hidden border bg-white">
+                  <img src="/demos/manager.svg" alt="Manager demo" className="w-full h-auto" />
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      </section>
+
+      {/* Screenshot Gallery */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <img src="/demos/customer.svg" alt="Customer panel" className="w-full h-auto rounded-xl border shadow-sm" />
+            <img src="/demos/analytics.svg" alt="Analytics" className="w-full h-auto rounded-xl border shadow-sm" />
+            <img src="/demos/manager.svg" alt="Manager dashboard" className="w-full h-auto rounded-xl border shadow-sm" />
           </div>
         </div>
       </section>
