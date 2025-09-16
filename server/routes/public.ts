@@ -71,23 +71,19 @@ export const handleStartPublicSession: RequestHandler = async (req, res) => {
       table.restaurant_id,
     );
 
-    res
-      .status(201)
-      .json({
-        success: true,
-        data: session,
-        message: "Session started",
-      } as ApiResponse);
+    res.status(201).json({
+      success: true,
+      data: session,
+      message: "Session started",
+    } as ApiResponse);
   } catch (error) {
     console.error("Start public session error:", error);
     if (error instanceof z.ZodError) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          error: "Validation error",
-          message: error.errors[0].message,
-        } as ApiResponse);
+      return res.status(400).json({
+        success: false,
+        error: "Validation error",
+        message: error.errors[0].message,
+      } as ApiResponse);
     }
     res
       .status(500)
@@ -149,12 +145,10 @@ export const handleCreatePublicOrder: RequestHandler = async (req, res) => {
       ) as any;
 
       if (!menuItem) {
-        return res
-          .status(404)
-          .json({
-            success: false,
-            error: `Menu item not found: ${item.menuItemId}`,
-          } as ApiResponse);
+        return res.status(404).json({
+          success: false,
+          error: `Menu item not found: ${item.menuItemId}`,
+        } as ApiResponse);
       }
 
       const price =
@@ -227,23 +221,19 @@ export const handleCreatePublicOrder: RequestHandler = async (req, res) => {
       orderId,
     ]);
 
-    res
-      .status(201)
-      .json({
-        success: true,
-        data: { ...newOrder, items: orderItems },
-        message: "Order placed",
-      } as ApiResponse);
+    res.status(201).json({
+      success: true,
+      data: { ...newOrder, items: orderItems },
+      message: "Order placed",
+    } as ApiResponse);
   } catch (error) {
     console.error("Create public order error:", error);
     if (error instanceof z.ZodError) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          error: "Validation error",
-          message: error.errors[0].message,
-        } as ApiResponse);
+      return res.status(400).json({
+        success: false,
+        error: "Validation error",
+        message: error.errors[0].message,
+      } as ApiResponse);
     }
     res
       .status(500)
@@ -330,12 +320,10 @@ export const handleGetPublicSessionSummary: RequestHandler = async (
   try {
     const token = String(req.query.token || "");
     if (!token)
-      return res
-        .status(400)
-        .json({
-          success: false,
-          error: "Table token is required",
-        } as ApiResponse);
+      return res.status(400).json({
+        success: false,
+        error: "Table token is required",
+      } as ApiResponse);
 
     const table = db.queryOne("SELECT * FROM tables WHERE qr_code = ?", [
       token,
