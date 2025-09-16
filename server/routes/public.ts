@@ -203,3 +203,28 @@ export const handlePublicRequestPayment: RequestHandler = async (req, res) => {
     res.status(500).json({ success: false, error: 'Internal server error' } as ApiResponse);
   }
 };
+
+// Public session summary (by table token)
+export const handleGetPublicSessionSummary: RequestHandler = async (req, res) => {
+  try {
+    const token = String(req.query.token || '');
+    if (!token) return res.status(400).json({ success: false, error: 'Table token is required' } as ApiResponse);
+
+    const table = db.queryOne('SELECT * FROM tables WHERE qr_code = ?', [token]) as any;
+    if (!table) return res.status(404).json({ success: false, error: 'Invalid table token' } as ApiResponse);
+
+    const session = db.queryOne(
+      'SELECT * FROM sessions WHERE table_id = ? AND restaurant_id = ? AND status = ? ORDER BY created_at DESC LIMIT 1',
+      [table.id, table.restaurant_id, 'active']
+    ) as Session | undefined;
+
+    if (!session) {
+      return res.json({ success: true, data: { totalAmount: 0, paymentStatus: 'none', hasActiveSession: false } } as ApiResponse);
+    }
+
+    res.json({ success: true, data: { totalAmount: session.total_amount, paymentStatus: session.payment_status, hasActiveSession: true, sessionId: session.id } } as ApiResponse);
+  } catch (error) {
+    console.error('Get public session summary error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' } as ApiResponse);
+  }
+};
