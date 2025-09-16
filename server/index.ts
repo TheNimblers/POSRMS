@@ -60,7 +60,7 @@ export function createServer() {
   const server = createHttpServer(app);
 
   // Initialize database (this happens automatically in the constructor)
-  console.log('����️ Database initialized');
+  console.log('🗄️ Database initialized');
 
   // Initialize WebSocket server
   webSocketManager.initialize(server);
@@ -96,6 +96,7 @@ export function createServer() {
 
   // Public menu and customer endpoints (for customers)
   app.get("/api/menu/public", handleGetPublicMenu);
+  app.get("/api/sessions/public/summary", handleGetPublicSessionSummary);
   app.post("/api/sessions/public/start", handleStartPublicSession);
   app.post("/api/orders/public", handleCreatePublicOrder);
   app.post("/api/tables/public/call-waiter", handlePublicCallWaiter);
