@@ -22,6 +22,51 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const demoMenu = [
+  {
+    category: "Burgers",
+    items: [
+      { name: "Spicy Burger", price: 12.5, desc: "Smoked chili, cheddar, house sauce" },
+      { name: "Classic Cheeseburger", price: 11.0, desc: "Beef, cheddar, pickles, ketchup" },
+      { name: "Veggie Stack", price: 10.0, desc: "Grilled portobello, avocado, aioli" }
+    ]
+  },
+  {
+    category: "Sides",
+    items: [
+      { name: "Truffle Fries", price: 6.0, desc: "Parmesan, herbs, truffle oil" },
+      { name: "Garlic Parmesan Wings", price: 9.5 },
+      { name: "Caesar Salad", price: 7.0 }
+    ]
+  },
+  {
+    category: "Drinks",
+    items: [
+      { name: "Mango Shake", price: 4.5 },
+      { name: "Iced Latte", price: 4.0 },
+      { name: "Sparkling Lemonade", price: 3.5 }
+    ]
+  }
+];
+
+const waiterTables = [
+  { table: "T1", status: "Awaiting drinks", guests: 2, items: [{ name: "Mango Shake", qty: 2 }] },
+  { table: "T3", status: "Serve mains", guests: 3, items: [{ name: "Spicy Burger", qty: 2 }, { name: "Caesar Salad", qty: 1 }] },
+  { table: "T7", status: "Bill requested", guests: 4, items: [{ name: "Classic Cheeseburger", qty: 2 }, { name: "Iced Latte", qty: 4 }] }
+];
+
+const kitchenQueue = [
+  { id: 1045, mins: 4, items: [{ name: "Spicy Burger", qty: 2 }, { name: "Truffle Fries", qty: 1 }] },
+  { id: 1046, mins: 2, items: [{ name: "Pasta Alfredo", qty: 1 }] },
+  { id: 1042, mins: 10, late: true, items: [{ name: "Ribeye Steak", qty: 1 }] }
+];
+
+const topItems = [
+  { name: "Spicy Burger", sales: 128, revenue: 1600 },
+  { name: "Truffle Fries", sales: 210, revenue: 1260 },
+  { name: "Iced Latte", sales: 180, revenue: 720 }
+];
+
 export default function Index() {
   return (
     <div className="min-h-screen bg-white">
@@ -103,6 +148,17 @@ export default function Index() {
                       <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Avg Order</div><div className="font-semibold">$24.80</div></CardContent></Card>
                       <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Active Tables</div><div className="font-semibold">12</div></CardContent></Card>
                       <Card><CardContent className="p-3"><div className="text-xs text-gray-500">Requests</div><div className="font-semibold">3</div></CardContent></Card>
+                    </div>
+                    <div className="mt-3">
+                      <div className="text-xs uppercase tracking-wide text-gray-500 mb-1">Quick Menu</div>
+                      <div className="grid grid-cols-3 gap-2 text-sm">
+                        {demoMenu[0].items.slice(0,3).map((it) => (
+                          <div key={it.name} className="flex items-center justify-between rounded-md border px-2 py-1">
+                            <span>{it.name}</span>
+                            <span className="font-semibold">${it.price.toFixed(2)}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </TabsContent>
 
@@ -215,12 +271,28 @@ export default function Index() {
                   <div className="space-y-3">
                     <Card>
                       <CardContent className="p-4">
-                        <div className="font-semibold mb-2">Top Items</div>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          <li className="flex justify-between"><span>Spicy Burger</span><span>$12.50</span></li>
-                          <li className="flex justify-between"><span>Truffle Fries</span><span>$6.00</span></li>
-                          <li className="flex justify-between"><span>Mango Shake</span><span>$4.50</span></li>
-                        </ul>
+                        <div className="font-semibold mb-2">Menu</div>
+                        <div className="max-h-72 overflow-auto pr-1 space-y-4">
+                          {demoMenu.map((cat) => (
+                            <div key={cat.category}>
+                              <div className="text-xs uppercase tracking-wide text-gray-500">{cat.category}</div>
+                              <ul className="mt-1 space-y-2">
+                                {cat.items.map((it) => (
+                                  <li key={it.name} className="flex items-center justify-between">
+                                    <div>
+                                      <div className="font-medium text-gray-900">{it.name}</div>
+                                      {it.desc ? <div className="text-xs text-gray-500">{it.desc}</div> : null}
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <div className="text-sm font-semibold">${it.price.toFixed(2)}</div>
+                                      <Button size="sm" variant="outline">Add</Button>
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
                       </CardContent>
                     </Card>
                     <Card>
@@ -232,6 +304,16 @@ export default function Index() {
                           <div className="flex justify-between font-semibold mt-2"><span>Total</span><span>$29.50</span></div>
                         </div>
                         <Button className="w-full mt-3">Request Payment</Button>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">Top Items</div>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          {topItems.map((t) => (
+                            <li key={t.name} className="flex justify-between"><span>{t.name}</span><span>{t.sales}</span></li>
+                          ))}
+                        </ul>
                       </CardContent>
                     </Card>
                   </div>
@@ -246,10 +328,20 @@ export default function Index() {
                     <Card>
                       <CardContent className="p-4">
                         <div className="font-semibold mb-2">Open Tables</div>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          <li className="flex justify-between"><span>T1</span><span>Awaiting drinks</span></li>
-                          <li className="flex justify-between"><span>T3</span><span>Serve mains</span></li>
-                          <li className="flex justify-between"><span>T7</span><span>Bill requested</span></li>
+                        <ul className="text-sm text-gray-600 space-y-3">
+                          {waiterTables.map((t) => (
+                            <li key={t.table}>
+                              <div className="flex justify-between font-medium text-gray-900">
+                                <span>{t.table} • {t.guests} guests</span>
+                                <span>{t.status}</span>
+                              </div>
+                              <ul className="mt-1 text-xs text-gray-600 space-y-1">
+                                {t.items.map((it) => (
+                                  <li key={it.name} className="flex justify-between"><span>{it.qty}x {it.name}</span><span></span></li>
+                                ))}
+                              </ul>
+                            </li>
+                          ))}
                         </ul>
                       </CardContent>
                     </Card>
@@ -274,10 +366,20 @@ export default function Index() {
                     <Card>
                       <CardContent className="p-4">
                         <div className="font-semibold mb-2">Tickets</div>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          <li className="flex justify-between"><span>#1045</span><span>2x Burger • 4m</span></li>
-                          <li className="flex justify-between"><span>#1046</span><span>1x Pasta • 2m</span></li>
-                          <li className="flex justify-between"><span className="text-amber-700">#1042</span><span className="text-amber-700">1x Steak • 10m</span></li>
+                        <ul className="text-sm text-gray-600 space-y-3">
+                          {kitchenQueue.map((k) => (
+                            <li key={k.id}>
+                              <div className="flex justify-between font-medium">
+                                <span className={k.late ? "text-amber-700" : ""}>#{k.id}</span>
+                                <span className={k.late ? "text-amber-700" : ""}>{k.mins}m</span>
+                              </div>
+                              <ul className="mt-1 text-xs space-y-1">
+                                {k.items.map((it) => (
+                                  <li key={it.name} className="flex justify-between"><span>{it.qty}x {it.name}</span><span></span></li>
+                                ))}
+                              </ul>
+                            </li>
+                          ))}
                         </ul>
                       </CardContent>
                     </Card>
@@ -315,6 +417,16 @@ export default function Index() {
                           <li>Top item: Spicy Burger</li>
                           <li>Peak hour: 7-8 PM</li>
                           <li>Utilization: 76%</li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="font-semibold mb-2">Top Items</div>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          {topItems.map((i) => (
+                            <li key={i.name} className="flex justify-between"><span>{i.name}</span><span>{i.sales} orders • ${i.revenue.toLocaleString()}</span></li>
+                          ))}
                         </ul>
                       </CardContent>
                     </Card>
