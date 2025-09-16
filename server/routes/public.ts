@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { db } from "../database";
 import { z } from "zod";
-import { ApiResponse, Session } from "@shared/database";
+import { ApiResponse, Session } from "../../shared/database";
 import { webSocketManager } from "../websocket";
 
 const createPublicOrderSchema = z.object({
