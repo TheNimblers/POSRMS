@@ -472,3 +472,30 @@ export const handleDeleteOrder: RequestHandler = async (req, res) => {
     } as ApiResponse);
   }
 };
+
+// Staff: mark session as paid
+export const handleMarkSessionPaid: RequestHandler = async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const restaurantId = (req as any).user?.restaurantId;
+
+    const session = db.queryOne(
+      'SELECT * FROM sessions WHERE id = ? AND restaurant_id = ?',
+      [sessionId, restaurantId]
+    ) as Session | undefined;
+
+    if (!session) {
+      return res.status(404).json({ success: false, error: 'Session not found' } as ApiResponse);
+    }
+
+    db.execute(
+      "UPDATE sessions SET payment_status = 'paid', status = 'completed', end_time = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+      [sessionId]
+    );
+
+    res.json({ success: true, message: 'Session marked as paid' } as ApiResponse);
+  } catch (error) {
+    console.error('Mark session paid error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' } as ApiResponse);
+  }
+};
