@@ -54,16 +54,16 @@ Note: The app currently stores data in SQLite. MongoDB is connected for health/s
 
 ## 3) Frontend on Vercel (Vite SPA)
 
-Option A (recommended): Rewrites (no code changes)
+Project is preconfigured via vercel.json (no dashboard tweaks needed for build):
+- Install Command: `pnpm install --no-frozen-lockfile` (fixes outdated lockfile CI error)
+- Build Command: `pnpm build:client`
+- Output Directory: `dist/spa`
 
-1. Add `vercel.json` in repo root with:
-   {
-   "rewrites": [{ "source": "/api/(.*)", "destination": "https://your-api.onrender.com/api/$1" }]
-   }
-2. Vercel Dashboard → New Project → Import your repo
-3. Build Command: `pnpm build:client`
-4. Output Directory: `dist/spa`
-5. No env vars required for API base (rewrites handle `/api`), then Deploy
+Steps:
+1. Vercel Dashboard → New Project → Import your repo
+2. Deploy (build settings are read from vercel.json)
+
+Optional: If your API runs elsewhere (e.g., Render) and you want `/api/*` calls from the frontend to hit it, add a rewrite in vercel.json using your actual API URL.
 
 Option B: Env Var base URL
 
