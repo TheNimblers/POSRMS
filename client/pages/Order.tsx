@@ -131,6 +131,7 @@ export default function Order() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [runningTotal, setRunningTotal] = useState<number>(0);
   const [paymentStatus, setPaymentStatus] = useState<'pending'|'partial'|'paid'|'none'>('none');
+  const [localBill, setLocalBill] = useState<number>(0);
 
   // Load public menu and start session by QR token if present
   useEffect(() => {
