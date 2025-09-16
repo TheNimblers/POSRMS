@@ -106,7 +106,10 @@ export default function Login() {
                 <span className="text-2xl font-bold text-gray-900">POSRMS</span>
               </span>
             </Link>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <Link to="/order?token=QR-T1">
+                <Button size="sm" variant="secondary">Customer Demo</Button>
+              </Link>
               <Link to="/team/login">
                 <Button variant="outline" size="sm">POSRMS Owner Login</Button>
               </Link>
