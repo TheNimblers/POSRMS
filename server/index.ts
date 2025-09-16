@@ -120,6 +120,9 @@ export function createServer() {
   app.put("/api/orders/:orderId/status", authenticateToken, handleUpdateOrderStatus);
   app.delete("/api/orders/:orderId", authenticateToken, requirePermission('full_access'), handleDeleteOrder);
 
+  // Sessions (staff)
+  app.post("/api/sessions/:sessionId/pay", authenticateToken, requirePermission('manage_orders'), handleMarkSessionPaid);
+
   // Table routes
   app.get("/api/tables", authenticateToken, requirePermission('view_tables'), handleGetTables);
   app.post("/api/tables", authenticateToken, requirePermission('manage_staff'), handleCreateTable);
