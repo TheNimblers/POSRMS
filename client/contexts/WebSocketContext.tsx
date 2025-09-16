@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { useAuth } from './AuthContext';
 
 // WebSocket event types
@@ -36,70 +36,16 @@ const WebSocketContext = createContext<WebSocketContextType | undefined>(undefin
 
 export function WebSocketProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  const [socket, setSocket] = useState<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [notifications, setNotifications] = useState<WebSocketEvent[]>([]);
   const [eventSubscribers, setEventSubscribers] = useState<Map<WebSocketEventType, Set<(data: any) => void>>>(new Map());
 
-  // Mock WebSocket URL - in production this would be your actual WebSocket server
-  const WS_URL = 'ws://localhost:8080/ws';
-
-  const connect = useCallback(() => {
-    if (!user) return;
-
-    try {
-      // For demo purposes, we'll simulate WebSocket connection
-      // In production, this would connect to your actual WebSocket server
-      const mockSocket = {
-        send: (data: string) => {
-          console.log('Mock WebSocket send:', data);
-        },
-        close: () => {
-          console.log('Mock WebSocket closed');
-        },
-        readyState: 1 // OPEN
-      } as WebSocket;
-
-      setSocket(mockSocket);
-      setIsConnected(true);
-
-      // Simulate connection success
-      console.log('WebSocket connected for user:', user.username);
-
-      // Send join event
-      const joinEvent: WebSocketEvent = {
-        type: 'user_joined',
-        data: { userId: user.id, role: user.role, restaurantId: user.restaurantId },
-        timestamp: new Date().toISOString()
-      };
-
-      // Simulate receiving events (for demo)
-      simulateDemoEvents();
-
-    } catch (error) {
-      console.error('WebSocket connection failed:', error);
-      setIsConnected(false);
-    }
-  }, [user]);
-
-  const disconnect = useCallback(() => {
-    if (socket) {
-      const leaveEvent: WebSocketEvent = {
-        type: 'user_left',
-        data: { userId: user?.id, role: user?.role },
-        timestamp: new Date().toISOString()
-      };
-
-      // Send leave event before disconnecting
-      send(leaveEvent);
-      
-      socket.close();
-      setSocket(null);
-      setIsConnected(false);
-    }
-  }, [socket, user]);
+  // Use a ref for the socket so updates don't trigger re-renders or effect dependency churn
+  const socketRef = useRef<WebSocket | null>(null);
+  const demoTimeoutsRef = useRef<number[]>([]);
 
   const send = useCallback((event: Omit<WebSocketEvent, 'timestamp'>) => {
+    const socket = socketRef.current;
     if (socket && isConnected) {
       const fullEvent: WebSocketEvent = {
         ...event,
@@ -109,14 +55,17 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
       };
 
       const message = JSON.stringify(fullEvent);
-      socket.send(message);
-
-      // For demo purposes, also log the event
-      console.log('WebSocket event sent:', fullEvent);
+      try {
+        socket.send(message);
+        // For demo purposes, also log the event
+        console.log('WebSocket event sent:', fullEvent);
+      } catch (err) {
+        console.warn('WebSocket send failed:', err);
+      }
     } else {
       console.warn('WebSocket not connected, event not sent:', event);
     }
-  }, [socket, isConnected, user]);
+  }, [isConnected, user]);
 
   const subscribe = useCallback((eventType: WebSocketEventType, callback: (data: any) => void) => {
     setEventSubscribers(prev => {
@@ -194,37 +143,77 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
       }
     ];
 
+    // Clear any previous scheduled demo events
+    demoTimeoutsRef.current.forEach(id => clearTimeout(id));
+    demoTimeoutsRef.current = [];
+
     demoEvents.forEach(event => {
-      setTimeout(() => {
+      const id = window.setTimeout(() => {
         const fullEvent: WebSocketEvent = {
           ...event,
           timestamp: new Date().toISOString(),
           restaurantId: user.restaurantId
-        };
+        } as WebSocketEvent;
         handleMessage(fullEvent);
       }, event.delay);
+      demoTimeoutsRef.current.push(id);
     });
   }, [user, handleMessage]);
 
-  // Connect when user logs in
+  // Manage connection lifecycle when user identity changes
   useEffect(() => {
-    if (user) {
-      connect();
-    } else {
-      disconnect();
+    // If a user logs in and there is no active socket, connect once
+    if (user && !socketRef.current) {
+      try {
+        // Mock WebSocket for demo; replace with real WebSocket in production
+        const mockSocket = {
+          send: (data: string) => {
+            console.log('Mock WebSocket send:', data);
+          },
+          close: () => {
+            console.log('Mock WebSocket closed');
+          },
+          readyState: 1 // OPEN
+        } as unknown as WebSocket;
+
+        socketRef.current = mockSocket;
+        setIsConnected(true);
+        console.log('WebSocket connected for user:', user.username);
+
+        // Optional: emit a joined event to local handlers (demo only)
+        const joinEvent: WebSocketEvent = {
+          type: 'user_joined',
+          data: { userId: user.id, role: user.role, restaurantId: user.restaurantId },
+          timestamp: new Date().toISOString()
+        };
+        handleMessage(joinEvent);
+
+        simulateDemoEvents();
+      } catch (error) {
+        console.error('WebSocket connection failed:', error);
+        setIsConnected(false);
+      }
     }
 
+    // Cleanup runs when user changes or component unmounts
     return () => {
-      disconnect();
-    };
-  }, [user, connect, disconnect]);
+      // Clear pending demo events
+      demoTimeoutsRef.current.forEach(id => clearTimeout(id));
+      demoTimeoutsRef.current = [];
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      disconnect();
+      // Close existing socket if any
+      if (socketRef.current) {
+        try {
+          socketRef.current.close();
+        } catch (e) {
+          // ignore
+        }
+        socketRef.current = null;
+        setIsConnected(false);
+      }
     };
-  }, [disconnect]);
+    // Only re-run when user identity changes
+  }, [user?.id]);
 
   return (
     <WebSocketContext.Provider value={{
