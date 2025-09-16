@@ -85,37 +85,45 @@ Backend (Render):
 ## VS Code (Windows) – Setup & Deploy
 
 Prerequisites
+
 - Windows 10/11
 - VS Code (latest)
 - Git for Windows
 - Node.js 20.x LTS (https://nodejs.org)
 - Optional: Vercel VS Code extension or Vercel CLI
 
-1) Clone the repo in VS Code
+1. Clone the repo in VS Code
+
 - Ctrl+Shift+P → “Git: Clone” → paste your repo URL → choose a folder → “Open” the project.
 
-2) Open an integrated terminal (PowerShell)
+2. Open an integrated terminal (PowerShell)
+
 - VS Code → Terminal → New Terminal (PowerShell).
 
-3) Enable Corepack and activate pnpm 10.14.0
+3. Enable Corepack and activate pnpm 10.14.0
+
 - corepack enable
 - corepack prepare pnpm@10.14.0 --activate
 - pnpm -v (should print 10.14.x)
 
-4) Install dependencies
+4. Install dependencies
+
 - pnpm install
 - Commit the updated pnpm-lock.yaml (fixes CI “frozen lockfile” errors).
 
-5) Run locally (dev)
+5. Run locally (dev)
+
 - pnpm dev
 - Open the local URL shown in the terminal.
 
-6) Build locally (optional)
+6. Build locally (optional)
+
 - pnpm build:client (generates `dist/spa`)
 - pnpm build:server (generates `dist/server`)
 - Start server locally (optional): node dist/server/node-build.mjs
 
-7) Deploy to Vercel from VS Code
+7. Deploy to Vercel from VS Code
+
 - Install “Vercel” extension → Sign in → “Link Project” → select your repo.
 - This repo includes `vercel.json`, so build settings are preconfigured:
   - Install Command: pnpm install --no-frozen-lockfile
@@ -123,11 +131,13 @@ Prerequisites
   - Output Directory: dist/spa
 - If you need backend rewrites, update `vercel.json` rewrites with your API URL.
 
-8) Environment variables
+8. Environment variables
+
 - Frontend (Vercel): set `VITE_API_BASE_URL` only if not using rewrites.
 - Backend (Render): set `JWT_SECRET`, `FRONTEND_URL`, and MongoDB vars if using Mongo.
 
 Troubleshooting (Windows)
+
 - ERR_PNPM_OUTDATED_LOCKFILE: run `pnpm install` and commit `pnpm-lock.yaml`.
 - Node version mismatch: install Node 20.x; VS Code terminal `node -v` should be v20.
 - pnpm not recognized: ensure `corepack enable` and `corepack prepare pnpm@10.14.0 --activate` ran without errors.
