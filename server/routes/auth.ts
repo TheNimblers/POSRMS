@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { db } from "../database";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
-import { ApiResponse, Staff } from "@shared/database";
+import { ApiResponse, Staff } from "../../shared/database";
 
 const JWT_SECRET = process.env.JWT_SECRET || "posrms-demo-secret-key";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "24h";
