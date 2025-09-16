@@ -29,7 +29,7 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
-      ;(async () => {
+      (async () => {
         try {
           const mod = await import("./server");
           const created = await mod.createServer();
