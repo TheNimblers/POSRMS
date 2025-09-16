@@ -1,10 +1,16 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import { createServer as createHttpServer } from "http";
 import { handleDemo } from "./routes/demo";
+import { webSocketManager } from "./websocket";
 
 export function createServer() {
   const app = express();
+  const server = createHttpServer(app);
+
+  // Initialize WebSocket server
+  webSocketManager.initialize(server);
 
   // Middleware
   app.use(cors());
@@ -19,5 +25,17 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
-  return app;
+  // WebSocket stats endpoint
+  app.get("/api/websocket/stats", (_req, res) => {
+    const stats = webSocketManager.getStats();
+    res.json(stats);
+  });
+
+  // WebSocket connected clients endpoint
+  app.get("/api/websocket/clients", (_req, res) => {
+    const clients = webSocketManager.getConnectedClients();
+    res.json({ clients });
+  });
+
+  return { app, server };
 }
