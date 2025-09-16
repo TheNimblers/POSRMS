@@ -31,7 +31,10 @@ export default function Index() {
                 <span className="text-2xl font-bold text-gray-900">POSRMS</span>
               </span>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <Link to="/order?token=QR-T1">
+                <Button variant="secondary">Customer Demo</Button>
+              </Link>
               <Link to="/login">
                 <Button variant="outline">Restaurant Login</Button>
               </Link>
@@ -56,15 +59,17 @@ export default function Index() {
               QR code ordering, real-time kitchen displays, waiter management, 
               analytics dashboard, and seamless customer experience.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/login">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link to="/order?token=QR-T1">
                 <Button size="lg" className="text-lg px-8 py-4">
-                  Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
+                  Try Customer Demo <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="text-lg px-8 py-4">
-                Watch Demo
-              </Button>
+              <Link to="/login">
+                <Button size="lg" variant="outline" className="text-lg px-8 py-4">
+                  Staff Demo Login
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -325,6 +330,38 @@ export default function Index() {
                 <Button className="w-full mt-6" variant="outline">Choose Yearly</Button>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Customer Demo Section */}
+      <section className="py-16 bg-gradient-to-b from-blue-50/60 to-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Experience the Customer Panel</h2>
+              <p className="text-gray-600 mb-6">Open the demo menu, add items to cart, call a waiter, and request payment. All actions update staff panels in real-time.</p>
+              <div className="flex flex-wrap gap-3">
+                <Link to="/order?token=QR-T1">
+                  <Button size="lg">Open Customer Demo</Button>
+                </Link>
+                <Link to="/login">
+                  <Button size="lg" variant="outline">Open Staff Demo</Button>
+                </Link>
+              </div>
+              <p className="text-sm text-gray-500 mt-4">Tip: Share this link on mobile to simulate scanning a table QR: <span className="font-mono">/order?token=QR-T1</span></p>
+            </div>
+            <div>
+              <div className="rounded-xl border bg-white shadow-sm p-4">
+                <div className="h-56 bg-gradient-to-br from-blue-100 via-white to-purple-100 rounded-lg flex items-center justify-center">
+                  <Smartphone className="h-16 w-16 text-blue-600" />
+                </div>
+                <div className="mt-4">
+                  <h3 className="font-semibold">Customer Ordering</h3>
+                  <p className="text-sm text-gray-600">Beautiful, responsive menu with live pricing, currency switch, and cart.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
