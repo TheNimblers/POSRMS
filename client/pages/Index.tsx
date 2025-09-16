@@ -26,7 +26,10 @@ export default function Index() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <span className="text-2xl font-bold text-gray-900">🍽️ POSRMS</span>
+              <span className="flex items-center space-x-2">
+                <img src="/posrms-logo.svg" alt="POSRMS" className="h-8 w-8" />
+                <span className="text-2xl font-bold text-gray-900">POSRMS</span>
+              </span>
             </div>
             <div className="flex items-center space-x-4">
               <Link to="/login">
@@ -421,7 +424,10 @@ export default function Index() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="text-2xl font-bold mb-4">🍽️ POSRMS</div>
+              <div className="flex items-center space-x-2 text-2xl font-bold mb-4">
+                <img src="/posrms-logo.svg" alt="POSRMS" className="h-7 w-7" />
+                <span>POSRMS</span>
+              </div>
               <p className="text-gray-400 mb-4">
                 The complete restaurant management solution for modern establishments.
               </p>

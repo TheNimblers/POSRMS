@@ -101,7 +101,10 @@ export default function Login() {
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center">
               <ArrowLeft className="h-5 w-5 mr-2" />
-              <span className="text-2xl font-bold text-gray-900">🍽️ POSRMS</span>
+              <span className="flex items-center space-x-2">
+                <img src="/posrms-logo.svg" alt="POSRMS" className="h-7 w-7" />
+                <span className="text-2xl font-bold text-gray-900">POSRMS</span>
+              </span>
             </Link>
             <div className="flex items-center space-x-4">
               <Link to="/team/login">

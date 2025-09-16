@@ -98,6 +98,8 @@ export default function Manager() {
   const [tables, setTables] = useState(mockTables);
   const [menuItems, setMenuItems] = useState(mockMenuItems);
   const [staff, setStaff] = useState(mockStaff);
+  const [addOpen, setAddOpen] = useState(false);
+  const [newItem, setNewItem] = useState({ name: '', category: 'Main', price: 0, available: true, special: false });
 
   // Redirect if not logged in or wrong role
   useEffect(() => {
@@ -253,7 +255,7 @@ export default function Manager() {
                     <Users className="h-6 w-6" />
                     <span>Add Staff</span>
                   </Button>
-                  <Button variant="outline" className="h-20 flex-col space-y-2">
+                  <Button variant="outline" className="h-20 flex-col space-y-2" onClick={() => setAddOpen(true)}>
                     <Plus className="h-6 w-6" />
                     <span>Add Menu Item</span>
                   </Button>
@@ -337,7 +339,7 @@ export default function Manager() {
           <TabsContent value="menu" className="mt-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Menu Management</h2>
-              <Button>
+              <Button onClick={() => setAddOpen(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Menu Item
               </Button>
@@ -631,6 +633,69 @@ export default function Manager() {
           </TabsContent>
         </Tabs>
       </div>
+      {/* Add Menu Item Dialog */}
+      <AddMenuItemDialog
+        open={addOpen}
+        onOpenChange={setAddOpen}
+        item={newItem}
+        onChange={setNewItem}
+        onSubmit={() => {
+          const id = Math.max(0, ...menuItems.map(m => m.id)) + 1;
+          setMenuItems([{ id, ...newItem }, ...menuItems]);
+          setNewItem({ name: '', category: 'Main', price: 0, available: true, special: false });
+          setAddOpen(false);
+        }}
+      />
     </div>
+  );
+}
+
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+
+function AddMenuItemDialog({ open, onOpenChange, item, onChange, onSubmit }:{
+  open: boolean;
+  onOpenChange: (v:boolean)=>void;
+  item: { name:string; category:string; price:number; available:boolean; special:boolean };
+  onChange: (v:any)=>void;
+  onSubmit: ()=>void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add Menu Item</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label>Name</Label>
+            <Input value={item.name} onChange={e=>onChange({ ...item, name: e.target.value })} placeholder="Item name" />
+          </div>
+          <div className="space-y-2">
+            <Label>Category</Label>
+            <Input value={item.category} onChange={e=>onChange({ ...item, category: e.target.value })} placeholder="e.g. Main, Starter, Drinks" />
+          </div>
+          <div className="space-y-2">
+            <Label>Price (USD)</Label>
+            <Input type="number" step="0.01" value={item.price} onChange={e=>onChange({ ...item, price: parseFloat(e.target.value) || 0 })} />
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Switch checked={item.available} onCheckedChange={(v)=>onChange({ ...item, available: v })} />
+              <Label>Available</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch checked={item.special} onCheckedChange={(v)=>onChange({ ...item, special: v })} />
+              <Label>Special</Label>
+            </div>
+          </div>
+          <div className="pt-2">
+            <Button className="w-full" disabled={!item.name || !item.category || item.price <= 0} onClick={onSubmit}>Save</Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
