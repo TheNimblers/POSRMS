@@ -13,6 +13,7 @@ Note: The app currently stores data in SQLite. MongoDB is connected for health/s
 2. Set Build & Start
    - Build Command: `pnpm install --no-frozen-lockfile && pnpm build:server`
    - Start Command: `node dist/server/node-build.mjs`
+   - Node version: Render reads package.json "engines". This repo pins `"node": "20.x"` to ensure better-sqlite3 prebuilds are available.
 3. Add Environment Variables (Settings → Environment)
    - Required
      - NODE_ENV = `production`
