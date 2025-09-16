@@ -29,10 +29,16 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
-      const app = createServer();
-
-      // Add Express app as middleware to Vite dev server
-      server.middlewares.use(app);
+      ;(async () => {
+        try {
+          const mod = await import("./server");
+          const created = await mod.createServer();
+          const app = created.app ?? created;
+          server.middlewares.use(app);
+        } catch (err) {
+          console.error("Failed to start embedded Express server:", err);
+        }
+      })();
     },
   };
 }
