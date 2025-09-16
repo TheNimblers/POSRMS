@@ -353,6 +353,8 @@ export default function Order() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-6">
+        {loading && <div className="mb-4 text-sm text-gray-600">Loading menu...</div>}
+        {error && <div className="mb-4 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded px-3 py-2">{error}</div>}
         {/* Menu Categories */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="grid w-full grid-cols-3">
