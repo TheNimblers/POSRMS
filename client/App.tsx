@@ -6,6 +6,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Order from "./pages/Order";
@@ -22,37 +23,39 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
 
-          {/* Customer Flow */}
-          <Route path="/order" element={<Order />} />
+            {/* Customer Flow */}
+            <Route path="/order" element={<Order />} />
 
-          {/* Authentication */}
-          <Route path="/login" element={<Login />} />
+            {/* Authentication */}
+            <Route path="/login" element={<Login />} />
 
-          {/* Staff Dashboards */}
-          <Route path="/waiter" element={<Waiter />} />
-          <Route path="/kitchen" element={<Kitchen />} />
-          <Route path="/bar" element={<Bar />} />
+            {/* Staff Dashboards */}
+            <Route path="/waiter" element={<Waiter />} />
+            <Route path="/kitchen" element={<Kitchen />} />
+            <Route path="/bar" element={<Bar />} />
 
-          {/* Management Dashboards */}
-          <Route path="/manager" element={<Manager />} />
-          <Route path="/admin" element={<Admin />} />
+            {/* Management Dashboards */}
+            <Route path="/manager" element={<Manager />} />
+            <Route path="/admin" element={<Admin />} />
 
-          {/* POSRMS Team (SaaS) */}
-          <Route path="/team/login" element={<TeamLogin />} />
-          <Route path="/team" element={<TeamDashboard />} />
+            {/* POSRMS Team (SaaS) */}
+            <Route path="/team/login" element={<TeamLogin />} />
+            <Route path="/team" element={<TeamDashboard />} />
 
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
