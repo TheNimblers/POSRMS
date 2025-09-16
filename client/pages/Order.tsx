@@ -125,6 +125,56 @@ export default function Order() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeTab, setActiveTab] = useState('food');
   const [sessionActive, setSessionActive] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [publicMenu, setPublicMenu] = useState<any | null>(null);
+
+  // Load public menu by QR token if present
+  useEffect(() => {
+    const token = tableToken;
+    if (!token) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await fetch(`/api/menu/public?token=${encodeURIComponent(token)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (!json.success) throw new Error(json.error || 'Failed to load menu');
+        if (!cancelled) {
+          setPublicMenu(json.data);
+          const cur = (json.data.restaurant?.currency || 'eur').toLowerCase();
+          setCurrency(cur === 'usd' ? 'usd' : 'eur');
+        }
+      } catch (e: any) {
+        console.warn('Public menu fetch failed, using demo menu:', e?.message || e);
+        if (!cancelled) setError('Loading demo menu');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [tableToken]);
+
+  // Compute menu source (public or fallback)
+  const menuSource = useMemo(() => {
+    if (publicMenu?.menu) {
+      const categories = Object.keys(publicMenu.menu);
+      return {
+        categories,
+        byCategory: publicMenu.menu
+      };
+    }
+    return {
+      categories: ['food', 'drinks', 'specials'],
+      byCategory: {
+        food: mockMenu.food,
+        drinks: mockMenu.drinks,
+        specials: mockMenu.specials
+      }
+    };
+  }, [publicMenu]);
 
   // Calculate cart total
   const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
