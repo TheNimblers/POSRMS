@@ -1,4 +1,4 @@
-import { createTableQueries, createIndexQueries } from "@shared/database";
+import { createTableQueries, createIndexQueries } from "../shared/database";
 import path from "path";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
