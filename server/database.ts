@@ -1,9 +1,9 @@
-import Database from 'better-sqlite3';
 import { createTableQueries, createIndexQueries } from '@shared/database';
 import path from 'path';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
+import Database from 'better-sqlite3';
 
 // Database configuration
 const DB_PATH = process.env.DB_PATH || path.join(process.cwd(), 'data', 'posrms.db');
@@ -287,7 +287,7 @@ class DatabaseService {
         {
           id: uuidv4(),
           name: 'Signature Cocktail',
-          description: 'Chef\'s special cocktail with premium spirits',
+          description: "Chef's special cocktail with premium spirits",
           category: 'cocktail',
           price_eur: 12.00,
           price_usd: 13.50,

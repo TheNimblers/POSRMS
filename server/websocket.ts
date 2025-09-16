@@ -1,4 +1,4 @@
-import { WebSocket, WebSocketServer } from 'ws';
+import { WebSocketServer, WebSocket } from 'ws';
 import { IncomingMessage } from 'http';
 import { parse } from 'url';
 

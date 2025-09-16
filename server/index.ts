@@ -48,12 +48,19 @@ import {
   handleGetCategories
 } from "./routes/menu";
 
+import {
+  handleCreatePublicOrder,
+  handlePublicCallWaiter,
+  handlePublicRequestPayment,
+  handleStartPublicSession,
+} from "./routes/public";
+
 export function createServer() {
   const app = express();
   const server = createHttpServer(app);
 
   // Initialize database (this happens automatically in the constructor)
-  console.log('🗄️ Database initialized');
+  console.log('����️ Database initialized');
 
   // Initialize WebSocket server
   webSocketManager.initialize(server);
@@ -87,8 +94,12 @@ export function createServer() {
   app.post("/api/auth/login", handleLogin);
   app.post("/api/auth/logout", handleLogout);
 
-  // Public menu access (for customers)
+  // Public menu and customer endpoints (for customers)
   app.get("/api/menu/public", handleGetPublicMenu);
+  app.post("/api/sessions/public/start", handleStartPublicSession);
+  app.post("/api/orders/public", handleCreatePublicOrder);
+  app.post("/api/tables/public/call-waiter", handlePublicCallWaiter);
+  app.post("/api/tables/public/request-payment", handlePublicRequestPayment);
 
   // === PROTECTED ROUTES (Authentication required) ===
 
