@@ -55,11 +55,13 @@ Note: The app currently stores data in SQLite. MongoDB is connected for health/s
 ## 3) Frontend on Vercel (Vite SPA)
 
 Project is preconfigured via vercel.json (no dashboard tweaks needed for build):
+
 - Install Command: `pnpm install --no-frozen-lockfile` (fixes outdated lockfile CI error)
 - Build Command: `pnpm build:client`
 - Output Directory: `dist/spa`
 
 Steps:
+
 1. Vercel Dashboard → New Project → Import your repo
 2. Deploy (build settings are read from vercel.json)
 
