@@ -119,7 +119,7 @@ type CartItem = {
 
 export default function Order() {
   const [searchParams] = useSearchParams();
-  const tableToken = searchParams.get('token') || 'demo-table-1';
+  const tableToken = searchParams.get('token') || 'QR-T1';
   
   const [currency, setCurrency] = useState<Currency>('eur');
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -221,21 +221,76 @@ export default function Order() {
   };
 
   // Place order
-  const placeOrder = () => {
+  const placeOrder = async () => {
     if (cart.length === 0) return;
-    
-    // In real app, this would send to API
+
+    if (publicMenu) {
+      try {
+        const payload = {
+          token: tableToken,
+          items: cart.map(ci => ({ menuItemId: String(ci.id), quantity: ci.quantity })),
+          currency: (publicMenu.restaurant?.currency || 'EUR').toUpperCase(),
+          notes: undefined as string | undefined,
+        };
+        const res = await fetch('/api/orders/public', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (!res.ok || !json.success) throw new Error(json.error || `HTTP ${res.status}`);
+        setCart([]);
+        setSessionActive(true);
+        alert(`Order ${json.data.order_number || ''} placed successfully!`);
+      } catch (e: any) {
+        alert(`Failed to place order: ${e?.message || e}`);
+      }
+      return;
+    }
+    // Fallback demo
     alert(`Order placed for Table ${tableToken}!\nTotal: ${currency === 'eur' ? '€' : '$'}${cartTotal.toFixed(2)}`);
     setCart([]);
     setSessionActive(true);
   };
 
   // Customer actions
-  const callWaiter = () => {
+  const callWaiter = async () => {
+    if (publicMenu) {
+      try {
+        const res = await fetch('/api/tables/public/call-waiter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: tableToken })
+        });
+        const json = await res.json();
+        if (!res.ok || !json.success) throw new Error(json.error || `HTTP ${res.status}`);
+        alert('Waiter notified.');
+        return;
+      } catch (e: any) {
+        alert(`Failed to notify waiter: ${e?.message || e}`);
+        return;
+      }
+    }
     alert('Waiter has been notified and will be with you shortly!');
   };
 
-  const requestPayment = () => {
+  const requestPayment = async () => {
+    if (publicMenu) {
+      try {
+        const res = await fetch('/api/tables/public/request-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: tableToken })
+        });
+        const json = await res.json();
+        if (!res.ok || !json.success) throw new Error(json.error || `HTTP ${res.status}`);
+        alert('Payment request sent.');
+        return;
+      } catch (e: any) {
+        alert(`Failed to request payment: ${e?.message || e}`);
+        return;
+      }
+    }
     alert('Payment request sent to staff!');
   };
 
