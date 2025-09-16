@@ -128,8 +128,11 @@ export default function Order() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [publicMenu, setPublicMenu] = useState<any | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [runningTotal, setRunningTotal] = useState<number>(0);
+  const [paymentStatus, setPaymentStatus] = useState<'pending'|'partial'|'paid'|'none'>('none');
 
-  // Load public menu by QR token if present
+  // Load public menu and start session by QR token if present
   useEffect(() => {
     const token = tableToken;
     if (!token) return;
@@ -138,17 +141,35 @@ export default function Order() {
       try {
         setLoading(true);
         setError(null);
+        // Start or reuse session
+        try {
+          await fetch('/api/sessions/public/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, customerCount: 1 })
+          });
+        } catch {}
+        // Menu
         const res = await fetch(`/api/menu/public?token=${encodeURIComponent(token)}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (!json.success) throw new Error(json.error || 'Failed to load menu');
+        // Summary
+        const sumRes = await fetch(`/api/sessions/public/summary?token=${encodeURIComponent(token)}`);
+        const sumJson = await sumRes.json();
+        if (!sumRes.ok || !sumJson.success) throw new Error(sumJson.error || `HTTP ${sumRes.status}`);
+
         if (!cancelled) {
           setPublicMenu(json.data);
           const cur = (json.data.restaurant?.currency || 'eur').toLowerCase();
           setCurrency(cur === 'usd' ? 'usd' : 'eur');
+          setRunningTotal(sumJson.data.totalAmount || 0);
+          setPaymentStatus(sumJson.data.paymentStatus || 'none');
+          setSessionActive(!!sumJson.data.hasActiveSession);
+          if (sumJson.data.sessionId) setSessionId(sumJson.data.sessionId);
         }
       } catch (e: any) {
-        console.warn('Public menu fetch failed, using demo menu:', e?.message || e);
+        console.warn('Public data fetch failed, using demo menu:', e?.message || e);
         if (!cancelled) setError('Loading demo menu');
       } finally {
         if (!cancelled) setLoading(false);
@@ -220,6 +241,20 @@ export default function Order() {
     }
   };
 
+  // Refresh running total from backend
+  const refreshSummary = async () => {
+    try {
+      const res = await fetch(`/api/sessions/public/summary?token=${encodeURIComponent(tableToken)}`);
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setRunningTotal(json.data.totalAmount || 0);
+        setPaymentStatus(json.data.paymentStatus || 'none');
+        setSessionActive(!!json.data.hasActiveSession);
+        if (json.data.sessionId) setSessionId(json.data.sessionId);
+      }
+    } catch {}
+  };
+
   // Place order
   const placeOrder = async () => {
     if (cart.length === 0) return;
@@ -241,6 +276,7 @@ export default function Order() {
         if (!res.ok || !json.success) throw new Error(json.error || `HTTP ${res.status}`);
         setCart([]);
         setSessionActive(true);
+        await refreshSummary();
         alert(`Order ${json.data.order_number || ''} placed successfully!`);
       } catch (e: any) {
         alert(`Failed to place order: ${e?.message || e}`);
@@ -285,6 +321,8 @@ export default function Order() {
         const json = await res.json();
         if (!res.ok || !json.success) throw new Error(json.error || `HTTP ${res.status}`);
         alert('Payment request sent.');
+        // Start polling for payment status
+        await refreshSummary();
         return;
       } catch (e: any) {
         alert(`Failed to request payment: ${e?.message || e}`);
@@ -355,6 +393,13 @@ export default function Order() {
       </CardContent>
     </Card>
   );
+
+  // Poll for payment status while session is active
+  useEffect(() => {
+    if (!publicMenu) return;
+    const id = window.setInterval(() => { refreshSummary(); }, 8000);
+    return () => clearInterval(id);
+  }, [publicMenu, tableToken]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -495,6 +540,19 @@ export default function Order() {
           </Card>
         )}
 
+        {/* Current Bill */}
+        <Card className="mb-4">
+          <CardContent className="p-4 flex items-center justify-between">
+            <div>
+              <div className="text-sm text-gray-600">Current Bill</div>
+              <div className="text-2xl font-bold">{currency === 'eur' ? '€' : '$'}{runningTotal.toFixed(2)}</div>
+            </div>
+            <Badge className={paymentStatus === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
+              {paymentStatus === 'paid' ? 'Paid' : 'Pending'}
+            </Badge>
+          </CardContent>
+        </Card>
+
         {/* Customer Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Button 
@@ -526,16 +584,28 @@ export default function Order() {
         </div>
 
         {/* Session Status */}
-        {sessionActive && (
+        {sessionActive ? (
           <Card className="mt-6 border-green-200 bg-green-50">
             <CardContent className="p-4">
               <div className="flex items-center text-green-800">
                 <Clock className="h-5 w-5 mr-2" />
                 <span className="font-medium">Session Active</span>
-                <span className="ml-2 text-sm">- You can continue adding items or request assistance</span>
+                <span className="ml-2 text-sm">Running total updates after each order. Request payment when ready.</span>
               </div>
             </CardContent>
           </Card>
+        ) : (
+          paymentStatus === 'paid' && (
+            <Card className="mt-6 border-blue-200 bg-blue-50">
+              <CardContent className="p-4">
+                <div className="flex items-center text-blue-800">
+                  <CreditCard className="h-5 w-5 mr-2" />
+                  <span className="font-medium">Payment Completed</span>
+                  <span className="ml-2 text-sm">Your bill is cleared. Thank you!</span>
+                </div>
+              </CardContent>
+            </Card>
+          )
         )}
       </div>
     </div>
