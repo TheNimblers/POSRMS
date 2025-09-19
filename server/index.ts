@@ -51,7 +51,8 @@ export async function createServer() {
   app.get("/api/demo", handleDemo);
 
   // === ROUTES ===
-  if (process.env.USE_MONGODB_ONLY === "true") {
+  const mongoOnly = process.env.USE_MONGODB_ONLY === "true";
+  if (mongoOnly) {
     const mongoAuth = await import("./routes/mongoAuth");
     const mongoPublic = await import("./routes/mongoPublic");
 
@@ -238,25 +239,41 @@ export async function createServer() {
   }
 
   // WebSocket management routes
-  app.get(
-    "/api/websocket/stats",
-    authenticateToken,
-    requirePermission("view_analytics"),
-    (_req, res) => {
+  if (mongoOnly) {
+    const { authenticateToken: mongoAuthMiddleware } = await import("./routes/mongoAuth");
+
+    app.get("/api/websocket/stats", mongoAuthMiddleware, (_req, res) => {
       const stats = webSocketManager.getStats();
       res.json({ success: true, data: stats });
-    },
-  );
+    });
 
-  app.get(
-    "/api/websocket/clients",
-    authenticateToken,
-    requirePermission("view_analytics"),
-    (_req, res) => {
+    app.get("/api/websocket/clients", mongoAuthMiddleware, (_req, res) => {
       const clients = webSocketManager.getConnectedClients();
       res.json({ success: true, data: { clients } });
-    },
-  );
+    });
+  } else {
+    const auth = await import("./routes/auth");
+
+    app.get(
+      "/api/websocket/stats",
+      auth.authenticateToken,
+      auth.requirePermission("view_analytics"),
+      (_req, res) => {
+        const stats = webSocketManager.getStats();
+        res.json({ success: true, data: stats });
+      },
+    );
+
+    app.get(
+      "/api/websocket/clients",
+      auth.authenticateToken,
+      auth.requirePermission("view_analytics"),
+      (_req, res) => {
+        const clients = webSocketManager.getConnectedClients();
+        res.json({ success: true, data: { clients } });
+      },
+    );
+  }
 
   // Error handling middleware
   app.use(
