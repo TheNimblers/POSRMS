@@ -26,6 +26,10 @@ app.get("*", (req, res) => {
 });
 
 // Bind on all interfaces for Render
+server.on("error", (err) => {
+  console.error("HTTP server error:", err);
+});
+
 server.listen(port, "0.0.0.0", () => {
   console.log(`🚀 POSRMS server running on port ${port}`);
   console.log(`📱 Frontend: http://localhost:${port}`);
