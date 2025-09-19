@@ -44,9 +44,14 @@ interface WebSocketContextType {
   setNotificationsEnabled: (enabled: boolean) => void;
 }
 
-const WebSocketContext = createContext<WebSocketContextType | undefined>(
+export const WebSocketContext = createContext<WebSocketContextType | undefined>(
   undefined,
 );
+export function useWebSocket() {
+  const ctx = useContext(WebSocketContext);
+  if (!ctx) throw new Error("useWebSocket must be used within WebSocketProvider");
+  return ctx;
+}
 
 export function WebSocketProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
