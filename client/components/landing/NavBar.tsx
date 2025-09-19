@@ -11,10 +11,18 @@ export default function NavBar() {
             <span className="text-2xl font-bold text-gray-900">POSRMS</span>
           </Link>
           <div className="hidden md:flex items-center gap-6 text-sm text-gray-700">
-            <a href="#features" className="hover:text-gray-900">Features</a>
-            <a href="#product" className="hover:text-gray-900">Product</a>
-            <a href="#pricing" className="hover:text-gray-900">Pricing</a>
-            <a href="#testimonials" className="hover:text-gray-900">Stories</a>
+            <a href="#features" className="hover:text-gray-900">
+              Features
+            </a>
+            <a href="#product" className="hover:text-gray-900">
+              Product
+            </a>
+            <a href="#pricing" className="hover:text-gray-900">
+              Pricing
+            </a>
+            <a href="#testimonials" className="hover:text-gray-900">
+              Stories
+            </a>
           </div>
           <div className="flex items-center space-x-3">
             <Link to="/order?token=QR-T1">

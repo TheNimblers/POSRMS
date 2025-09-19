@@ -7,16 +7,41 @@ const demoMenu = [
   {
     category: "Burgers",
     items: [
-      { name: "Spicy Burger", price: 12.5, desc: "Smoked chili, cheddar, house sauce" },
-      { name: "Classic Cheeseburger", price: 11.0, desc: "Beef, cheddar, pickles, ketchup" },
-      { name: "Veggie Stack", price: 10.0, desc: "Grilled portobello, avocado, aioli" },
+      {
+        name: "Spicy Burger",
+        price: 12.5,
+        desc: "Smoked chili, cheddar, house sauce",
+      },
+      {
+        name: "Classic Cheeseburger",
+        price: 11.0,
+        desc: "Beef, cheddar, pickles, ketchup",
+      },
+      {
+        name: "Veggie Stack",
+        price: 10.0,
+        desc: "Grilled portobello, avocado, aioli",
+      },
     ],
   },
 ];
 
 const waiterTables = [
-  { table: "T1", status: "Awaiting drinks", guests: 2, items: [{ name: "Mango Shake", qty: 2 }] },
-  { table: "T3", status: "Serve mains", guests: 3, items: [ { name: "Spicy Burger", qty: 2 }, { name: "Caesar Salad", qty: 1 } ] },
+  {
+    table: "T1",
+    status: "Awaiting drinks",
+    guests: 2,
+    items: [{ name: "Mango Shake", qty: 2 }],
+  },
+  {
+    table: "T3",
+    status: "Serve mains",
+    guests: 3,
+    items: [
+      { name: "Spicy Burger", qty: 2 },
+      { name: "Caesar Salad", qty: 1 },
+    ],
+  },
 ];
 
 const topItems = [
@@ -30,28 +55,62 @@ export default function ProductShowcase() {
     <section id="product" className="py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900">Explore the product</h2>
-          <p className="text-gray-600">Switch between panels to preview the experience</p>
+          <h2 className="text-3xl font-bold text-gray-900">
+            Explore the product
+          </h2>
+          <p className="text-gray-600">
+            Switch between panels to preview the experience
+          </p>
         </div>
         <div className="rounded-2xl border bg-white shadow-sm p-6">
           <Tabs defaultValue="customer" className="w-full">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <TabsList className="bg-gray-100">
-                <TabsTrigger value="customer" className="data-[state=active]:bg-white data-[state=active]:text-gray-900">Customer</TabsTrigger>
-                <TabsTrigger value="waiter" className="data-[state=active]:bg-white data-[state=active]:text-gray-900">Waiter</TabsTrigger>
-                <TabsTrigger value="kitchen" className="data-[state=active]:bg-white data-[state=active]:text-gray-900">Kitchen</TabsTrigger>
-                <TabsTrigger value="manager" className="data-[state=active]:bg-white data-[state=active]:text-gray-900">Manager</TabsTrigger>
+                <TabsTrigger
+                  value="customer"
+                  className="data-[state=active]:bg-white data-[state=active]:text-gray-900"
+                >
+                  Customer
+                </TabsTrigger>
+                <TabsTrigger
+                  value="waiter"
+                  className="data-[state=active]:bg-white data-[state=active]:text-gray-900"
+                >
+                  Waiter
+                </TabsTrigger>
+                <TabsTrigger
+                  value="kitchen"
+                  className="data-[state=active]:bg-white data-[state=active]:text-gray-900"
+                >
+                  Kitchen
+                </TabsTrigger>
+                <TabsTrigger
+                  value="manager"
+                  className="data-[state=active]:bg-white data-[state=active]:text-gray-900"
+                >
+                  Manager
+                </TabsTrigger>
               </TabsList>
               <div className="flex gap-2">
-                <Link to="/order?token=QR-T1"><Button size="sm">Open Customer Demo</Button></Link>
-                <Link to="/login"><Button size="sm" variant="outline">Open Staff Demo</Button></Link>
+                <Link to="/order?token=QR-T1">
+                  <Button size="sm">Open Customer Demo</Button>
+                </Link>
+                <Link to="/login">
+                  <Button size="sm" variant="outline">
+                    Open Staff Demo
+                  </Button>
+                </Link>
               </div>
             </div>
 
             <TabsContent value="customer" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/customer.svg" alt="Customer demo" className="w-full h-auto" />
+                  <img
+                    src="/demos/customer.svg"
+                    alt="Customer demo"
+                    className="w-full h-auto"
+                  />
                 </div>
                 <div className="space-y-3">
                   <Card>
@@ -60,17 +119,32 @@ export default function ProductShowcase() {
                       <div className="max-h-72 overflow-auto pr-1 space-y-4">
                         {demoMenu.map((cat) => (
                           <div key={cat.category}>
-                            <div className="text-xs uppercase tracking-wide text-gray-500">{cat.category}</div>
+                            <div className="text-xs uppercase tracking-wide text-gray-500">
+                              {cat.category}
+                            </div>
                             <ul className="mt-1 space-y-2">
                               {cat.items.map((it) => (
-                                <li key={it.name} className="flex items-center justify-between">
+                                <li
+                                  key={it.name}
+                                  className="flex items-center justify-between"
+                                >
                                   <div>
-                                    <div className="font-medium text-gray-900">{it.name}</div>
-                                    {it.desc ? <div className="text-xs text-gray-500">{it.desc}</div> : null}
+                                    <div className="font-medium text-gray-900">
+                                      {it.name}
+                                    </div>
+                                    {it.desc ? (
+                                      <div className="text-xs text-gray-500">
+                                        {it.desc}
+                                      </div>
+                                    ) : null}
                                   </div>
                                   <div className="flex items-center gap-2">
-                                    <div className="text-sm font-semibold">${it.price.toFixed(2)}</div>
-                                    <Button size="sm" variant="outline">Add</Button>
+                                    <div className="text-sm font-semibold">
+                                      ${it.price.toFixed(2)}
+                                    </div>
+                                    <Button size="sm" variant="outline">
+                                      Add
+                                    </Button>
                                   </div>
                                 </li>
                               ))}
@@ -100,7 +174,11 @@ export default function ProductShowcase() {
             <TabsContent value="waiter" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/waiter.svg" alt="Waiter demo" className="w-full h-auto" />
+                  <img
+                    src="/demos/waiter.svg"
+                    alt="Waiter demo"
+                    className="w-full h-auto"
+                  />
                 </div>
                 <div className="space-y-3">
                   <Card>
@@ -110,13 +188,20 @@ export default function ProductShowcase() {
                         {waiterTables.map((t) => (
                           <li key={t.table}>
                             <div className="flex justify-between font-medium text-gray-900">
-                              <span>{t.table} • {t.guests} guests</span>
+                              <span>
+                                {t.table} • {t.guests} guests
+                              </span>
                               <span>{t.status}</span>
                             </div>
                             <ul className="mt-1 text-xs text-gray-600 space-y-1">
                               {t.items.map((it) => (
-                                <li key={it.name} className="flex justify-between">
-                                  <span>{it.qty}x {it.name}</span>
+                                <li
+                                  key={it.name}
+                                  className="flex justify-between"
+                                >
+                                  <span>
+                                    {it.qty}x {it.name}
+                                  </span>
                                   <span></span>
                                 </li>
                               ))}
@@ -133,7 +218,11 @@ export default function ProductShowcase() {
             <TabsContent value="kitchen" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/kitchen.svg" alt="Kitchen demo" className="w-full h-auto" />
+                  <img
+                    src="/demos/kitchen.svg"
+                    alt="Kitchen demo"
+                    className="w-full h-auto"
+                  />
                 </div>
                 <div className="space-y-3">
                   <Card>
@@ -158,7 +247,11 @@ export default function ProductShowcase() {
             <TabsContent value="manager" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/manager.svg" alt="Manager demo" className="w-full h-auto" />
+                  <img
+                    src="/demos/manager.svg"
+                    alt="Manager demo"
+                    className="w-full h-auto"
+                  />
                 </div>
                 <div className="space-y-3">
                   <Card>
