@@ -4,7 +4,9 @@ import path from "path";
 import { createServer } from "./index";
 
 const { app, server } = await createServer();
-const port = Number(process.env.PORT || 3000);
+const portEnv = process.env.PORT || process.env.NODE_PORT || "3000";
+const port = Number(portEnv);
+console.log("Render PORT env:", portEnv);
 
 // In production, serve the built SPA files
 const __dirname = import.meta.dirname;
