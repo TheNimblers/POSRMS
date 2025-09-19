@@ -149,6 +149,62 @@ const mockAnalytics = {
   customerLifetimeValue: 1485.0,
 };
 
+function NotificationsBell() {
+  const ws = useContext(WebSocketContext)!;
+  const count = ws.notifications.length;
+  const latest = useMemo(() => ws.notifications.slice(0, 10), [ws.notifications]);
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="relative">
+          <Bell className="h-6 w-6 text-gray-600" />
+          {count > 0 && (
+            <Badge className="absolute -top-2 -right-2 px-1.5 py-0.5 text-xs bg-red-500">
+              {count}
+            </Badge>
+          )}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-80">
+        <DropdownMenuLabel className="flex items-center justify-between">
+          <span>Notifications</span>
+          <button
+            className="text-xs text-blue-600"
+            onClick={() => ws.clearNotifications()}
+          >
+            Mark all as read
+          </button>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {latest.length === 0 ? (
+          <div className="p-3 text-sm text-gray-500">No notifications</div>
+        ) : (
+          latest.map((n, i) => (
+            <DropdownMenuItem key={i} className="flex flex-col items-start">
+              <div className="text-sm font-medium">{n.type}</div>
+              <div className="text-xs text-gray-600">
+                {n.data?.message || JSON.stringify(n.data)}
+              </div>
+              <div className="text-[10px] text-gray-400">
+                {new Date(n.timestamp).toLocaleTimeString()}
+              </div>
+            </DropdownMenuItem>
+          ))
+        )}
+        <DropdownMenuSeparator />
+        <div className="px-2 py-1.5 text-xs flex items-center justify-between">
+          <span>Enable notifications</span>
+          <input
+            type="checkbox"
+            checked={ws.notificationsEnabled}
+            onChange={(e) => ws.setNotificationsEnabled(e.target.checked)}
+          />
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 export default function TeamDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
