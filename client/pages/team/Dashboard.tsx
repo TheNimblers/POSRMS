@@ -810,6 +810,7 @@ export default function TeamDashboard() {
                     <Label>Trial Duration</Label>
                     <Input className="w-20" defaultValue={14} type="number" />
                   </div>
+                  <NotificationsToggle />
                   <div className="flex items-center justify-between">
                     <Label>Auto-scaling</Label>
                     <input type="checkbox" defaultChecked className="rounded" />
