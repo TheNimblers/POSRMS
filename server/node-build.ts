@@ -12,7 +12,11 @@ const rawPort = process.env.PORT || process.env.NODE_PORT || "10000";
 const port = Number.parseInt(String(rawPort), 10);
 const host = process.env.HOST || "0.0.0.0";
 
-console.log("Server boot parameters:", { PORT: rawPort, parsedPort: port, host });
+console.log("Server boot parameters:", {
+  PORT: rawPort,
+  parsedPort: port,
+  host,
+});
 
 // Lightweight health endpoint at root for platforms that probe non-API paths
 app.get("/health", (_req, res) => {
@@ -29,7 +33,11 @@ try {
 
   // Route all non-API requests to index.html for SPA routing
   app.get("*", (req, res, next) => {
-    if (req.path.startsWith("/api/") || req.path === "/ws" || req.path === "/health") {
+    if (
+      req.path.startsWith("/api/") ||
+      req.path === "/ws" ||
+      req.path === "/health"
+    ) {
       return next();
     }
     res.sendFile(path.join(distPath, "index.html"));
