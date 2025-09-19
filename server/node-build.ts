@@ -9,21 +9,27 @@ const port = Number(portEnv);
 console.log("Render PORT env:", portEnv);
 
 // In production, serve the built SPA files
-const __dirname = import.meta.dirname;
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distPath = path.join(__dirname, "../spa");
+console.log("Static dist path:", distPath);
 
-// Serve static files
-app.use(express.static(distPath));
+try {
+  // Serve static files
+  app.use(express.static(distPath));
 
-// Handle React Router - serve index.html for all non-API routes
-app.get("*", (req, res) => {
-  // Don't serve index.html for API routes
-  if (req.path.startsWith("/api/") || req.path.startsWith("/health")) {
-    return res.status(404).json({ error: "API endpoint not found" });
-  }
+  // Handle React Router - serve index.html for all non-API routes
+  app.get("*", (req, res) => {
+    // Don't serve index.html for API routes
+    if (req.path.startsWith("/api/") || req.path.startsWith("/health")) {
+      return res.status(404).json({ error: "API endpoint not found" });
+    }
 
-  res.sendFile(path.join(distPath, "index.html"));
-});
+    res.sendFile(path.join(distPath, "index.html"));
+  });
+} catch (e) {
+  console.error("Error setting up static file serving:", e);
+}
 
 // Bind on all interfaces for Render
 server.on("error", (err) => {
