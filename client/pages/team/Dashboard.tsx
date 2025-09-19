@@ -30,8 +30,8 @@ import {
   Clock,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useContext, useMemo } from "react";
-import { WebSocketContext } from "@/contexts/WebSocketContext";
+import { useMemo } from "react";
+import { useWebSocket } from "@/contexts/WebSocketContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
