@@ -1,47 +1,57 @@
-import { createServer } from "./index";
+import "dotenv/config";
 import express from "express";
 import path from "path";
-import { createServer } from "./index";
-
-const { app, server } = await createServer();
-const portEnv = process.env.PORT || process.env.NODE_PORT || "3000";
-const port = Number(portEnv);
-console.log("Render PORT env:", portEnv);
-
-// In production, serve the built SPA files
 import { fileURLToPath } from "url";
+import { createServer as createAppServer } from "./index";
+
+// Create app/http server (WebSocket is initialized inside createServer)
+const { app, server } = await createAppServer();
+
+// Resolve port and host robustly for Render and other PaaS
+const rawPort = process.env.PORT || process.env.NODE_PORT || "10000";
+const port = Number.parseInt(String(rawPort), 10);
+const host = process.env.HOST || "0.0.0.0";
+
+console.log("Server boot parameters:", { PORT: rawPort, parsedPort: port, host });
+
+// Lightweight health endpoint at root for platforms that probe non-API paths
+app.get("/health", (_req, res) => {
+  res.status(200).json({ ok: true, ts: new Date().toISOString() });
+});
+
+// Serve the built SPA in production
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distPath = path.join(__dirname, "../spa");
 console.log("Static dist path:", distPath);
 
 try {
-  // Serve static files
   app.use(express.static(distPath));
 
-  // Handle React Router - serve index.html for all non-API routes
-  app.get("*", (req, res) => {
-    // Don't serve index.html for API routes
-    if (req.path.startsWith("/api/") || req.path.startsWith("/health")) {
-      return res.status(404).json({ error: "API endpoint not found" });
+  // Route all non-API requests to index.html for SPA routing
+  app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api/") || req.path === "/ws" || req.path === "/health") {
+      return next();
     }
-
     res.sendFile(path.join(distPath, "index.html"));
   });
 } catch (e) {
   console.error("Error setting up static file serving:", e);
 }
 
-// Bind on all interfaces for Render
 server.on("error", (err) => {
   console.error("HTTP server error:", err);
 });
 
-server.listen(port, () => {
-  console.log(`🚀 POSRMS server running on port ${port}`);
-  console.log(`📱 Frontend: http://localhost:${port}`);
-  console.log(`🔧 API: http://localhost:${port}/api`);
-  console.log(`🔌 WebSocket: ws://localhost:${port}/ws`);
+server.on("listening", () => {
+  const address = server.address();
+  console.log("HTTP server is listening:", address);
+  console.log(`\n🚀 POSRMS listening on http://${host}:${port}`);
+  console.log(`🔧 API: http://${host}:${port}/api`);
+  console.log(`🔌 WebSocket: ws://${host}:${port}/ws\n`);
 });
+
+// Bind explicitly to 0.0.0.0 so Render detects the open port
+server.listen(Number.isFinite(port) ? port : 10000, host);
 
 // Graceful shutdown
 process.on("SIGTERM", () => {
