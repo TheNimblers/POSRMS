@@ -150,7 +150,7 @@ const mockAnalytics = {
 };
 
 function NotificationsBell() {
-  const ws = useContext(WebSocketContext)!;
+  const ws = useWebSocket();
   const count = ws.notifications.length;
   const latest = useMemo(() => ws.notifications.slice(0, 10), [ws.notifications]);
   return (
