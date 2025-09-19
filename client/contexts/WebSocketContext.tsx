@@ -40,6 +40,8 @@ interface WebSocketContextType {
   ) => () => void;
   notifications: WebSocketEvent[];
   clearNotifications: () => void;
+  notificationsEnabled: boolean;
+  setNotificationsEnabled: (enabled: boolean) => void;
 }
 
 const WebSocketContext = createContext<WebSocketContextType | undefined>(
@@ -53,6 +55,10 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
   const [eventSubscribers, setEventSubscribers] = useState<
     Map<WebSocketEventType, Set<(data: any) => void>>
   >(new Map());
+  const [notificationsEnabled, setNotificationsEnabledState] = useState<boolean>(() => {
+    const stored = localStorage.getItem("posrms_notifications_enabled");
+    return stored ? stored === "true" : true;
+  });
 
   // Use a ref for the socket so updates don't trigger re-renders or effect dependency churn
   const socketRef = useRef<WebSocket | null>(null);
@@ -115,7 +121,7 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
   const handleMessage = useCallback(
     (event: WebSocketEvent) => {
       // Add to notifications if relevant for current user
-      if (shouldShowNotification(event, user)) {
+      if (notificationsEnabled && shouldShowNotification(event, user)) {
         setNotifications((prev) => [event, ...prev].slice(0, 50)); // Keep last 50 notifications
       }
 
@@ -135,6 +141,7 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
   // Simulate demo events for development
   const simulateDemoEvents = useCallback(() => {
     if (!user) return;
+    if (!notificationsEnabled) return;
 
     const demoEvents = [
       {
@@ -189,37 +196,54 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
 
   // Manage connection lifecycle when user identity changes
   useEffect(() => {
-    // If a user logs in and there is no active socket, connect once
     if (user && !socketRef.current) {
       try {
-        // Mock WebSocket for demo; replace with real WebSocket in production
-        const mockSocket = {
-          send: (data: string) => {
-            console.log("Mock WebSocket send:", data);
-          },
-          close: () => {
-            console.log("Mock WebSocket closed");
-          },
-          readyState: 1, // OPEN
-        } as unknown as WebSocket;
+        // Build WS URL from current origin
+        const loc = window.location;
+        const protocol = loc.protocol === "https:" ? "wss" : "ws";
+        const wsUrl = `${protocol}://${loc.host}/ws?userId=${encodeURIComponent(
+          user.id,
+        )}&role=${encodeURIComponent(user.role)}&restaurantId=${encodeURIComponent(
+          user.restaurantId || "",
+        )}`;
+        const realSocket = new WebSocket(wsUrl);
 
-        socketRef.current = mockSocket;
-        setIsConnected(true);
-        console.log("WebSocket connected for user:", user.username);
-
-        // Optional: emit a joined event to local handlers (demo only)
-        const joinEvent: WebSocketEvent = {
-          type: "user_joined",
-          data: {
-            userId: user.id,
-            role: user.role,
-            restaurantId: user.restaurantId,
-          },
-          timestamp: new Date().toISOString(),
+        realSocket.onopen = () => {
+          socketRef.current = realSocket;
+          setIsConnected(true);
+          const joinEvent: WebSocketEvent = {
+            type: "user_joined",
+            data: { userId: user.id, role: user.role, restaurantId: user.restaurantId },
+            timestamp: new Date().toISOString(),
+          };
+          handleMessage(joinEvent);
+          simulateDemoEvents();
         };
-        handleMessage(joinEvent);
 
-        simulateDemoEvents();
+        realSocket.onmessage = (msg) => {
+          try {
+            const event = JSON.parse(msg.data as string) as WebSocketEvent;
+            handleMessage(event);
+          } catch (e) {
+            console.warn("Invalid WS message", e);
+          }
+        };
+
+        realSocket.onclose = () => {
+          setIsConnected(false);
+        };
+
+        realSocket.onerror = () => {
+          // Fall back to mock socket if WS fails
+          const mockSocket = {
+            send: (data: string) => console.log("Mock WebSocket send:", data),
+            close: () => console.log("Mock WebSocket closed"),
+            readyState: 1,
+          } as unknown as WebSocket;
+          socketRef.current = mockSocket;
+          setIsConnected(true);
+          simulateDemoEvents();
+        };
       } catch (error) {
         console.error("WebSocket connection failed:", error);
         setIsConnected(false);
@@ -228,23 +252,22 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
 
     // Cleanup runs when user changes or component unmounts
     return () => {
-      // Clear pending demo events
       demoTimeoutsRef.current.forEach((id) => clearTimeout(id));
       demoTimeoutsRef.current = [];
-
-      // Close existing socket if any
       if (socketRef.current) {
         try {
           socketRef.current.close();
-        } catch (e) {
-          // ignore
-        }
+        } catch {}
         socketRef.current = null;
         setIsConnected(false);
       }
     };
-    // Only re-run when user identity changes
-  }, [user?.id]);
+  }, [user?.id, notificationsEnabled]);
+
+  const setNotificationsEnabled = useCallback((enabled: boolean) => {
+    setNotificationsEnabledState(enabled);
+    localStorage.setItem("posrms_notifications_enabled", String(enabled));
+  }, []);
 
   return (
     <WebSocketContext.Provider
@@ -254,6 +277,8 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
         subscribe,
         notifications,
         clearNotifications,
+        notificationsEnabled,
+        setNotificationsEnabled,
       }}
     >
       {children}
