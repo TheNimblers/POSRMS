@@ -1,9 +1,10 @@
 import { createServer } from "./index";
 import express from "express";
 import path from "path";
+import { createServer } from "./index";
 
 const { app, server } = await createServer();
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT || 3000);
 
 // In production, serve the built SPA files
 const __dirname = import.meta.dirname;
@@ -22,7 +23,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
 
-server.listen(port, () => {
+// Bind on all interfaces for Render
+server.listen(port, "0.0.0.0", () => {
   console.log(`🚀 POSRMS server running on port ${port}`);
   console.log(`📱 Frontend: http://localhost:${port}`);
   console.log(`🔧 API: http://localhost:${port}/api`);
