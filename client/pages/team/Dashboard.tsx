@@ -723,7 +723,11 @@ export default function TeamDashboard() {
                   </div>
                   <div>
                     <Label htmlFor="primaryColor">Primary Color</Label>
-                    <Input id="primaryColor" defaultValue="#3B82F6" type="color" />
+                    <Input
+                      id="primaryColor"
+                      defaultValue="#3B82F6"
+                      type="color"
+                    />
                   </div>
                   <div>
                     <Label htmlFor="logoUrl">Logo URL</Label>
