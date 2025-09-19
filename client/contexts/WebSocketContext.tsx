@@ -55,10 +55,11 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
   const [eventSubscribers, setEventSubscribers] = useState<
     Map<WebSocketEventType, Set<(data: any) => void>>
   >(new Map());
-  const [notificationsEnabled, setNotificationsEnabledState] = useState<boolean>(() => {
-    const stored = localStorage.getItem("posrms_notifications_enabled");
-    return stored ? stored === "true" : true;
-  });
+  const [notificationsEnabled, setNotificationsEnabledState] =
+    useState<boolean>(() => {
+      const stored = localStorage.getItem("posrms_notifications_enabled");
+      return stored ? stored === "true" : true;
+    });
 
   // Use a ref for the socket so updates don't trigger re-renders or effect dependency churn
   const socketRef = useRef<WebSocket | null>(null);
@@ -213,7 +214,11 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }) {
           setIsConnected(true);
           const joinEvent: WebSocketEvent = {
             type: "user_joined",
-            data: { userId: user.id, role: user.role, restaurantId: user.restaurantId },
+            data: {
+              userId: user.id,
+              role: user.role,
+              restaurantId: user.restaurantId,
+            },
             timestamp: new Date().toISOString(),
           };
           handleMessage(joinEvent);
