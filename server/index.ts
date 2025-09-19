@@ -240,7 +240,9 @@ export async function createServer() {
 
   // WebSocket management routes
   if (mongoOnly) {
-    const { authenticateToken: mongoAuthMiddleware } = await import("./routes/mongoAuth");
+    const { authenticateToken: mongoAuthMiddleware } = await import(
+      "./routes/mongoAuth"
+    );
 
     app.get("/api/websocket/stats", mongoAuthMiddleware, (_req, res) => {
       const stats = webSocketManager.getStats();
