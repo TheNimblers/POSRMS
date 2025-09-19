@@ -129,7 +129,7 @@ export default function Login() {
               </Link>
               <Link to="/team/login">
                 <Button variant="outline" size="sm">
-                  POSRMS Owner Login
+                  POS RMS Login
                 </Button>
               </Link>
             </div>
