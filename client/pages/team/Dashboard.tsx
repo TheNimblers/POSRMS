@@ -719,11 +719,11 @@ export default function TeamDashboard() {
                 <CardContent className="space-y-4">
                   <div>
                     <Label htmlFor="brandName">Brand Name</Label>
-                    <Input id="brandName" value="POSRMS" />
+                    <Input id="brandName" defaultValue="POSRMS" />
                   </div>
                   <div>
                     <Label htmlFor="primaryColor">Primary Color</Label>
-                    <Input id="primaryColor" value="#3B82F6" type="color" />
+                    <Input id="primaryColor" defaultValue="#3B82F6" type="color" />
                   </div>
                   <div>
                     <Label htmlFor="logoUrl">Logo URL</Label>
@@ -743,7 +743,7 @@ export default function TeamDashboard() {
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label>Trial Duration</Label>
-                    <Input className="w-20" value="14" type="number" />
+                    <Input className="w-20" defaultValue={14} type="number" />
                   </div>
                   <div className="flex items-center justify-between">
                     <Label>Auto-scaling</Label>
