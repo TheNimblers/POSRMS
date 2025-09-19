@@ -233,12 +233,7 @@ export default function TeamDashboard() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Bell className="h-6 w-6 text-gray-600" />
-                <Badge className="absolute -top-2 -right-2 px-1.5 py-0.5 text-xs bg-red-500">
-                  {mockPlatformStats.supportTickets}
-                </Badge>
-              </div>
+              <NotificationsBell />
 
               <div className="text-sm text-gray-600">
                 POSRMS Team: {user.username}
