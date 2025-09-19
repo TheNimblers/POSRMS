@@ -205,6 +205,21 @@ function NotificationsBell() {
   );
 }
 
+function NotificationsToggle() {
+  const ws = useWebSocket();
+  return (
+    <div className="flex items-center justify-between">
+      <Label>Enable Notifications</Label>
+      <input
+        type="checkbox"
+        checked={ws.notificationsEnabled}
+        onChange={(e) => ws.setNotificationsEnabled(e.target.checked)}
+        className="rounded"
+      />
+    </div>
+  );
+}
+
 export default function TeamDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
