@@ -36,7 +36,7 @@ server.on("error", (err) => {
   console.error("HTTP server error:", err);
 });
 
-server.listen(port, "0.0.0.0", () => {
+server.listen(port, () => {
   console.log(`🚀 POSRMS server running on port ${port}`);
   console.log(`📱 Frontend: http://localhost:${port}`);
   console.log(`🔧 API: http://localhost:${port}/api`);
