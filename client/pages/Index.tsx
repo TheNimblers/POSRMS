@@ -136,7 +136,7 @@ export default function Index() {
                 <Button variant="outline">Restaurant Login</Button>
               </Link>
               <Link to="/team/login">
-                <Button>POSRMS Owner Login</Button>
+                <Button>POS RMS Login</Button>
               </Link>
             </div>
           </div>
