@@ -7,22 +7,30 @@ const SALT_ROUNDS = 10;
 
 if (!useMongoOnly) {
   console.warn(
-    "WARNING: SQLite support is disabled in this build. To enable SQLite, unset USE_MONGODB_ONLY and ensure better-sqlite3 native bindings are available."
+    "WARNING: SQLite support is disabled in this build. To enable SQLite, unset USE_MONGODB_ONLY and ensure better-sqlite3 native bindings are available.",
   );
 }
 
 class StubDatabaseService {
   public query(): any {
-    throw new Error("SQLite is disabled in this deployment (USE_MONGODB_ONLY=true)");
+    throw new Error(
+      "SQLite is disabled in this deployment (USE_MONGODB_ONLY=true)",
+    );
   }
   public queryOne(): any {
-    throw new Error("SQLite is disabled in this deployment (USE_MONGODB_ONLY=true)");
+    throw new Error(
+      "SQLite is disabled in this deployment (USE_MONGODB_ONLY=true)",
+    );
   }
   public execute(): any {
-    throw new Error("SQLite is disabled in this deployment (USE_MONGODB_ONLY=true)");
+    throw new Error(
+      "SQLite is disabled in this deployment (USE_MONGODB_ONLY=true)",
+    );
   }
   public transaction(): any {
-    throw new Error("SQLite is disabled in this deployment (USE_MONGODB_ONLY=true)");
+    throw new Error(
+      "SQLite is disabled in this deployment (USE_MONGODB_ONLY=true)",
+    );
   }
   public close(): void {
     // noop
