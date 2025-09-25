@@ -18,8 +18,7 @@ export async function createServer() {
     console.log("🗄️ Mongo-only mode enabled");
   }
 
-  // Initialize WebSocket server
-  webSocketManager.initialize(server);
+  // WebSocket initialization moved to server startup (node-build.ts) to ensure the HTTP server is already listening
 
   // Middleware
   app.use(cors());
