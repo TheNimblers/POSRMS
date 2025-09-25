@@ -8,9 +8,18 @@ import { webSocketManager } from "./websocket";
 // Create app/http server (WebSocket is initialized inside createServer)
 const { app, server } = await createAppServer();
 
-// Resolve port and host robustly for Render and other PaaS
-const rawPort = process.env.PORT || process.env.NODE_PORT || "10000";
+// Ensure we use the PORT Render provides and fail loudly if missing/invalid
+const rawPort = process.env.PORT ?? process.env.NODE_PORT;
+if (!rawPort) {
+  console.error("FATAL: No PORT environment variable provided. Render requires binding to process.env.PORT.");
+  // Exit with non-zero code so platform indicates a failure instead of silent scanning
+  process.exit(1);
+}
 const port = Number.parseInt(String(rawPort), 10);
+if (Number.isNaN(port) || port <= 0) {
+  console.error("FATAL: Invalid PORT value:", rawPort);
+  process.exit(1);
+}
 const host = process.env.HOST || "0.0.0.0";
 
 console.log("Server boot parameters:", {
