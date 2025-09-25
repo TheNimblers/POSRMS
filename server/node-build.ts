@@ -3,6 +3,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createServer as createAppServer } from "./index";
+import { webSocketManager } from "./websocket";
 
 // Create app/http server (WebSocket is initialized inside createServer)
 const { app, server } = await createAppServer();
