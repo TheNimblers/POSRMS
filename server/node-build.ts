@@ -11,7 +11,9 @@ const { app, server } = await createAppServer();
 // Ensure we use the PORT Render provides and fail loudly if missing/invalid
 const rawPort = process.env.PORT ?? process.env.NODE_PORT;
 if (!rawPort) {
-  console.error("FATAL: No PORT environment variable provided. Render requires binding to process.env.PORT.");
+  console.error(
+    "FATAL: No PORT environment variable provided. Render requires binding to process.env.PORT.",
+  );
   // Exit with non-zero code so platform indicates a failure instead of silent scanning
   process.exit(1);
 }
@@ -77,7 +79,11 @@ server.on("listening", () => {
 });
 
 // Attempt to bind to the provided port on all interfaces. Omitting host lets Node bind IPv4/IPv6.
-console.log("Attempting to bind server to port:", port, "(omitting host to allow all interfaces)");
+console.log(
+  "Attempting to bind server to port:",
+  port,
+  "(omitting host to allow all interfaces)",
+);
 server.listen(Number.isFinite(port) ? port : 10000);
 
 // Graceful shutdown
