@@ -76,8 +76,9 @@ server.on("listening", () => {
   console.log(`🔌 WebSocket: ws://${host}:${port}/ws\n`);
 });
 
-// Bind explicitly to 0.0.0.0 so Render detects the open port
-server.listen(Number.isFinite(port) ? port : 10000, host);
+// Attempt to bind to the provided port on all interfaces. Omitting host lets Node bind IPv4/IPv6.
+console.log("Attempting to bind server to port:", port, "(omitting host to allow all interfaces)");
+server.listen(Number.isFinite(port) ? port : 10000);
 
 // Graceful shutdown
 process.on("SIGTERM", () => {
