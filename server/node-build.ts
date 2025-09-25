@@ -53,6 +53,14 @@ server.on("error", (err) => {
 
 server.on("listening", () => {
   const address = server.address();
+  // Initialize WebSocket after the HTTP server is actively listening so PaaS port scanners can detect the open port
+  try {
+    webSocketManager.initialize(server);
+    console.log("WebSocket initialized on HTTP server");
+  } catch (e) {
+    console.error("Failed to initialize WebSocket server:", e);
+  }
+
   console.log("HTTP server is listening:", address);
   console.log(`\n🚀 POSRMS listening on http://${host}:${port}`);
   console.log(`🔧 API: http://${host}:${port}/api`);
