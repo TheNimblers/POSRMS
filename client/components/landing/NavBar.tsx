@@ -8,7 +8,7 @@ export default function NavBar() {
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
             <img src="/posrms-logo.svg" alt="POSRMS" className="h-8 w-8" />
-            <span className="text-2xl font-bold text-gray-900">POSRMS</span>
+            <span className="text-2xl font-bold text-[hsl(var(--primary))]">POSRMS</span>
           </Link>
           <div className="hidden md:flex items-center gap-6 text-sm text-gray-700">
             <a href="#features" className="hover:text-gray-900">
