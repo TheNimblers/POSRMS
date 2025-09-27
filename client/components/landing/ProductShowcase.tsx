@@ -48,14 +48,6 @@ export default function ProductShowcase() {
                 </TabsList>
               </div>
 
-              <div className="hidden">
-                <Link to="/order?token=QR-T1">
-                  <Button size="sm">Open Customer Demo</Button>
-                </Link>
-                <Link to="/login">
-                  <Button size="sm" variant="outline">Open Staff Demo</Button>
-                </Link>
-              </div>
             </div>
 
             <TabsContent value="customer" className="mt-6">
