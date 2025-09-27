@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { LOGO_URL } from "@/lib/branding";
 
 export default function NavBar() {
   return (
@@ -8,8 +9,8 @@ export default function NavBar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3">
-            <img src="/posrms-logo.svg" alt="POSRMS" className="h-10 w-10" />
-            <span className="text-lg font-bold text-[hsl(var(--primary))]">
+            <img src={LOGO_URL} alt="POSRMS" className="h-10 w-10 rounded-md" />
+            <span className="text-lg font-bold text-[hsl(var(--accent))]">
               POSRMS
             </span>
           </Link>
