@@ -47,6 +47,27 @@ export default function Testimonials() {
           ))}
         </div>
       </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div className="text-center mb-4">
+          <h3 className="text-lg font-semibold text-gray-700">Our Partners</h3>
+          <p className="text-sm text-gray-500">Payment & business partners who help bring POSRMS to restaurants</p>
+        </div>
+
+        <div className="flex items-center justify-center gap-8 py-6">
+          <a href="https://www.pay.nl" target="_blank" rel="noreferrer" className="inline-flex items-center">
+            <img src="https://cdn.builder.io/api/v1/image/assets%2F060ea98b8f1a46b483ff7648d5a2a998%2F2c1a9e3839be442596cd06d823c04670?format=webp&width=800" alt="Pay.nl" className="h-12" />
+          </a>
+
+          <a href="https://www.rsinghmultidiensten.nl/" target="_blank" rel="noreferrer" className="inline-flex items-center">
+            <img src="https://cdn.builder.io/api/v1/image/assets%2F060ea98b8f1a46b483ff7648d5a2a998%2Ff6ed64267c694011bbf938bcd1bb790e?format=webp&width=800" alt="Rsingh Multidiensten" className="h-12" />
+          </a>
+
+          <a href="https://thenimblers.com/" target="_blank" rel="noreferrer" className="inline-flex items-center">
+            <img src="https://cdn.builder.io/api/v1/image/assets%2F060ea98b8f1a46b483ff7648d5a2a998%2Ff29f62d57147465ea824654942640039?format=webp&width=800" alt="The Nimblers" className="h-12" />
+          </a>
+        </div>
+      </div>
     </section>
   );
 }
