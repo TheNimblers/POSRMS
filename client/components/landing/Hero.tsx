@@ -49,8 +49,8 @@ export default function Hero() {
             <div className="rounded-2xl border bg-white/70 backdrop-blur shadow-lg p-4">
               <div className="aspect-video rounded-xl overflow-hidden border bg-white">
                 <img
-                  src="/demos/customer.svg"
-                  alt="Customer preview"
+                  src="/demos/journey.svg"
+                  alt="Customer journey"
                   className="w-full h-auto"
                 />
               </div>
