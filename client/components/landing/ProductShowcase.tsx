@@ -206,24 +206,6 @@ export default function ProductShowcase() {
               </div>
             </TabsContent>
 
-            <TabsContent value="reports" className="mt-6">
-              <div className="grid lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white p-6 flex items-center justify-center">
-                  <div className="text-center">
-                    <h3 className="text-xl font-semibold">Automated reports</h3>
-                    <p className="text-sm text-gray-600 mt-2">Daily and weekly summary PDFs, exportable CSVs, and scheduled email reports for managers and accountants.</p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Custom Exports</div>
-                      <p className="text-sm text-gray-600">Generate detailed exports for reconciliation and payroll.</p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            </TabsContent>
 
             <TabsContent value="integrations" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
