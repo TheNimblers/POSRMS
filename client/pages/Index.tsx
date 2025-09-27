@@ -21,6 +21,7 @@ export default function Index() {
       <Benefits />
       <ProductShowcase />
       <Gallery />
+      <Details />
       <Pricing />
       <Testimonials />
       <Footer />
