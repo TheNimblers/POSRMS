@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { LOGO_URL } from "@/lib/branding";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -117,7 +118,7 @@ export default function Login() {
             <Link to="/" className="flex items-center">
               <ArrowLeft className="h-5 w-5 mr-2" />
               <span className="flex items-center space-x-2">
-                <img src="/posrms-logo.svg" alt="POSRMS" className="h-7 w-7" />
+                <img src={LOGO_URL} alt="POSRMS" className="h-7 w-7 rounded-sm" />
                 <span className="text-2xl font-bold text-gray-900">POSRMS</span>
               </span>
             </Link>
