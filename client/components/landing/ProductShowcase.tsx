@@ -278,6 +278,52 @@ export default function ProductShowcase() {
                 </div>
               </div>
             </TabsContent>
+
+            <TabsContent value="journey" className="mt-6">
+              <div className="grid lg:grid-cols-5 gap-4 items-center text-center">
+                <div className="col-span-5 lg:col-span-3 lg:col-start-2">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex flex-col items-center gap-2">
+                      <img src="/demos/customer.svg" alt="discover" className="h-20 w-20 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Discover</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Customer finds menu via QR or link</div>
+                    </div>
+
+                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
+
+                    <div className="flex flex-col items-center gap-2">
+                      <img src="/demos/analytics.svg" alt="order" className="h-20 w-20 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Order</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Select items and send order</div>
+                    </div>
+
+                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
+
+                    <div className="flex flex-col items-center gap-2">
+                      <img src="/demos/kitchen.svg" alt="kitchen" className="h-20 w-20 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Prepare</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Kitchen receives order instantly</div>
+                    </div>
+
+                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
+
+                    <div className="flex flex-col items-center gap-2">
+                      <img src="/demos/waiter.svg" alt="serve" className="h-20 w-20 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Serve</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Waiter notified, deliver order</div>
+                    </div>
+
+                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
+
+                    <div className="flex flex-col items-center gap-2">
+                      <img src="/demos/manager.svg" alt="pay" className="h-20 w-20 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Pay</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Secure payments & receipts</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
           </Tabs>
         </div>
       </div>
