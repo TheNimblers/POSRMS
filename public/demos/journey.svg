@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="360" fill="url(#bg)" />
+
+  <!-- Steps container -->
+  <g transform="translate(60,40)">
+    <!-- Step 1 -->
+    <g transform="translate(0,0)">
+      <rect x="0" y="0" width="200" height="200" rx="20" fill="hsl(174 65% 30%)" opacity="0.08" />
+      <circle cx="100" cy="70" r="36" fill="hsl(174 65% 30%)" />
+      <text x="100" y="78" text-anchor="middle" font-family="Inter, system-ui" font-size="20" fill="#fff" font-weight="700">1</text>
+      <text x="100" y="120" text-anchor="middle" font-family="Inter, system-ui" font-size="16" fill="hsl(174 65% 30%)" font-weight="600">Discover</text>
+      <text x="100" y="144" text-anchor="middle" font-family="Inter, system-ui" font-size="12" fill="#6b7280">Find menu via QR or link</text>
+    </g>
+
+    <!-- Arrow -->
+    <g transform="translate(220,60)">
+      <path d="M0 40 L60 40" stroke="hsl(174 65% 30%)" stroke-width="6" stroke-linecap="round" />
+      <path d="M54 34 L60 40 L54 46" fill="hsl(174 65% 30%)" />
+    </g>
+
+    <!-- Step 2 -->
+    <g transform="translate(320,0)">
+      <rect x="0" y="0" width="200" height="200" rx="20" fill="hsl(35 95% 52%)" opacity="0.08" />
+      <circle cx="100" cy="70" r="36" fill="hsl(35 95% 52%)" />
+      <text x="100" y="78" text-anchor="middle" font-family="Inter, system-ui" font-size="20" fill="#fff" font-weight="700">2</text>
+      <text x="100" y="120" text-anchor="middle" font-family="Inter, system-ui" font-size="16" fill="hsl(174 65% 30%)" font-weight="600">Order</text>
+      <text x="100" y="144" text-anchor="middle" font-family="Inter, system-ui" font-size="12" fill="#6b7280">Select items & send order</text>
+    </g>
+
+    <!-- Arrow 2 -->
+    <g transform="translate(540,60)">
+      <path d="M0 40 L60 40" stroke="hsl(174 65% 30%)" stroke-width="6" stroke-linecap="round" />
+      <path d="M54 34 L60 40 L54 46" fill="hsl(174 65% 30%)" />
+    </g>
+
+    <!-- Step 3 -->
+    <g transform="translate(640,0)">
+      <rect x="0" y="0" width="200" height="200" rx="20" fill="hsl(174 65% 30%)" opacity="0.08" />
+      <circle cx="100" cy="70" r="36" fill="hsl(174 65% 30%)" />
+      <text x="100" y="78" text-anchor="middle" font-family="Inter, system-ui" font-size="20" fill="#fff" font-weight="700">3</text>
+      <text x="100" y="120" text-anchor="middle" font-family="Inter, system-ui" font-size="16" fill="hsl(174 65% 30%)" font-weight="600">Prepare</text>
+      <text x="100" y="144" text-anchor="middle" font-family="Inter, system-ui" font-size="12" fill="#6b7280">Kitchen receives order instantly</text>
+    </g>
+
+    <!-- Arrow 3 -->
+    <g transform="translate(860,60)">
+      <path d="M0 40 L60 40" stroke="hsl(174 65% 30%)" stroke-width="6" stroke-linecap="round" />
+      <path d="M54 34 L60 40 L54 46" fill="hsl(174 65% 30%)" />
+    </g>
+
+    <!-- Step 4 -->
+    <g transform="translate(960,0)">
+      <rect x="0" y="0" width="200" height="200" rx="20" fill="hsl(35 95% 52%)" opacity="0.08" />
+      <circle cx="100" cy="70" r="36" fill="hsl(35 95% 52%)" />
+      <text x="100" y="78" text-anchor="middle" font-family="Inter, system-ui" font-size="20" fill="#fff" font-weight="700">4</text>
+      <text x="100" y="120" text-anchor="middle" font-family="Inter, system-ui" font-size="16" fill="hsl(174 65% 30%)" font-weight="600">Serve & Pay</text>
+      <text x="100" y="144" text-anchor="middle" font-family="Inter, system-ui" font-size="12" fill="#6b7280">Waiter notified, secure payment</text>
+    </g>
+  </g>
+</svg>
