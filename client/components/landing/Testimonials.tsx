@@ -32,10 +32,16 @@ export default function Testimonials() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {quotes.map((q) => (
-            <Card key={q.author} className={q.accent}>
-              <CardContent className="p-6 text-gray-700">
-                “{q.text}”
-                <div className="mt-3 text-sm text-gray-500">— {q.author}</div>
+            <Card key={q.author} className={`p-4 ${q.accent} bg-white/80`}>
+              <CardContent className="p-4 text-gray-800">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-[hsl(var(--accent))] flex items-center justify-center text-white font-semibold">{q.author.split(" ")[0][0]}</div>
+                  <div>
+                    <div className="font-semibold">{q.author}</div>
+                    <div className="text-xs text-gray-500">Verified customer</div>
+                  </div>
+                </div>
+                <div className="mt-4 text-sm">“{q.text}”</div>
               </CardContent>
             </Card>
           ))}
