@@ -19,15 +19,9 @@ export default function Footer() {
               establishments.
             </p>
             <div className="flex space-x-3">
-              <Button variant="ghost" size="sm">
-                Contact
-              </Button>
-              <Button variant="ghost" size="sm">
-                Docs
-              </Button>
-              <Button variant="ghost" size="sm">
-                Support
-              </Button>
+              <Button className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md" size="sm">Contact</Button>
+              <Button className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md" size="sm">Docs</Button>
+              <Button className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md" size="sm">Support</Button>
             </div>
           </div>
           <div>
