@@ -65,7 +65,7 @@ export default function ProductShowcase() {
             <TabsContent value="customer" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6 items-start">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <iframe src="/order?token=QR-T1" title="Customer demo" className="w-full h-96 border-0 rounded-md" />
+                  <img src="/demos/customer.svg" alt="Customer demo" className="w-full h-96 object-cover rounded-md" />
                 </div>
                 <div className="space-y-3">
                   <Card>
