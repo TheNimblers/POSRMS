@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 
+import { Button } from "@/components/ui/button";
+
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] text-[hsl(var(--primary-foreground))] py-14">
