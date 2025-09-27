@@ -142,7 +142,7 @@ export default function ProductShowcase() {
             <TabsContent value="kitchen" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <iframe src="/kitchen" title="Kitchen demo" className="w-full h-96 border-0 rounded-md" />
+                  <img src="/demos/kitchen.svg" alt="Kitchen demo" className="w-full h-96 object-cover rounded-md" />
                 </div>
                 <div className="space-y-3">
                   <Card>
@@ -242,7 +242,7 @@ export default function ProductShowcase() {
                   <div className="mt-4 grid grid-cols-2 gap-4">
                     <div className="p-4 border rounded-lg">
                       <div className="font-semibold">Reduce errors</div>
-                      <div className="text-xs text-gray-500">Digital orders go straight to kitchen and bar — no handwritten tickets.</div>
+                      <div className="text-xs text-gray-500">Digital orders go straight to kitchen and bar ��� no handwritten tickets.</div>
                     </div>
                     <div className="p-4 border rounded-lg">
                       <div className="font-semibold">Faster service</div>
