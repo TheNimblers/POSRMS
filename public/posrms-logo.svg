@@ -2,8 +2,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="POSRMS">
   <defs>
     <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="hsl(174 65% 30%)"/>
-      <stop offset="100%" stop-color="hsl(35 95% 52%)"/>
+      <stop offset="0%" stop-color="hsl(14 100% 57%)"/>
+      <stop offset="100%" stop-color="hsl(210 9% 12%)"/>
     </linearGradient>
   </defs>
   <rect width="256" height="256" rx="44" fill="url(#lg)" />
