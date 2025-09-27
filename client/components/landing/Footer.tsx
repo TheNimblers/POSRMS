@@ -102,9 +102,9 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400">© 2024 POSRMS. All rights reserved.</p>
-          <p className="text-gray-400 mt-4 md:mt-0">
+        <div className="border-t border-[hsl(var(--primary-foreground))]/20 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
+          <p className="opacity-90">© 2024 POSRMS. All rights reserved.</p>
+          <p className="mt-4 md:mt-0 opacity-80">
             Built for restaurants, by restaurant experts.
           </p>
         </div>
