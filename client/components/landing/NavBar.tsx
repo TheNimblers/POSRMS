@@ -1,15 +1,17 @@
-import { Button } from "@/components/ui/button";
+import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function NavBar() {
   return (
     <nav className="bg-[color:var(--primary-foreground)]/6 backdrop-blur border-b border-[hsl(var(--border))] sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <img src="/posrms-logo.svg" alt="POSRMS" className="h-8 w-8" />
-            <span className="text-2xl font-bold text-[hsl(var(--primary))]">POSRMS</span>
+          <Link to="/" className="flex items-center space-x-3">
+            <img src="/posrms-logo.svg" alt="POSRMS" className="h-10 w-10" />
+            <span className="text-lg font-bold text-[hsl(var(--primary))]">POSRMS</span>
           </Link>
+
           <div className="hidden md:flex items-center gap-6 text-sm text-gray-700">
             <a href="#features" className="hover:text-gray-900">
               Features
@@ -24,15 +26,18 @@ export default function NavBar() {
               Stories
             </a>
           </div>
+
           <div className="flex items-center space-x-3">
             <Link to="/order?token=QR-T1">
-              <Button variant="secondary">Customer Demo</Button>
+              <Button size="sm" variant="secondary">Demo</Button>
             </Link>
+
             <Link to="/login">
-              <Button variant="outline">Restaurant Login</Button>
+              <Button size="sm" variant="outline">Staff</Button>
             </Link>
+
             <Link to="/team/login">
-              <Button>POS RMS Login</Button>
+              <Button size="sm">Admin</Button>
             </Link>
           </div>
         </div>
