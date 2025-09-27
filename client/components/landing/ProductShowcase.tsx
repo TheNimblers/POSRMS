@@ -65,7 +65,7 @@ export default function ProductShowcase() {
             <TabsContent value="customer" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6 items-start">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/customer.svg" alt="Customer demo" className="w-full h-auto" />
+                  <iframe src="/order?token=QR-T1" title="Customer demo" className="w-full h-96 border-0 rounded-md" />
                 </div>
                 <div className="space-y-3">
                   <Card>
@@ -115,7 +115,7 @@ export default function ProductShowcase() {
             <TabsContent value="waiter" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/waiter.svg" alt="Waiter demo" className="w-full h-auto" />
+                  <iframe src="/login" title="Waiter demo" className="w-full h-96 border-0 rounded-md" />
                 </div>
                 <div className="space-y-3">
                   <Card>
@@ -142,7 +142,7 @@ export default function ProductShowcase() {
             <TabsContent value="kitchen" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/kitchen.svg" alt="Kitchen demo" className="w-full h-auto" />
+                  <iframe src="/kitchen" title="Kitchen demo" className="w-full h-96 border-0 rounded-md" />
                 </div>
                 <div className="space-y-3">
                   <Card>
@@ -161,7 +161,7 @@ export default function ProductShowcase() {
             <TabsContent value="manager" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img src="/demos/manager.svg" alt="Manager demo" className="w-full h-auto" />
+                  <iframe src="/manager" title="Manager demo" className="w-full h-96 border-0 rounded-md" />
                 </div>
                 <div className="space-y-3">
                   <Card>
