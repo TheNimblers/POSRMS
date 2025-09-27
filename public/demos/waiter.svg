@@ -1,1 +1,13 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 720'><rect width='1200' height='720' fill='#F5F3FF'/><rect x='80' y='80' width='1040' height='560' rx='24' fill='white' stroke='#e5e7eb'/><rect x='100' y='110' width='320' height='520' rx='16' fill='#f8fafc'/><rect x='440' y='110' width='640' height='120' rx='12' fill='#eef2ff'/><rect x='440' y='250' width='640' height='120' rx='12' fill='#eef2ff'/><rect x='440' y='390' width='640' height='120' rx='12' fill='#eef2ff'/><rect x='440' y='530' width='300' height='80' rx='10' fill='#10b981'/><rect x='760' y='530' width='320' height='80' rx='10' fill='#2563eb'/><text x='100' y='52' font-family='Inter, system-ui' font-size='28' fill='#111827' font-weight='700'>Waiter Dashboard</text><text x='455' y='582' font-family='Inter, system-ui' font-size='18' fill='white' font-weight='600'>Assign Table</text><text x='820' y='582' font-family='Inter, system-ui' font-size='18' fill='white' font-weight='600'>Mark Served</text></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-label="Waiter demo screen">
+  <rect width="100%" height="100%" fill="#ffffff" />
+  <g transform="translate(60,60)">
+    <rect x="0" y="0" width="780" height="480" rx="20" fill="#f8fafc" stroke="#eef2f6" />
+    <rect x="32" y="28" width="716" height="64" rx="10" fill="#fff" />
+    <g transform="translate(40,110)">
+      <rect x="0" y="0" width="200" height="80" rx="10" fill="#fff" stroke="#e6eef0" />
+      <rect x="220" y="0" width="460" height="80" rx="10" fill="#fff" stroke="#e6eef0" />
+      <rect x="0" y="100" width="680" height="280" rx="12" fill="#fff" stroke="#e6eef0" />
+    </g>
+  </g>
+</svg>
