@@ -66,14 +66,32 @@ export default function Details() {
         </div>
 
         <div className="rounded-2xl overflow-hidden border-2 border-[hsl(var(--primary))] shadow-lg p-6 bg-white">
-          <h3 className="text-xl font-semibold text-[hsl(var(--primary))] mb-4 text-center">Customer Journey Snapshot</h3>
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
-            <img src="/demos/qr-scan.svg" alt="QR scan" className="w-40 rounded-lg shadow-sm" />
-            <img src="/demos/customer.svg" alt="Customer ordering" className="w-40 rounded-lg shadow-sm" />
-            <img src="/demos/waiter.svg" alt="Waiter" className="w-40 rounded-lg shadow-sm" />
-            <img src="/demos/kitchen.svg" alt="Kitchen" className="w-40 rounded-lg shadow-sm" />
-            <img src="/demos/bar.svg" alt="Bar" className="w-40 rounded-lg shadow-sm" />
-            <img src="/demos/manager.svg" alt="Manager" className="w-40 rounded-lg shadow-sm" />
+          <h3 className="text-xl font-semibold text-[hsl(var(--primary))] mb-4 text-center">Customer Journey — step by step</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold">1. Scan</h4>
+              <p className="text-sm text-gray-600">Customer scans a QR or clicks a link and arrives at a fast, mobile-first menu — no app required.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold">2. Order</h4>
+              <p className="text-sm text-gray-600">Select items, apply modifiers, split or add notes, then submit the order directly from the table.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold">3. Notify Waiter</h4>
+              <p className="text-sm text-gray-600">Waiter receives a notification with table number and order summary; accepts or assigns the order.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold">4. Kitchen</h4>
+              <p className="text-sm text-gray-600">Order routed to kitchen stations in real-time, prioritized and tagged for prep speed and allergens.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold">5. Bar</h4>
+              <p className="text-sm text-gray-600">Beverages are routed to the bar so drinks and mains can be made concurrently for faster service.</p>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-semibold">6. Manager</h4>
+              <p className="text-sm text-gray-600">Manager sees completed orders, payments, and live revenue; exportable reports and alerts available.</p>
+            </div>
           </div>
         </div>
       </div>
