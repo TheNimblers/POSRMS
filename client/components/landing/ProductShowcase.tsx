@@ -177,61 +177,6 @@ export default function ProductShowcase() {
               </div>
             </TabsContent>
 
-            <TabsContent value="journey" className="mt-6">
-              <div className="grid lg:grid-cols-6 gap-4 items-center text-center">
-                <div className="col-span-6 lg:col-span-5 lg:col-start-2">
-                  <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-
-                    <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/qr-scan.svg" alt="scan" className="h-24 w-24 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Scan</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Customer scans QR and opens the menu</div>
-                    </div>
-
-                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
-
-                    <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/customer.svg" alt="order" className="h-24 w-24 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Order</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Customer selects items and submits the order</div>
-                    </div>
-
-                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
-
-                    <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/waiter.svg" alt="waiter" className="h-24 w-24 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Notify Waiter</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Waiter sees table order and delivers drinks</div>
-                    </div>
-
-                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
-
-                    <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/kitchen.svg" alt="kitchen" className="h-24 w-24 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Kitchen</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Kitchen prepares mains, bar prepares drinks</div>
-                    </div>
-
-                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
-
-                    <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/bar.svg" alt="bar" className="h-24 w-24 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Bar</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Bar handles beverage orders</div>
-                    </div>
-
-                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
-
-                    <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/manager.svg" alt="manager" className="h-24 w-24 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Manager</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Manager sees sales and order completion in analytics</div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
 
             <TabsContent value="why" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6 items-start">
