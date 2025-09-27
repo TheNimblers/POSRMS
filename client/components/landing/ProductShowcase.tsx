@@ -115,7 +115,7 @@ export default function ProductShowcase() {
             <TabsContent value="waiter" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <iframe src="/login" title="Waiter demo" className="w-full h-96 border-0 rounded-md" />
+                  <img src="/demos/waiter.svg" alt="Waiter demo" className="w-full h-96 object-cover rounded-md" />
                 </div>
                 <div className="space-y-3">
                   <Card>
