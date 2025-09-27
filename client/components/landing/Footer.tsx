@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { LOGO_URL } from "@/lib/branding";
 
 export default function Footer() {
   return (
@@ -7,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 text-2xl font-bold mb-4">
-              <img src="/posrms-logo.svg" alt="POSRMS" className="h-7 w-7" />
+              <img src={LOGO_URL} alt="POSRMS" className="h-7 w-7 rounded-sm" />
               <span className="text-[hsl(var(--primary-foreground))]">
                 POSRMS
               </span>
