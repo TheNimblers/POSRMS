@@ -65,7 +65,7 @@ export default function Hero() {
             <div className="rounded-2xl border bg-white/70 backdrop-blur shadow-lg p-4">
               <div className="aspect-video rounded-xl overflow-hidden border bg-white grid grid-cols-1 lg:grid-cols-2 gap-0">
                 <div className="col-span-1 p-4 flex items-center justify-center bg-[hsl(var(--muted))]">
-                  <iframe src="/order?token=QR-T1" title="Customer ordering demo" className="w-full h-56 border-0 rounded-md shadow-md" />
+                  <img src="/demos/qr-scan.svg" alt="QR scan demo" className="w-full h-auto rounded-md shadow-md" />
                 </div>
                 <div className="col-span-1 p-4 flex flex-col gap-2">
                   <iframe src="/order?token=QR-T1" title="Customer ordering" className="w-full h-14 border-0 rounded-md shadow-sm" />
