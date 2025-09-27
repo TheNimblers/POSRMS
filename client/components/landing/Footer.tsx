@@ -2,26 +2,26 @@ import { Button } from "@/components/ui/button";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-14">
+    <footer className="bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 text-2xl font-bold mb-4">
               <img src="/posrms-logo.svg" alt="POSRMS" className="h-7 w-7" />
-              <span>POSRMS</span>
+              <span className="text-[hsl(var(--primary-foreground))]">POSRMS</span>
             </div>
-            <p className="text-gray-400 mb-4">
+            <p className="text-[hsl(var(--primary-foreground))] mb-4 opacity-90">
               The complete restaurant management solution for modern
               establishments.
             </p>
             <div className="flex space-x-3">
-              <Button variant="outline" size="sm">
+              <Button variant="ghost" size="sm">
                 Contact
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="ghost" size="sm">
                 Docs
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="ghost" size="sm">
                 Support
               </Button>
             </div>
