@@ -28,9 +28,9 @@ export default function NavBar() {
           </div>
 
           <div className="flex items-center space-x-3">
-            <Link to="/order?token=QR-T1">
-              <Button size="sm" variant="secondary">Demo</Button>
-            </Link>
+            <a href="#product">
+              <Button size="sm" variant="secondary">Product</Button>
+            </a>
 
             <Link to="/login">
               <Button size="sm" variant="outline">Staff</Button>
