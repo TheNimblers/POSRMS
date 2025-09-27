@@ -7,25 +7,29 @@ export default function Benefits() {
       icon: LayoutGrid,
       title: "Unified Dashboards",
       desc: "Customer, Waiter, Kitchen, Bar, Manager—streamlined into one platform.",
-      color: "bg-orange-100 text-orange-700",
+      bg: "bg-[hsl(var(--primary))]",
+      fg: "text-[hsl(var(--primary-foreground))]",
     },
     {
       icon: Timer,
       title: "Instant Updates",
       desc: "WebSocket-powered notifications for orders, tables, and payments.",
-      color: "bg-green-100 text-green-700",
+      bg: "bg-[hsl(var(--accent))]",
+      fg: "text-[hsl(var(--accent-foreground))]",
     },
     {
       icon: CreditCard,
       title: "Seamless Payments",
       desc: "Request and confirm payments with a tap, track bill in real time.",
-      color: "bg-purple-100 text-purple-700",
+      bg: "bg-[hsl(var(--restaurant-yellow))]",
+      fg: "text-[hsl(var(--primary-foreground))]",
     },
     {
       icon: Receipt,
       title: "Analytics & Insights",
       desc: "Live sales, top items, and utilization—right on your dashboard.",
-      color: "bg-amber-100 text-amber-700",
+      bg: "bg-[hsl(var(--restaurant-blue))]",
+      fg: "text-[hsl(var(--primary-foreground))]",
     },
   ];
 
