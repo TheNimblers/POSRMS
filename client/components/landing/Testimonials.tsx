@@ -54,18 +54,36 @@ export default function Testimonials() {
           <p className="text-sm text-gray-500">Payment & business partners who help bring POSRMS to restaurants</p>
         </div>
 
-        <div className="flex items-center justify-center gap-8 py-6">
-          <a href="https://www.pay.nl" target="_blank" rel="noreferrer" className="inline-flex items-center">
-            <img src="https://cdn.builder.io/api/v1/image/assets%2F060ea98b8f1a46b483ff7648d5a2a998%2F2c1a9e3839be442596cd06d823c04670?format=webp&width=800" alt="Pay.nl" className="h-12" />
-          </a>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+          <div className="flex flex-col items-center text-center">
+            <a href="https://www.pay.nl" target="_blank" rel="noreferrer" className="inline-flex items-center">
+              <img src="https://cdn.builder.io/api/v1/image/assets%2F060ea98b8f1a46b483ff7648d5a2a998%2F2c1a9e3839be442596cd06d823c04670?format=webp&width=800" alt="Pay.nl" className="h-14 w-auto object-contain" />
+            </a>
+            <div className="mt-2 text-sm text-gray-600">Payment partner — Pay.nl</div>
+            <a href="https://www.pay.nl" target="_blank" rel="noreferrer" className="mt-3 inline-block">
+              <button className="px-4 py-2 rounded-md bg-emerald-600 text-white hover:bg-emerald-700">Visit Pay.nl</button>
+            </a>
+          </div>
 
-          <a href="https://www.rsinghmultidiensten.nl/" target="_blank" rel="noreferrer" className="inline-flex items-center">
-            <img src="https://cdn.builder.io/api/v1/image/assets%2F060ea98b8f1a46b483ff7648d5a2a998%2Ff6ed64267c694011bbf938bcd1bb790e?format=webp&width=800" alt="Rsingh Multidiensten" className="h-12" />
-          </a>
+          <div className="flex flex-col items-center text-center">
+            <a href="https://www.rsinghmultidiensten.nl/" target="_blank" rel="noreferrer" className="inline-flex items-center">
+              <img src="https://cdn.builder.io/api/v1/image/assets%2F060ea98b8f1a46b483ff7648d5a2a998%2Ff6ed64267c694011bbf938bcd1bb790e?format=webp&width=800" alt="Rsingh Multidiensten" className="h-14 w-auto object-contain" />
+            </a>
+            <div className="mt-2 text-sm text-gray-600">Business partner — Rsingh Multidiensten</div>
+            <a href="https://www.rsinghmultidiensten.nl/" target="_blank" rel="noreferrer" className="mt-3 inline-block">
+              <button className="px-4 py-2 rounded-md bg-emerald-600 text-white hover:bg-emerald-700">Visit Rsingh</button>
+            </a>
+          </div>
 
-          <a href="https://thenimblers.com/" target="_blank" rel="noreferrer" className="inline-flex items-center">
-            <img src="https://cdn.builder.io/api/v1/image/assets%2F060ea98b8f1a46b483ff7648d5a2a998%2Ff29f62d57147465ea824654942640039?format=webp&width=800" alt="The Nimblers" className="h-12" />
-          </a>
+          <div className="flex flex-col items-center text-center">
+            <a href="https://thenimblers.com/" target="_blank" rel="noreferrer" className="inline-flex items-center">
+              <img src="https://cdn.builder.io/api/v1/image/assets%2F060ea98b8f1a46b483ff7648d5a2a998%2Ff29f62d57147465ea824654942640039?format=webp&width=800" alt="The Nimblers" className="h-14 w-auto object-contain" />
+            </a>
+            <div className="mt-2 text-sm text-gray-600">Created & Developed by The Nimblers</div>
+            <a href="https://thenimblers.com/" target="_blank" rel="noreferrer" className="mt-3 inline-block">
+              <button className="px-4 py-2 rounded-md bg-emerald-600 text-white hover:bg-emerald-700">Visit Nimblers</button>
+            </a>
+          </div>
         </div>
       </div>
     </section>
