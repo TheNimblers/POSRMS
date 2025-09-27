@@ -3,6 +3,7 @@ import Hero from "@/components/landing/Hero";
 import Benefits from "@/components/landing/Benefits";
 import ProductShowcase from "@/components/landing/ProductShowcase";
 import Gallery from "@/components/landing/Gallery";
+import Details from "@/components/landing/Details";
 import Pricing from "@/components/landing/Pricing";
 import Testimonials from "@/components/landing/Testimonials";
 import Footer from "@/components/landing/Footer";
