@@ -65,7 +65,7 @@ export default function ProductShowcase() {
         <div className="rounded-2xl border bg-white shadow-sm p-6">
           <Tabs defaultValue="customer" className="w-full">
             <div className="flex items-center justify-between flex-wrap gap-3">
-              <TabsList className="bg-gray-100">
+              <TabsList className="bg-[hsl(var(--muted))]">
                 <TabsTrigger
                   value="customer"
                   className="data-[state=active]:bg-white data-[state=active]:text-gray-900"
