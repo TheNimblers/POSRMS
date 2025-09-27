@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Bar orders">
+  <rect width="100%" height="100%" fill="#ffffff" />
+  <g transform="translate(60,60)">
+    <rect x="0" y="0" width="680" height="480" rx="20" fill="#f8fafc" stroke="#eef2f6" />
+    <g transform="translate(40,40)">
+      <rect x="0" y="0" width="200" height="120" rx="12" fill="#fff" stroke="#e6eef0" />
+      <rect x="220" y="0" width="360" height="120" rx="12" fill="#fff" stroke="#e6eef0" />
+      <g transform="translate(0,160)">
+        <rect x="0" y="0" width="120" height="100" rx="10" fill="#fde68a" />
+        <rect x="140" y="0" width="120" height="100" rx="10" fill="#fca5a5" />
+        <rect x="280" y="0" width="120" height="100" rx="10" fill="#bfdbfe" />
+      </g>
+    </g>
+  </g>
+</svg>

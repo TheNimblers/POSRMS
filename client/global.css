@@ -21,25 +21,25 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Presentation-inspired palette: deep teal primary, warm gold accent, soft neutrals */
-    --primary: 174 65% 30%; /* deep teal */
+    /* Modern restaurant palette: deep slate primary, coral accent, soft neutrals */
+    --primary: 210 9% 12%; /* deep slate */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 180 30% 96%;
-    --secondary-foreground: 174 30% 12%;
+    --secondary: 210 16% 96%;
+    --secondary-foreground: 210 12% 12%;
 
     --muted: 210 20% 98%;
     --muted-foreground: 210 8% 40%;
 
-    --accent: 35 95% 52%; /* warm gold */
-    --accent-foreground: 210 10% 10%;
+    --accent: 14 100% 57%; /* coral */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 355 75% 55%;
+    --destructive: 354 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 210 16% 92%;
     --input: 210 16% 92%;
-    --ring: 174 65% 30%;
+    --ring: 14 100% 57%;
 
     --radius: 0.5rem;
 

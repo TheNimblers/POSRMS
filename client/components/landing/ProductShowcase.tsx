@@ -177,46 +177,56 @@ export default function ProductShowcase() {
             </TabsContent>
 
             <TabsContent value="journey" className="mt-6">
-              <div className="grid lg:grid-cols-5 gap-4 items-center text-center">
-                <div className="col-span-5 lg:col-span-3 lg:col-start-2">
-                  <div className="flex items-center justify-between gap-4">
+              <div className="grid lg:grid-cols-6 gap-4 items-center text-center">
+                <div className="col-span-6 lg:col-span-5 lg:col-start-2">
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+
                     <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/customer.svg" alt="discover" className="h-20 w-20 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Discover</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Customer finds menu via QR or link</div>
+                      <img src="/demos/qr-scan.svg" alt="scan" className="h-24 w-24 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Scan</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Customer scans QR and opens the menu</div>
                     </div>
 
                     <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
 
                     <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/analytics.svg" alt="order" className="h-20 w-20 rounded-lg shadow-md" />
+                      <img src="/demos/customer.svg" alt="order" className="h-24 w-24 rounded-lg shadow-md" />
                       <div className="font-semibold text-[hsl(var(--primary))]">Order</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Select items and send order</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Customer selects items and submits the order</div>
                     </div>
 
                     <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
 
                     <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/kitchen.svg" alt="kitchen" className="h-20 w-20 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Prepare</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Kitchen receives order instantly</div>
+                      <img src="/demos/waiter.svg" alt="waiter" className="h-24 w-24 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Notify Waiter</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Waiter sees table order and delivers drinks</div>
                     </div>
 
                     <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
 
                     <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/waiter.svg" alt="serve" className="h-20 w-20 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Serve</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Waiter notified, deliver order</div>
+                      <img src="/demos/kitchen.svg" alt="kitchen" className="h-24 w-24 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Kitchen</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Kitchen prepares mains, bar prepares drinks</div>
                     </div>
 
                     <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
 
                     <div className="flex flex-col items-center gap-2">
-                      <img src="/demos/manager.svg" alt="pay" className="h-20 w-20 rounded-lg shadow-md" />
-                      <div className="font-semibold text-[hsl(var(--primary))]">Pay</div>
-                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Secure payments & receipts</div>
+                      <img src="/demos/bar.svg" alt="bar" className="h-24 w-24 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Bar</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Bar handles beverage orders</div>
                     </div>
+
+                    <div className="hidden md:block text-[hsl(var(--primary))] font-bold text-2xl">→</div>
+
+                    <div className="flex flex-col items-center gap-2">
+                      <img src="/demos/manager.svg" alt="manager" className="h-24 w-24 rounded-lg shadow-md" />
+                      <div className="font-semibold text-[hsl(var(--primary))]">Manager</div>
+                      <div className="text-sm text-[hsl(var(--muted-foreground))] max-w-xs">Manager sees sales and order completion in analytics</div>
+                    </div>
+
                   </div>
                 </div>
               </div>
