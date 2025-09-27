@@ -68,10 +68,10 @@ export default function Hero() {
                   <img src="/demos/qr-scan.svg" alt="QR scan demo" className="w-full h-auto rounded-md shadow-md" />
                 </div>
                 <div className="col-span-1 p-4 flex flex-col gap-2">
-                  <iframe src="/order?token=QR-T1" title="Customer ordering" className="w-full h-14 border-0 rounded-md shadow-sm" />
-                  <iframe src="/login" title="Waiter view" className="w-full h-14 border-0 rounded-md shadow-sm" />
-                  <iframe src="/kitchen" title="Kitchen panel" className="w-full h-14 border-0 rounded-md shadow-sm" />
-                  <iframe src="/bar" title="Bar panel" className="w-full h-14 border-0 rounded-md shadow-sm" />
+                  <img src="/demos/customer.svg" alt="Customer ordering" className="w-full h-14 object-cover rounded-md shadow-sm" />
+                  <img src="/demos/waiter.svg" alt="Waiter view" className="w-full h-14 object-cover rounded-md shadow-sm" />
+                  <img src="/demos/kitchen.svg" alt="Kitchen panel" className="w-full h-14 object-cover rounded-md shadow-sm" />
+                  <img src="/demos/bar.svg" alt="Bar panel" className="w-full h-14 object-cover rounded-md shadow-sm" />
                 </div>
               </div>
 
