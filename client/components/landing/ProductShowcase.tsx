@@ -52,7 +52,7 @@ export default function ProductShowcase() {
                 </TabsList>
               </div>
 
-              <div className="flex gap-2">
+              <div className="hidden">
                 <Link to="/order?token=QR-T1">
                   <Button size="sm">Open Customer Demo</Button>
                 </Link>
