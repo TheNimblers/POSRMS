@@ -6,8 +6,8 @@ export default function Hero() {
   return (
     <section className="relative py-20 sm:py-24">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -left-48 -top-48 h-[32rem] w-[32rem] rounded-full bg-gradient-to-br from-orange-500/20 to-rose-500/20 blur-3xl" />
-        <div className="absolute right-[-10%] top-1/3 h-[28rem] w-[28rem] rounded-full bg-gradient-to-br from-amber-400/20 to-emerald-400/20 blur-3xl" />
+        <div className="absolute -left-48 -top-48 h-[32rem] w-[32rem] rounded-full bg-gradient-to-br from-[hsl(var(--accent))]/25 to-[hsl(var(--primary))]/18 blur-3xl" />
+        <div className="absolute right-[-10%] top-1/3 h-[28rem] w-[28rem] rounded-full bg-gradient-to-br from-[hsl(var(--primary))]/18 to-[hsl(var(--accent))]/16 blur-3xl" />
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
