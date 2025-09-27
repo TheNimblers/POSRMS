@@ -168,12 +168,10 @@ export const handleCreatePublicOrder: RequestHandler = async (req, res) => {
         { id: sessionId },
         { $set: { updated_at: new Date().toISOString() } },
       );
-    res
-      .status(201)
-      .json({
-        success: true,
-        data: { orderId: order.id, total: order.total_amount },
-      });
+    res.status(201).json({
+      success: true,
+      data: { orderId: order.id, total: order.total_amount },
+    });
   } catch (e) {
     console.error("Mongo create order error", e);
     res.status(500).json({ success: false, error: "Internal server error" });

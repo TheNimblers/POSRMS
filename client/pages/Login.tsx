@@ -118,7 +118,11 @@ export default function Login() {
             <Link to="/" className="flex items-center">
               <ArrowLeft className="h-5 w-5 mr-2" />
               <span className="flex items-center space-x-2">
-                <img src={LOGO_URL} alt="POSRMS" className="h-7 w-7 rounded-sm" />
+                <img
+                  src={LOGO_URL}
+                  alt="POSRMS"
+                  className="h-7 w-7 rounded-sm"
+                />
                 <span className="text-2xl font-bold text-gray-900">POSRMS</span>
               </span>
             </Link>
