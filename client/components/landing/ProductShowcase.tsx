@@ -44,10 +44,6 @@ export default function ProductShowcase() {
                   <TabsTrigger value="waiter" className="data-[state=active]:bg-[hsl(var(--primary))] data-[state=active]:text-[hsl(var(--primary-foreground))]">Waiter</TabsTrigger>
                   <TabsTrigger value="kitchen" className="data-[state=active]:bg-[hsl(var(--primary))] data-[state=active]:text-[hsl(var(--primary-foreground))]">Kitchen</TabsTrigger>
                   <TabsTrigger value="manager" className="data-[state=active]:bg-[hsl(var(--primary))] data-[state=active]:text-[hsl(var(--primary-foreground))]">Manager</TabsTrigger>
-                  <TabsTrigger value="customer" className="data-[state=active]:bg-[hsl(var(--primary))] data-[state=active]:text-[hsl(var(--primary-foreground))]">Customer</TabsTrigger>
-                  <TabsTrigger value="waiter" className="data-[state=active]:bg-[hsl(var(--primary))] data-[state=active]:text-[hsl(var(--primary-foreground))]">Waiter</TabsTrigger>
-                  <TabsTrigger value="kitchen" className="data-[state=active]:bg-[hsl(var(--primary))] data-[state=active]:text-[hsl(var(--primary-foreground))]">Kitchen</TabsTrigger>
-                  <TabsTrigger value="manager" className="data-[state=active]:bg-[hsl(var(--primary))] data-[state=active]:text-[hsl(var(--primary-foreground))]">Manager</TabsTrigger>
                   <TabsTrigger value="analytics" className="data-[state=active]:bg-[hsl(var(--primary))] data-[state=active]:text-[hsl(var(--primary-foreground))]">Analytics</TabsTrigger>
                 </TabsList>
               </div>
