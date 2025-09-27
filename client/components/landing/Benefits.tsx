@@ -45,16 +45,16 @@ export default function Benefits() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {items.map(({ icon: Icon, title, desc, color }) => (
+          {items.map(({ icon: Icon, title, desc, bg, fg }) => (
             <Card key={title}>
               <CardContent className="p-6">
                 <div
-                  className={`h-10 w-10 rounded-lg flex items-center justify-center mb-3 ${color}`}
+                  className={`h-10 w-10 rounded-lg flex items-center justify-center mb-3 ${bg} ${fg}`}
                 >
                   <Icon className="h-5 w-5" />
                 </div>
                 <h3 className="font-semibold">{title}</h3>
-                <p className="text-sm text-gray-600 mt-1">{desc}</p>
+                <p className="text-sm text-[hsl(var(--muted-foreground))] mt-1">{desc}</p>
               </CardContent>
             </Card>
           ))}
