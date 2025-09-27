@@ -5,8 +5,8 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
   server: {
-    host: "::",
-    port: 8080,
+    host: true,
+    port: Number(process.env.PORT) || 5173,
     fs: {
       allow: ["./client", "./shared"],
       deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "server/**"],
