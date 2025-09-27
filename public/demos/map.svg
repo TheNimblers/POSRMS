@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-label="Map">
+  <rect width="100%" height="100%" fill="#f8fafc" />
+  <g transform="translate(40,40)">
+    <rect x="0" y="0" width="820" height="520" rx="16" fill="#fff" stroke="#e6eef0" />
+    <g transform="translate(32,32)">
+      <rect x="0" y="0" width="200" height="120" rx="8" fill="#e6f6ff" />
+      <rect x="220" y="0" width="200" height="120" rx="8" fill="#fff3c4" />
+      <rect x="440" y="0" width="200" height="120" rx="8" fill="#fce7f3" />
+      <circle cx="680" cy="320" r="10" fill="hsl(174 65% 30%)" />
+    </g>
+  </g>
+</svg>
