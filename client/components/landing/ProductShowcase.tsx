@@ -207,28 +207,6 @@ export default function ProductShowcase() {
             </TabsContent>
 
 
-            <TabsContent value="integrations" className="mt-6">
-              <div className="grid lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white p-6">
-                  <h3 className="text-xl font-semibold">Integrations</h3>
-                  <p className="text-sm text-gray-600 mt-2">Connect payments, accounting, delivery platforms and hardware: Stripe, Xero, local printers and kitchen displays.</p>
-                  <div className="mt-4 grid grid-cols-3 gap-3">
-                    <img src="/demos/pos-photo1.svg" alt="integration 1" className="h-20 w-full object-cover rounded-md shadow-sm" />
-                    <img src="/demos/pos-photo2.svg" alt="integration 2" className="h-20 w-full object-cover rounded-md shadow-sm" />
-                    <img src="/demos/manager.svg" alt="integration 3" className="h-20 w-full object-cover rounded-md shadow-sm" />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="font-semibold mb-2">API & Webhooks</div>
-                      <p className="text-sm text-gray-600">Secure API endpoints and webhook events so you can integrate POSRMS with your stack.</p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            </TabsContent>
 
           </Tabs>
         </div>
