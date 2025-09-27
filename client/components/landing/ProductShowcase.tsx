@@ -32,7 +32,7 @@ export default function ProductShowcase() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold text-gray-900">Explore the product</h2>
-          <p className="text-gray-600">Switch between panels to preview the experience for every role — customer, waiter, kitchen, manager and integrations.</p>
+          <p className="text-gray-600">Switch between panels to preview the experience for each role — Customer, Waiter, Kitchen, and Manager.</p>
         </div>
 
         <div className="rounded-2xl border bg-white shadow-sm p-6">
