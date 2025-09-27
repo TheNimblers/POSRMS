@@ -178,46 +178,6 @@ export default function ProductShowcase() {
             </TabsContent>
 
 
-            <TabsContent value="why" className="mt-6">
-              <div className="grid lg:grid-cols-3 gap-6 items-start">
-                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white p-6">
-                  <h3 className="text-xl font-semibold">Why choose POSRMS?</h3>
-                  <p className="text-sm text-gray-600 mt-2">We solve the common restaurant problems: slow order routing, misplaced tickets, fragmented payments, and lack of clear analytics. POSRMS unifies customer ordering, waiter routing, kitchen prep, bar fulfillment and manager reporting into a single real-time platform.</p>
-
-                  <div className="mt-4 grid grid-cols-2 gap-4">
-                    <div className="p-4 border rounded-lg">
-                      <div className="font-semibold">Reduce errors</div>
-                      <div className="text-xs text-gray-500">Digital orders go straight to kitchen and bar — no handwritten tickets.</div>
-                    </div>
-                    <div className="p-4 border rounded-lg">
-                      <div className="font-semibold">Faster service</div>
-                      <div className="text-xs text-gray-500">QR ordering and instant staff alerts shorten table turnaround.</div>
-                    </div>
-                    <div className="p-4 border rounded-lg">
-                      <div className="font-semibold">Unified payments</div>
-                      <div className="text-xs text-gray-500">Track and confirm payments from any POS or device.</div>
-                    </div>
-                    <div className="p-4 border rounded-lg">
-                      <div className="font-semibold">Actionable analytics</div>
-                      <div className="text-xs text-gray-500">Real-time dashboards for revenue, top items, and staff efficiency.</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="font-semibold mb-2">How we fix it</div>
-                      <ol className="text-sm text-gray-600 list-decimal pl-5 space-y-2">
-                        <li>Implement QR ordering to capture customer orders directly to the system.</li>
-                        <li>Route orders to waiter, kitchen, and bar via WebSocket notifications.</li>
-                        <li>Centralize payments, receipts, and manager reporting.</li>
-                      </ol>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            </TabsContent>
 
             <TabsContent value="analytics" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
