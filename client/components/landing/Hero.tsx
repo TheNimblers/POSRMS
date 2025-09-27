@@ -1,5 +1,12 @@
 import React from "react";
-import { Shield, QrCode, ArrowRight, Sparkles, Server, BarChart2 } from "lucide-react";
+import {
+  Shield,
+  QrCode,
+  ArrowRight,
+  Sparkles,
+  Server,
+  BarChart2,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -15,7 +22,8 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div>
             <div className="inline-flex items-center rounded-full border bg-white/60 backdrop-blur px-3 py-1 text-xs font-medium text-gray-700 shadow-sm mb-4">
-              <Sparkles className="h-3.5 w-3.5 mr-1.5 text-orange-600" /> Live customer demo
+              <Sparkles className="h-3.5 w-3.5 mr-1.5 text-orange-600" /> Live
+              customer demo
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900">
@@ -23,17 +31,26 @@ export default function Hero() {
             </h1>
 
             <p className="mt-5 text-lg text-gray-700 max-w-xl">
-              POSRMS brings QR ordering, live kitchen updates, staff routing, secure payments, and actionable analytics all in a single elegant system. Reduce errors, speed service, and increase revenue with an enterprise-grade POS built for restaurants.
+              POSRMS brings QR ordering, live kitchen updates, staff routing,
+              secure payments, and actionable analytics all in a single elegant
+              system. Reduce errors, speed service, and increase revenue with an
+              enterprise-grade POS built for restaurants.
             </p>
 
             <ul className="mt-6 space-y-2 text-gray-600 max-w-xl">
               <li className="flex items-start gap-3">
                 <Server className="h-5 w-5 text-[hsl(var(--primary))] mt-1" />
-                <span><strong>Reliable real-time</strong> updates across customer, kitchen and waitstaff dashboards.</span>
+                <span>
+                  <strong>Reliable real-time</strong> updates across customer,
+                  kitchen and waitstaff dashboards.
+                </span>
               </li>
               <li className="flex items-start gap-3">
                 <BarChart2 className="h-5 w-5 text-[hsl(var(--accent))] mt-1" />
-                <span><strong>Instant insights</strong> — sales, popular items and table throughput at a glance.</span>
+                <span>
+                  <strong>Instant insights</strong> — sales, popular items and
+                  table throughput at a glance.
+                </span>
               </li>
             </ul>
 
@@ -53,7 +70,8 @@ export default function Hero() {
 
             <div className="mt-6 flex items-center text-sm text-gray-500 gap-4">
               <div className="flex items-center gap-2">
-                <QrCode className="h-4 w-4" /> Scan-free link: <span className="ml-1 font-mono">/order?token=QR-T1</span>
+                <QrCode className="h-4 w-4" /> Scan-free link:{" "}
+                <span className="ml-1 font-mono">/order?token=QR-T1</span>
               </div>
               <div className="hidden sm:flex items-center gap-2">
                 <Shield className="h-4 w-4" /> Role-based dashboards
@@ -65,13 +83,33 @@ export default function Hero() {
             <div className="rounded-2xl border bg-white/70 backdrop-blur shadow-lg p-4">
               <div className="aspect-video rounded-xl overflow-hidden border bg-white grid grid-cols-1 lg:grid-cols-2 gap-0">
                 <div className="col-span-1 p-4 flex items-center justify-center bg-[hsl(var(--muted))]">
-                  <img src="/demos/qr-scan.svg" alt="QR scan demo" className="w-full h-auto rounded-md shadow-md" />
+                  <img
+                    src="/demos/qr-scan.svg"
+                    alt="QR scan demo"
+                    className="w-full h-auto rounded-md shadow-md"
+                  />
                 </div>
                 <div className="col-span-1 p-4 flex flex-col gap-2">
-                  <img src="/demos/customer.svg" alt="Customer ordering" className="w-full h-14 object-cover rounded-md shadow-sm" />
-                  <img src="/demos/waiter.svg" alt="Waiter view" className="w-full h-14 object-cover rounded-md shadow-sm" />
-                  <img src="/demos/kitchen.svg" alt="Kitchen panel" className="w-full h-14 object-cover rounded-md shadow-sm" />
-                  <img src="/demos/bar.svg" alt="Bar panel" className="w-full h-14 object-cover rounded-md shadow-sm" />
+                  <img
+                    src="/demos/customer.svg"
+                    alt="Customer ordering"
+                    className="w-full h-14 object-cover rounded-md shadow-sm"
+                  />
+                  <img
+                    src="/demos/waiter.svg"
+                    alt="Waiter view"
+                    className="w-full h-14 object-cover rounded-md shadow-sm"
+                  />
+                  <img
+                    src="/demos/kitchen.svg"
+                    alt="Kitchen panel"
+                    className="w-full h-14 object-cover rounded-md shadow-sm"
+                  />
+                  <img
+                    src="/demos/bar.svg"
+                    alt="Bar panel"
+                    className="w-full h-14 object-cover rounded-md shadow-sm"
+                  />
                 </div>
               </div>
 

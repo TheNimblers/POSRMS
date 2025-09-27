@@ -9,7 +9,9 @@ export default function NavBar() {
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3">
             <img src="/posrms-logo.svg" alt="POSRMS" className="h-10 w-10" />
-            <span className="text-lg font-bold text-[hsl(var(--primary))]">POSRMS</span>
+            <span className="text-lg font-bold text-[hsl(var(--primary))]">
+              POSRMS
+            </span>
           </Link>
 
           <div className="hidden md:flex items-center gap-6 text-sm text-gray-700">
@@ -29,11 +31,15 @@ export default function NavBar() {
 
           <div className="flex items-center space-x-3">
             <a href="#product">
-              <Button size="sm" variant="secondary">Product</Button>
+              <Button size="sm" variant="secondary">
+                Product
+              </Button>
             </a>
 
             <Link to="/login">
-              <Button size="sm" variant="outline">Staff</Button>
+              <Button size="sm" variant="outline">
+                Staff
+              </Button>
             </Link>
 
             <Link to="/team/login">

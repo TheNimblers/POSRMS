@@ -38,8 +38,14 @@ export default function Benefits() {
     <section id="features" className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900">All-in-one, real-time platform</h2>
-          <p className="text-gray-600 mt-2 max-w-2xl mx-auto">Built for speed, reliability and delightful UX — POSRMS gives you the control to run service, payments and reporting without the overhead.</p>
+          <h2 className="text-3xl font-bold text-gray-900">
+            All-in-one, real-time platform
+          </h2>
+          <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
+            Built for speed, reliability and delightful UX — POSRMS gives you
+            the control to run service, payments and reporting without the
+            overhead.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -47,12 +53,16 @@ export default function Benefits() {
             <Card key={title}>
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className={`h-12 w-12 rounded-lg flex items-center justify-center ${bg} ${fg}`}>
+                  <div
+                    className={`h-12 w-12 rounded-lg flex items-center justify-center ${bg} ${fg}`}
+                  >
                     <Icon className="h-6 w-6" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg">{title}</h3>
-                    <p className="text-sm text-[hsl(var(--muted-foreground))] mt-1">{desc}</p>
+                    <p className="text-sm text-[hsl(var(--muted-foreground))] mt-1">
+                      {desc}
+                    </p>
                   </div>
                 </div>
               </CardContent>

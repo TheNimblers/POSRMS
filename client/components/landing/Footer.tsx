@@ -8,7 +8,9 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2 text-2xl font-bold mb-4">
               <img src="/posrms-logo.svg" alt="POSRMS" className="h-7 w-7" />
-              <span className="text-[hsl(var(--primary-foreground))]">POSRMS</span>
+              <span className="text-[hsl(var(--primary-foreground))]">
+                POSRMS
+              </span>
             </div>
             <p className="text-[hsl(var(--primary-foreground))] mb-4 opacity-90">
               The complete restaurant management solution for modern
