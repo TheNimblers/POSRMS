@@ -63,13 +63,15 @@ export default function Hero() {
 
           <div>
             <div className="rounded-2xl border bg-white/70 backdrop-blur shadow-lg p-4">
-              <div className="aspect-video rounded-xl overflow-hidden border bg-white grid grid-cols-2 gap-0">
-                <div className="col-span-2 lg:col-span-1 p-4 flex items-center justify-center bg-[hsl(var(--muted))]">
-                  <img src="/demos/journey.svg" alt="Customer journey" className="w-full h-auto rounded-md shadow-md" />
+              <div className="aspect-video rounded-xl overflow-hidden border bg-white grid grid-cols-1 lg:grid-cols-2 gap-0">
+                <div className="col-span-1 p-4 flex items-center justify-center bg-[hsl(var(--muted))]">
+                  <img src="/demos/qr-scan.svg" alt="QR scan demo" className="w-full h-auto rounded-md shadow-md" />
                 </div>
-                <div className="col-span-2 lg:col-span-1 p-4 flex flex-col gap-3">
-                  <img src="/demos/pos-photo1.svg" alt="POS device photo" className="w-full h-20 object-cover rounded-md shadow-sm" />
-                  <img src="/demos/pos-photo2.svg" alt="Restaurant floor" className="w-full h-20 object-cover rounded-md shadow-sm" />
+                <div className="col-span-1 p-4 flex flex-col gap-2">
+                  <img src="/demos/customer.svg" alt="Customer ordering" className="w-full h-16 object-cover rounded-md shadow-sm" />
+                  <img src="/demos/waiter.svg" alt="Waiter view" className="w-full h-16 object-cover rounded-md shadow-sm" />
+                  <img src="/demos/kitchen.svg" alt="Kitchen panel" className="w-full h-16 object-cover rounded-md shadow-sm" />
+                  <img src="/demos/bar.svg" alt="Bar panel" className="w-full h-16 object-cover rounded-md shadow-sm" />
                 </div>
               </div>
 
