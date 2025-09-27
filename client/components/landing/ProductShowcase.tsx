@@ -90,6 +90,12 @@ export default function ProductShowcase() {
                 >
                   Manager
                 </TabsTrigger>
+                <TabsTrigger
+                  value="journey"
+                  className="data-[state=active]:bg-[hsl(var(--primary))] data-[state=active]:text-[hsl(var(--primary-foreground))]"
+                >
+                  Customer Journey
+                </TabsTrigger>
               </TabsList>
               <div className="flex gap-2">
                 <Link to="/order?token=QR-T1">
