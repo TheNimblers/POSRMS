@@ -284,9 +284,9 @@ export default function Login() {
 
                   return (
                     <Card
-                      key={demo.role}
+                      key={demo.username}
                       className="cursor-pointer hover:bg-gray-50 transition-colors"
-                      onClick={() => fillDemoCredentials(demo.username)}
+                      onClick={() => fillDemoCredentials(demo)}
                     >
                       <CardContent className="p-4">
                         <div className="flex items-center space-x-3">
@@ -298,10 +298,13 @@ export default function Login() {
                               {roleInfo.title}
                             </h3>
                             <p className="text-xs text-gray-600">
-                              {demo.username}
+                              {demo.username} · {demo.restaurant}
                             </p>
                             <p className="text-xs text-gray-500 mt-1">
                               {demo.description}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              Password: {demo.password}
                             </p>
                           </div>
                         </div>
