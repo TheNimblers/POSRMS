@@ -84,6 +84,36 @@ const mockUsers: (User & { password: string })[] = [
       "view_global_analytics",
     ],
   },
+  {
+    id: "7",
+    username: "BajwaManager",
+    password: "BM-2025",
+    role: "manager",
+    restaurantId: "rest-bajwa",
+    permissions: [
+      "view_tables",
+      "manage_orders",
+      "manage_menu",
+      "manage_staff",
+      "view_analytics",
+    ],
+  },
+  {
+    id: "8",
+    username: "BajwaKitchen",
+    password: "BK-2025",
+    role: "kitchen",
+    restaurantId: "rest-bajwa",
+    permissions: ["view_food_orders", "update_food_status"],
+  },
+  {
+    id: "9",
+    username: "BW1001",
+    password: "BW1001",
+    role: "waiter",
+    restaurantId: "rest-bajwa",
+    permissions: ["view_tables", "manage_orders", "update_order_status"],
+  },
 ];
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
