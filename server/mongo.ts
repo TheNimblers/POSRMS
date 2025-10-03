@@ -159,9 +159,14 @@ async function seedCoreData(database: Db) {
   });
 }
 
-async function ensureRestaurant(database: Db, seed: RestaurantSeed): Promise<string> {
+async function ensureRestaurant(
+  database: Db,
+  seed: RestaurantSeed,
+): Promise<string> {
   const restaurants = database.collection("restaurants");
-  const existing = await restaurants.findOne<{ id: string }>({ slug: seed.slug });
+  const existing = await restaurants.findOne<{ id: string }>({
+    slug: seed.slug,
+  });
   if (existing?.id) {
     return existing.id;
   }
@@ -178,9 +183,14 @@ async function ensureRestaurant(database: Db, seed: RestaurantSeed): Promise<str
   return restaurant.id;
 }
 
-async function ensureStaffAccount(database: Db, seed: StaffSeed): Promise<string> {
+async function ensureStaffAccount(
+  database: Db,
+  seed: StaffSeed,
+): Promise<string> {
   const staff = database.collection("staff");
-  const existing = await staff.findOne<{ id: string }>({ username: seed.username });
+  const existing = await staff.findOne<{ id: string }>({
+    username: seed.username,
+  });
   if (existing?.id) {
     return existing.id;
   }
@@ -211,7 +221,9 @@ async function ensureIndexes(database: Db) {
     database.collection("sessions").createIndex({ id: 1 }, { unique: true }),
     database.collection("orders").createIndex({ id: 1 }, { unique: true }),
     database.collection("staff").createIndex({ username: 1 }, { unique: true }),
-    database.collection("restaurants").createIndex({ slug: 1 }, { unique: true }),
+    database
+      .collection("restaurants")
+      .createIndex({ slug: 1 }, { unique: true }),
   ]);
 }
 

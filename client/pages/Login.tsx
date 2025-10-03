@@ -159,7 +159,9 @@ export default function Login() {
     },
   ];
 
-  const fillDemoCredentials = (credential: (typeof demoCredentials)[number]) => {
+  const fillDemoCredentials = (
+    credential: (typeof demoCredentials)[number],
+  ) => {
     setUsername(credential.username);
     setPassword(credential.password);
     setSelectedRole(credential.role);
