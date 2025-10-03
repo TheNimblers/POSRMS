@@ -272,8 +272,8 @@ export default function Login() {
             <CardHeader>
               <CardTitle className="text-xl font-bold">Demo Accounts</CardTitle>
               <p className="text-gray-600">
-                Try different roles with these demo accounts (password:
-                "password")
+                Explore POSRMS by clicking a role below. The username and
+                password will auto-fill for you.
               </p>
             </CardHeader>
             <CardContent>
