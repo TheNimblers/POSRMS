@@ -1,7 +1,34 @@
 import { MongoClient, Db } from "mongodb";
-import { MongoClient, Db } from "mongodb";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
+
+type StaffRole = "waiter" | "kitchen" | "bar" | "manager" | "admin" | "team";
+
+interface RestaurantSeed {
+  slug: string;
+  name: string;
+  subscription_status: string;
+  subscription_plan: string;
+  admins: string[];
+  contact_email: string;
+  timezone: string;
+  currency: string;
+  tax_rate: number;
+  service_charge: number;
+}
+
+interface StaffSeed {
+  id: string;
+  username: string;
+  password: string;
+  role: StaffRole;
+  restaurant_id?: string;
+  name: string;
+  permissions: string[];
+  status?: "active" | "inactive";
+}
+
+const SALT_ROUNDS = 10;
 
 let client: MongoClient | null = null;
 let db: Db | null = null;
@@ -19,7 +46,7 @@ export async function connectMongo(): Promise<{
     db = client.db(dbName);
     console.log(`🗄️ MongoDB connected to db: ${dbName}`);
 
-    await seedIfNeeded(db);
+    await seedCoreData(db);
 
     return { client, db };
   } catch (e) {
@@ -30,16 +57,12 @@ export async function connectMongo(): Promise<{
   }
 }
 
-async function seedIfNeeded(db: Db) {
-  const restaurants = db.collection("restaurants");
-  const count = await restaurants.countDocuments();
-  if (count > 0) return;
+async function seedCoreData(database: Db) {
+  await ensureIndexes(database);
 
-  const restaurantId = uuidv4();
-  await restaurants.insertOne({
-    id: restaurantId,
-    name: "Demo Restaurant",
+  const demoRestaurantId = await ensureRestaurant(database, {
     slug: "demo-restaurant",
+    name: "Demo Restaurant",
     subscription_status: "active",
     subscription_plan: "monthly",
     admins: ["admin1"],
@@ -48,139 +71,148 @@ async function seedIfNeeded(db: Db) {
     currency: "USD",
     tax_rate: 8.5,
     service_charge: 15,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
   });
 
-  const tables = db.collection("tables");
-  const tableDefs = [
-    { number: "T1", capacity: 4, qr_code: "QR-T1" },
-    { number: "T2", capacity: 2, qr_code: "QR-T2" },
-    { number: "T3", capacity: 6, qr_code: "QR-T3" },
-  ];
-  for (const t of tableDefs) {
-    await tables.insertOne({
-      id: uuidv4(),
-      restaurant_id: restaurantId,
-      number: t.number,
-      capacity: t.capacity,
-      status: "available",
-      qr_code: t.qr_code,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    });
+  await ensureStaffAccount(database, {
+    id: "waiter1",
+    username: "waiter1",
+    password: "password",
+    role: "waiter",
+    restaurant_id: demoRestaurantId,
+    name: "John Doe",
+    permissions: ["view_tables", "manage_orders", "update_order_status"],
+  });
+
+  await ensureStaffAccount(database, {
+    id: "manager1",
+    username: "manager1",
+    password: "password",
+    role: "manager",
+    restaurant_id: demoRestaurantId,
+    name: "Alice Johnson",
+    permissions: [
+      "view_tables",
+      "manage_orders",
+      "manage_menu",
+      "manage_staff",
+      "view_analytics",
+    ],
+  });
+
+  await ensureStaffAccount(database, {
+    id: "admin1",
+    username: "admin1",
+    password: "password",
+    role: "admin",
+    restaurant_id: demoRestaurantId,
+    name: "Bob Wilson",
+    permissions: ["full_access"],
+  });
+
+  const bajwaRestaurantId = await ensureRestaurant(database, {
+    slug: "bajwa-dhaba",
+    name: "Bajwa Dhaba",
+    subscription_status: "active",
+    subscription_plan: "annual",
+    admins: ["BajwaManager"],
+    contact_email: "info@bajwadhaba.com",
+    timezone: "Asia/Karachi",
+    currency: "PKR",
+    tax_rate: 5,
+    service_charge: 10,
+  });
+
+  await ensureStaffAccount(database, {
+    id: "bajwa-waiter-1001",
+    username: "BW1001",
+    password: "BW1001",
+    role: "waiter",
+    restaurant_id: bajwaRestaurantId,
+    name: "Bajwa Dhaba Waiter",
+    permissions: ["view_tables", "manage_orders", "update_order_status"],
+  });
+
+  await ensureStaffAccount(database, {
+    id: "bajwa-kitchen",
+    username: "BajwaKitchen",
+    password: "BK-2025",
+    role: "kitchen",
+    restaurant_id: bajwaRestaurantId,
+    name: "Bajwa Dhaba Kitchen",
+    permissions: ["view_food_orders", "update_food_status"],
+  });
+
+  await ensureStaffAccount(database, {
+    id: "bajwa-manager",
+    username: "BajwaManager",
+    password: "BM-2025",
+    role: "manager",
+    restaurant_id: bajwaRestaurantId,
+    name: "Bajwa Dhaba Manager",
+    permissions: [
+      "view_tables",
+      "manage_orders",
+      "manage_menu",
+      "manage_staff",
+      "view_analytics",
+    ],
+  });
+}
+
+async function ensureRestaurant(database: Db, seed: RestaurantSeed): Promise<string> {
+  const restaurants = database.collection("restaurants");
+  const existing = await restaurants.findOne<{ id: string }>({ slug: seed.slug });
+  if (existing?.id) {
+    return existing.id;
   }
 
-  const staff = db.collection("staff");
-  const hash = bcrypt.hashSync("password", 10);
-  await staff.insertMany([
-    {
-      id: "waiter1",
-      username: "waiter1",
-      password_hash: hash,
-      role: "waiter",
-      restaurant_id: restaurantId,
-      name: "John Doe",
-      status: "active",
-      permissions: ["view_tables", "manage_orders", "update_order_status"],
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: "manager1",
-      username: "manager1",
-      password_hash: hash,
-      role: "manager",
-      restaurant_id: restaurantId,
-      name: "Alice Johnson",
-      status: "active",
-      permissions: [
-        "view_tables",
-        "manage_orders",
-        "manage_menu",
-        "manage_staff",
-        "view_analytics",
-      ],
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: "admin1",
-      username: "admin1",
-      password_hash: hash,
-      role: "admin",
-      restaurant_id: restaurantId,
-      name: "Bob Wilson",
-      status: "active",
-      permissions: ["full_access"],
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-  ]);
+  const now = new Date().toISOString();
+  const restaurant = {
+    id: uuidv4(),
+    ...seed,
+    created_at: now,
+    updated_at: now,
+  };
 
-  const menu = db.collection("menu_items");
-  await menu.insertMany([
-    {
-      id: uuidv4(),
-      restaurant_id: restaurantId,
-      name: "Grilled Salmon",
-      description: "Fresh Atlantic salmon",
-      category: "main",
-      price_eur: 24.5,
-      price_usd: 26.5,
-      available: true,
-      special: false,
-      preparation_time: 25,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: uuidv4(),
-      restaurant_id: restaurantId,
-      name: "Truffle Pasta",
-      description: "Black truffle and parmesan",
-      category: "main",
-      price_eur: 28.0,
-      price_usd: 30.5,
-      available: true,
-      special: true,
-      preparation_time: 20,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: uuidv4(),
-      restaurant_id: restaurantId,
-      name: "Caesar Salad",
-      description: "Classic Caesar",
-      category: "starter",
-      price_eur: 14.5,
-      price_usd: 16.0,
-      available: true,
-      special: false,
-      preparation_time: 10,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: uuidv4(),
-      restaurant_id: restaurantId,
-      name: "Signature Cocktail",
-      description: "Chef's cocktail",
-      category: "cocktail",
-      price_eur: 12.0,
-      price_usd: 13.5,
-      available: true,
-      special: true,
-      preparation_time: 8,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-  ]);
+  await restaurants.insertOne(restaurant);
+  return restaurant.id;
+}
 
-  await db.collection("sessions").createIndex({ id: 1 }, { unique: true });
-  await db.collection("orders").createIndex({ id: 1 }, { unique: true });
-  await db.collection("staff").createIndex({ username: 1 }, { unique: true });
+async function ensureStaffAccount(database: Db, seed: StaffSeed): Promise<string> {
+  const staff = database.collection("staff");
+  const existing = await staff.findOne<{ id: string }>({ username: seed.username });
+  if (existing?.id) {
+    return existing.id;
+  }
+
+  const now = new Date().toISOString();
+  const password_hash = bcrypt.hashSync(seed.password, SALT_ROUNDS);
+  const status = seed.status ?? "active";
+
+  const staffMember = {
+    id: seed.id,
+    username: seed.username,
+    password_hash,
+    role: seed.role,
+    restaurant_id: seed.restaurant_id,
+    name: seed.name,
+    status,
+    permissions: seed.permissions,
+    created_at: now,
+    updated_at: now,
+  };
+
+  await staff.insertOne(staffMember);
+  return staffMember.id;
+}
+
+async function ensureIndexes(database: Db) {
+  await Promise.all([
+    database.collection("sessions").createIndex({ id: 1 }, { unique: true }),
+    database.collection("orders").createIndex({ id: 1 }, { unique: true }),
+    database.collection("staff").createIndex({ username: 1 }, { unique: true }),
+    database.collection("restaurants").createIndex({ slug: 1 }, { unique: true }),
+  ]);
 }
 
 export function getMongoDb(): Db | null {
