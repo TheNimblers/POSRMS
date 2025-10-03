@@ -87,26 +87,82 @@ export default function Login() {
     }
   };
 
-  const demoCredentials = [
-    { role: "waiter", username: "waiter1", description: "Demo waiter account" },
+  const demoCredentials: Array<{
+    role: UserRole;
+    username: string;
+    password: string;
+    description: string;
+    restaurant: string;
+  }> = [
+    {
+      role: "manager",
+      username: "BajwaManager",
+      password: "BM-2025",
+      description: "Manager dashboard for Bajwa Dhaba",
+      restaurant: "Bajwa Dhaba",
+    },
+    {
+      role: "kitchen",
+      username: "BajwaKitchen",
+      password: "BK-2025",
+      description: "Kitchen operations for Bajwa Dhaba",
+      restaurant: "Bajwa Dhaba",
+    },
+    {
+      role: "waiter",
+      username: "BW1001",
+      password: "BW1001",
+      description: "Waiter service for Bajwa Dhaba",
+      restaurant: "Bajwa Dhaba",
+    },
+    {
+      role: "waiter",
+      username: "waiter1",
+      password: "password",
+      description: "Demo waiter account",
+      restaurant: "Demo Restaurant",
+    },
     {
       role: "kitchen",
       username: "kitchen1",
+      password: "password",
       description: "Kitchen staff account",
+      restaurant: "Demo Restaurant",
     },
-    { role: "bar", username: "bar1", description: "Bar staff account" },
+    {
+      role: "bar",
+      username: "bar1",
+      password: "password",
+      description: "Bar staff account",
+      restaurant: "Demo Restaurant",
+    },
     {
       role: "manager",
       username: "manager1",
+      password: "password",
       description: "Restaurant manager",
+      restaurant: "Demo Restaurant",
     },
-    { role: "admin", username: "admin1", description: "System administrator" },
-    { role: "team", username: "team1", description: "POSRMS team member" },
+    {
+      role: "admin",
+      username: "admin1",
+      password: "password",
+      description: "System administrator",
+      restaurant: "Demo Restaurant",
+    },
+    {
+      role: "team",
+      username: "team1",
+      password: "password",
+      description: "POSRMS team member",
+      restaurant: "POSRMS Platform",
+    },
   ];
 
-  const fillDemoCredentials = (username: string) => {
-    setUsername(username);
-    setPassword("password");
+  const fillDemoCredentials = (credential: (typeof demoCredentials)[number]) => {
+    setUsername(credential.username);
+    setPassword(credential.password);
+    setSelectedRole(credential.role);
   };
 
   return (
