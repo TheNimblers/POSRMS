@@ -386,18 +386,14 @@ async function ensureIndexes(database: Db) {
     database
       .collection("restaurants")
       .createIndex({ slug: 1 }, { unique: true }),
-    database
-      .collection("menu_items")
-      .createIndex({ id: 1 }, { unique: true }),
+    database.collection("menu_items").createIndex({ id: 1 }, { unique: true }),
     database
       .collection("menu_items")
       .createIndex(
         { restaurant_id: 1, name: 1, category: 1 },
         { unique: true, name: "uniq_menu_per_category" },
       ),
-    database
-      .collection("tables")
-      .createIndex({ id: 1 }, { unique: true }),
+    database.collection("tables").createIndex({ id: 1 }, { unique: true }),
     database
       .collection("tables")
       .createIndex(
