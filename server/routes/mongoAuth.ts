@@ -97,3 +97,37 @@ export const handleProfile: RequestHandler = async (req, res) => {
     res.status(500).json({ success: false, error: "Internal server error" });
   }
 };
+
+export const requirePermission = (permission: string): RequestHandler => {
+  return async (req, res, next) => {
+    const authUser = (req as any).user;
+    if (!authUser) {
+      return res.status(401).json({ success: false, error: "Unauthorized" });
+    }
+
+    const db = getMongoDb();
+    if (!db)
+      return res.status(500).json({ success: false, error: "DB not ready" });
+
+    const staff = await db.collection("staff").findOne(
+      { id: authUser.userId, status: "active" },
+      { projection: { permissions: 1 } },
+    );
+
+    if (!staff) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    const permissions = Array.isArray(staff.permissions) ? staff.permissions : [];
+    if (
+      permissions.includes("full_access") ||
+      permissions.includes(permission)
+    ) {
+      return next();
+    }
+
+    return res
+      .status(403)
+      .json({ success: false, error: "Insufficient permissions" });
+  };
+};
