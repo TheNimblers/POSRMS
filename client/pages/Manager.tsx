@@ -127,16 +127,7 @@ export default function Manager() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
   const [tables, setTables] = useState(mockTables);
-  const [menuItems, setMenuItems] = useState(mockMenuItems);
   const [staff, setStaff] = useState(mockStaff);
-  const [addOpen, setAddOpen] = useState(false);
-  const [newItem, setNewItem] = useState({
-    name: "",
-    category: "Main",
-    price: 0,
-    available: true,
-    special: false,
-  });
 
   // Redirect if not logged in or wrong role
   useEffect(() => {
