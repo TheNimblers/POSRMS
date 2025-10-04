@@ -48,49 +48,6 @@ const mockTables = [
   { id: 5, number: "T5", capacity: 8, status: "available", qrCode: "QR-T5" },
 ];
 
-const mockMenuItems = [
-  {
-    id: 1,
-    name: "Grilled Salmon",
-    category: "Main",
-    price: 24.5,
-    available: true,
-    special: false,
-  },
-  {
-    id: 2,
-    name: "Beef Tenderloin",
-    category: "Main",
-    price: 32.0,
-    available: true,
-    special: true,
-  },
-  {
-    id: 3,
-    name: "Caesar Salad",
-    category: "Starter",
-    price: 14.5,
-    available: true,
-    special: false,
-  },
-  {
-    id: 4,
-    name: "House Wine Red",
-    category: "Drinks",
-    price: 8.5,
-    available: true,
-    special: false,
-  },
-  {
-    id: 5,
-    name: "Signature Cocktail",
-    category: "Drinks",
-    price: 12.0,
-    available: false,
-    special: true,
-  },
-];
-
 const mockStaff = [
   {
     id: 1,
