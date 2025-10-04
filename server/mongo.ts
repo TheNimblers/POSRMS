@@ -1,4 +1,5 @@
 import { MongoClient, Db } from "mongodb";
+import { MongoClient, Db } from "mongodb";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
 
@@ -6,7 +7,7 @@ type StaffRole = "waiter" | "kitchen" | "bar" | "manager" | "admin" | "team";
 
 type TableStatus = "available" | "active" | "maintenance";
 
-tinterface RestaurantSeed {
+interface RestaurantSeed {
   slug: string;
   name: string;
   subscription_status: string;
@@ -19,7 +20,7 @@ tinterface RestaurantSeed {
   service_charge: number;
 }
 
-tinterface StaffSeed {
+interface StaffSeed {
   id: string;
   username: string;
   password: string;
@@ -30,14 +31,14 @@ tinterface StaffSeed {
   status?: "active" | "inactive";
 }
 
-tinterface TableSeed {
+interface TableSeed {
   number: string;
   capacity: number;
   qr_code: string;
   status?: TableStatus;
 }
 
-tinterface MenuSeed {
+interface MenuSeed {
   name: string;
   category: string;
   price: number;
