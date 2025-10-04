@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +14,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Textarea } from "@/components/ui/textarea";
 import {
   BarChart3,
   Users,
@@ -32,6 +35,7 @@ import {
   Star,
   Eye,
   EyeOff,
+  Loader2,
 } from "lucide-react";
 import { useAuth, hasPermission } from "@/contexts/AuthContext";
 
