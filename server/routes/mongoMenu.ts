@@ -372,18 +372,20 @@ export const handleToggleAvailability: RequestHandler = async (req, res) => {
       { $set: updated },
     );
 
+    const patched = { ...existing, ...updated };
+
     webSocketManager.notifyMenuUpdate(
       {
         action: "item_toggled",
-        item: { ...existing, ...updated },
+        item: patched,
       },
       restaurantId,
     );
 
     res.json({
       success: true,
-      data: { ...mapMenuItem(existing), ...updated },
-      message: `Menu item ${updated.available ? "enabled" : "disabled"}`,
+      data: mapMenuItem(patched),
+      message: `Menu item ${patched.available ? "enabled" : "disabled"}`,
     });
   } catch (error) {
     console.error("Mongo toggle menu item error", error);
