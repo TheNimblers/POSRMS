@@ -4,7 +4,9 @@ import bcrypt from "bcryptjs";
 
 type StaffRole = "waiter" | "kitchen" | "bar" | "manager" | "admin" | "team";
 
-interface RestaurantSeed {
+type TableStatus = "available" | "active" | "maintenance";
+
+tinterface RestaurantSeed {
   slug: string;
   name: string;
   subscription_status: string;
@@ -17,7 +19,7 @@ interface RestaurantSeed {
   service_charge: number;
 }
 
-interface StaffSeed {
+tinterface StaffSeed {
   id: string;
   username: string;
   password: string;
@@ -26,6 +28,26 @@ interface StaffSeed {
   name: string;
   permissions: string[];
   status?: "active" | "inactive";
+}
+
+tinterface TableSeed {
+  number: string;
+  capacity: number;
+  qr_code: string;
+  status?: TableStatus;
+}
+
+tinterface MenuSeed {
+  name: string;
+  category: string;
+  price: number;
+  currency: string;
+  description?: string;
+  available?: boolean;
+  special?: boolean;
+  preparationTime?: number | null;
+  tags?: string[];
+  imageUrl?: string | null;
 }
 
 const SALT_ROUNDS = 10;
@@ -109,6 +131,44 @@ async function seedCoreData(database: Db) {
     permissions: ["full_access"],
   });
 
+  await ensureTables(database, demoRestaurantId, [
+    { number: "T1", capacity: 4, qr_code: "QR-T1" },
+    { number: "T2", capacity: 2, qr_code: "QR-T2" },
+    { number: "T3", capacity: 6, qr_code: "QR-T3" },
+    { number: "T4", capacity: 4, qr_code: "QR-T4" },
+  ]);
+
+  await ensureMenuItems(database, demoRestaurantId, [
+    {
+      name: "Grilled Salmon",
+      category: "main",
+      price: 26.5,
+      currency: "USD",
+      description: "Fresh Atlantic salmon with seasonal vegetables",
+      tags: ["seafood", "chef special"],
+      special: true,
+      preparationTime: 25,
+    },
+    {
+      name: "Caesar Salad",
+      category: "starter",
+      price: 14.5,
+      currency: "USD",
+      description: "Crisp romaine, parmesan, and house dressing",
+      tags: ["vegetarian"],
+      preparationTime: 10,
+    },
+    {
+      name: "House Lemonade",
+      category: "drink",
+      price: 5.5,
+      currency: "USD",
+      description: "Fresh lemon juice with mint",
+      tags: ["beverage"],
+      preparationTime: 3,
+    },
+  ]);
+
   const bajwaRestaurantId = await ensureRestaurant(database, {
     slug: "bajwa-dhaba",
     name: "Bajwa Dhaba",
@@ -157,6 +217,12 @@ async function seedCoreData(database: Db) {
       "view_analytics",
     ],
   });
+
+  await ensureTables(database, bajwaRestaurantId, [
+    { number: "BD-1", capacity: 4, qr_code: "QR-BD-1" },
+    { number: "BD-2", capacity: 6, qr_code: "QR-BD-2" },
+    { number: "BD-3", capacity: 2, qr_code: "QR-BD-3" },
+  ]);
 }
 
 async function ensureRestaurant(
@@ -216,6 +282,68 @@ async function ensureStaffAccount(
   return staffMember.id;
 }
 
+async function ensureTables(
+  database: Db,
+  restaurantId: string,
+  seeds: TableSeed[],
+) {
+  const tables = database.collection("tables");
+  for (const seed of seeds) {
+    const existing = await tables.findOne({
+      restaurant_id: restaurantId,
+      number: seed.number,
+    });
+    if (existing) continue;
+
+    const now = new Date().toISOString();
+    await tables.insertOne({
+      id: uuidv4(),
+      restaurant_id: restaurantId,
+      number: seed.number,
+      capacity: seed.capacity,
+      status: seed.status ?? "available",
+      qr_code: seed.qr_code,
+      created_at: now,
+      updated_at: now,
+    });
+  }
+}
+
+async function ensureMenuItems(
+  database: Db,
+  restaurantId: string,
+  seeds: MenuSeed[],
+) {
+  const menu = database.collection("menu_items");
+  for (const seed of seeds) {
+    const existing = await menu.findOne({
+      restaurant_id: restaurantId,
+      name: seed.name,
+      category: seed.category,
+    });
+    if (existing) continue;
+
+    const now = new Date().toISOString();
+    await menu.insertOne({
+      id: uuidv4(),
+      restaurant_id: restaurantId,
+      name: seed.name,
+      description: seed.description ?? null,
+      category: seed.category,
+      price: seed.price,
+      currency: seed.currency,
+      available: seed.available ?? true,
+      special: seed.special ?? false,
+      preparation_time: seed.preparationTime ?? null,
+      tags: seed.tags ?? [],
+      image_url: seed.imageUrl ?? null,
+      created_at: now,
+      updated_at: now,
+      last_updated_by: null,
+    });
+  }
+}
+
 async function ensureIndexes(database: Db) {
   await Promise.all([
     database.collection("sessions").createIndex({ id: 1 }, { unique: true }),
@@ -224,6 +352,25 @@ async function ensureIndexes(database: Db) {
     database
       .collection("restaurants")
       .createIndex({ slug: 1 }, { unique: true }),
+    database
+      .collection("menu_items")
+      .createIndex({ id: 1 }, { unique: true }),
+    database
+      .collection("menu_items")
+      .createIndex(
+        { restaurant_id: 1, name: 1, category: 1 },
+        { unique: true, name: "uniq_menu_per_category" },
+      ),
+    database
+      .collection("tables")
+      .createIndex({ id: 1 }, { unique: true }),
+    database
+      .collection("tables")
+      .createIndex(
+        { restaurant_id: 1, number: 1 },
+        { unique: true, name: "uniq_table_number" },
+      ),
+    database.collection("tables").createIndex({ qr_code: 1 }, { unique: true }),
   ]);
 }
 
