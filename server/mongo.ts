@@ -132,6 +132,39 @@ async function seedCoreData(database: Db) {
     permissions: ["full_access"],
   });
 
+  await ensureStaffAccount(database, {
+    id: "kitchen1",
+    username: "kitchen1",
+    password: "password",
+    role: "kitchen",
+    restaurant_id: demoRestaurantId,
+    name: "Kitchen Team",
+    permissions: ["view_food_orders", "update_food_status"],
+  });
+
+  await ensureStaffAccount(database, {
+    id: "bar1",
+    username: "bar1",
+    password: "password",
+    role: "bar",
+    restaurant_id: demoRestaurantId,
+    name: "Bar Team",
+    permissions: ["view_drink_orders", "update_drink_status"],
+  });
+
+  await ensureStaffAccount(database, {
+    id: "team1",
+    username: "team1",
+    password: "password",
+    role: "team",
+    name: "POSRMS Team Member",
+    permissions: [
+      "manage_restaurants",
+      "manage_subscriptions",
+      "view_global_analytics",
+    ],
+  });
+
   await ensureTables(database, demoRestaurantId, [
     { number: "T1", capacity: 4, qr_code: "QR-T1" },
     { number: "T2", capacity: 2, qr_code: "QR-T2" },
