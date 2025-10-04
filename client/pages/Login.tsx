@@ -59,7 +59,6 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
 
   const { login, isLoading, user } = useAuth();
   const navigate = useNavigate();
@@ -164,7 +163,6 @@ export default function Login() {
   ) => {
     setUsername(credential.username);
     setPassword(credential.password);
-    setSelectedRole(credential.role);
   };
 
   return (
