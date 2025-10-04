@@ -54,6 +54,7 @@ export async function createServer() {
   if (mongoOnly) {
     const mongoAuth = await import("./routes/mongoAuth");
     const mongoPublic = await import("./routes/mongoPublic");
+    const mongoMenu = await import("./routes/mongoMenu");
 
     // Public
     app.post("/api/auth/login", mongoAuth.handleLogin);
@@ -83,6 +84,41 @@ export async function createServer() {
       "/api/auth/profile",
       mongoAuth.authenticateToken,
       mongoAuth.handleProfile,
+    );
+
+    app.get(
+      "/api/menu",
+      mongoAuth.authenticateToken,
+      mongoMenu.handleGetMenuItems,
+    );
+    app.post(
+      "/api/menu",
+      mongoAuth.authenticateToken,
+      mongoAuth.requirePermission("manage_menu"),
+      mongoMenu.handleCreateMenuItem,
+    );
+    app.get(
+      "/api/menu/categories",
+      mongoAuth.authenticateToken,
+      mongoMenu.handleGetCategories,
+    );
+    app.put(
+      "/api/menu/:itemId",
+      mongoAuth.authenticateToken,
+      mongoAuth.requirePermission("manage_menu"),
+      mongoMenu.handleUpdateMenuItem,
+    );
+    app.put(
+      "/api/menu/:itemId/toggle",
+      mongoAuth.authenticateToken,
+      mongoAuth.requirePermission("manage_menu"),
+      mongoMenu.handleToggleAvailability,
+    );
+    app.delete(
+      "/api/menu/:itemId",
+      mongoAuth.authenticateToken,
+      mongoAuth.requirePermission("manage_menu"),
+      mongoMenu.handleDeleteMenuItem,
     );
   } else {
     const auth = await import("./routes/auth");
