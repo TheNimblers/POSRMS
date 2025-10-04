@@ -94,27 +94,6 @@ export default function Login() {
     restaurant: string;
   }> = [
     {
-      role: "manager",
-      username: "BajwaManager",
-      password: "BM-2025",
-      description: "Manager dashboard for Bajwa Dhaba",
-      restaurant: "Bajwa Dhaba",
-    },
-    {
-      role: "kitchen",
-      username: "BajwaKitchen",
-      password: "BK-2025",
-      description: "Kitchen operations for Bajwa Dhaba",
-      restaurant: "Bajwa Dhaba",
-    },
-    {
-      role: "waiter",
-      username: "BW1001",
-      password: "BW1001",
-      description: "Waiter service for Bajwa Dhaba",
-      restaurant: "Bajwa Dhaba",
-    },
-    {
       role: "waiter",
       username: "waiter1",
       password: "password",
