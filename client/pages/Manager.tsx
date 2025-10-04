@@ -141,22 +141,6 @@ export default function Manager() {
     }
   }, [user, navigate]);
 
-  const toggleMenuItemAvailability = (itemId: number) => {
-    setMenuItems(
-      menuItems.map((item) =>
-        item.id === itemId ? { ...item, available: !item.available } : item,
-      ),
-    );
-  };
-
-  const toggleMenuItemSpecial = (itemId: number) => {
-    setMenuItems(
-      menuItems.map((item) =>
-        item.id === itemId ? { ...item, special: !item.special } : item,
-      ),
-    );
-  };
-
   const generateQRCode = (tableId: number) => {
     alert(
       `QR Code generated for Table ${tables.find((t) => t.id === tableId)?.number}`,
