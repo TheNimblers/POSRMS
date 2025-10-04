@@ -293,7 +293,9 @@ export default function Manager() {
       const names = Array.isArray(json.data)
         ? json.data
             .map((entry: any) => entry?.category)
-            .filter((value: string) => typeof value === "string" && value.trim())
+            .filter(
+              (value: string) => typeof value === "string" && value.trim(),
+            )
         : [];
       setCategories([...new Set(names.map((name) => name.trim()))].sort());
     } catch (error) {
@@ -319,7 +321,8 @@ export default function Manager() {
     const search = menuSearch.trim().toLowerCase();
     return menuItems.filter((item) => {
       if (search) {
-        const haystack = `${item.name} ${item.category} ${item.description ?? ""} ${item.tags.join(" ")}`.toLowerCase();
+        const haystack =
+          `${item.name} ${item.category} ${item.description ?? ""} ${item.tags.join(" ")}`.toLowerCase();
         if (!haystack.includes(search)) {
           return false;
         }
@@ -368,7 +371,9 @@ export default function Manager() {
         currency: (item.currency || defaultCurrency || "USD").toUpperCase(),
         available: item.available,
         special: item.special,
-        preparationTime: item.preparationTime ? String(item.preparationTime) : "",
+        preparationTime: item.preparationTime
+          ? String(item.preparationTime)
+          : "",
         tags: item.tags.join(", "),
         imageUrl: item.imageUrl ?? "",
       });
@@ -379,12 +384,18 @@ export default function Manager() {
 
   const submitMenuForm = useCallback(async () => {
     if (!formState.name.trim() || !formState.category.trim()) {
-      toast({ title: "Missing information", description: "Name and category are required" });
+      toast({
+        title: "Missing information",
+        description: "Name and category are required",
+      });
       return;
     }
     const priceValue = Number(formState.price);
     if (!Number.isFinite(priceValue) || priceValue <= 0) {
-      toast({ title: "Invalid price", description: "Price must be greater than zero" });
+      toast({
+        title: "Invalid price",
+        description: "Price must be greater than zero",
+      });
       return;
     }
     const payload: Record<string, unknown> = {
@@ -426,7 +437,10 @@ export default function Manager() {
         if (!response.ok || !json.success) {
           throw new Error(json.error || `Request failed (${response.status})`);
         }
-        toast({ title: "Menu item added", description: `${formState.name} is now available` });
+        toast({
+          title: "Menu item added",
+          description: `${formState.name} is now available`,
+        });
       } else if (editingItemId) {
         const response = await authFetch(`/api/menu/${editingItemId}`, {
           method: "PUT",
@@ -437,7 +451,10 @@ export default function Manager() {
         if (!response.ok || !json.success) {
           throw new Error(json.error || `Request failed (${response.status})`);
         }
-        toast({ title: "Menu item updated", description: `${formState.name} changes saved` });
+        toast({
+          title: "Menu item updated",
+          description: `${formState.name} changes saved`,
+        });
       }
       handleDialogOpenChange(false);
       loadMenu();
@@ -545,7 +562,10 @@ export default function Manager() {
           throw new Error(json.error || `Request failed (${response.status})`);
         }
         setMenuItems((prev) => prev.filter((entry) => entry.id !== item.id));
-        toast({ title: "Menu item removed", description: `${item.name} has been deleted` });
+        toast({
+          title: "Menu item removed",
+          description: `${item.name} has been deleted`,
+        });
       } catch (error: any) {
         console.error("Failed to delete menu item:", error);
         toast({
@@ -580,7 +600,9 @@ export default function Manager() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-600">Welcome, {user.username}</div>
+              <div className="text-sm text-gray-600">
+                Welcome, {user.username}
+              </div>
 
               <Button variant="outline" size="sm" onClick={logout}>
                 <LogOut className="h-4 w-4 mr-2" />
@@ -613,7 +635,10 @@ export default function Manager() {
                         Today&apos;s Revenue
                       </p>
                       <p className="text-2xl font-bold text-gray-900">
-                        {formatCurrency(mockAnalytics.todayRevenue, defaultCurrency)}
+                        {formatCurrency(
+                          mockAnalytics.todayRevenue,
+                          defaultCurrency,
+                        )}
                       </p>
                     </div>
                   </div>
@@ -675,7 +700,10 @@ export default function Manager() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <Button onClick={() => downloadAllQRCodes()} className="h-20 flex-col space-y-2">
+                  <Button
+                    onClick={() => downloadAllQRCodes()}
+                    className="h-20 flex-col space-y-2"
+                  >
                     <QrCode className="h-6 w-6" />
                     <span>Download QR Codes</span>
                   </Button>
@@ -726,8 +754,8 @@ export default function Manager() {
                           table.status === "active"
                             ? "bg-green-100 text-green-800"
                             : table.status === "available"
-                            ? "bg-gray-100 text-gray-800"
-                            : "bg-red-100 text-red-800"
+                              ? "bg-gray-100 text-gray-800"
+                              : "bg-red-100 text-red-800"
                         }
                       >
                         {table.status}
@@ -738,7 +766,9 @@ export default function Manager() {
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Capacity:</span>
-                        <span className="font-medium">{table.capacity} guests</span>
+                        <span className="font-medium">
+                          {table.capacity} guests
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">QR Code:</span>
@@ -868,14 +898,21 @@ export default function Manager() {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {filteredMenuItems.length === 0 && !menuLoading && (
                           <tr>
-                            <td colSpan={6} className="px-6 py-8 text-center text-sm text-gray-500">
-                              No menu items found. Adjust filters or add a new item.
+                            <td
+                              colSpan={6}
+                              className="px-6 py-8 text-center text-sm text-gray-500"
+                            >
+                              No menu items found. Adjust filters or add a new
+                              item.
                             </td>
                           </tr>
                         )}
                         {menuLoading && (
                           <tr>
-                            <td colSpan={6} className="px-6 py-8 text-center text-sm text-gray-500">
+                            <td
+                              colSpan={6}
+                              className="px-6 py-8 text-center text-sm text-gray-500"
+                            >
                               <Loader2 className="mx-auto h-5 w-5 animate-spin" />
                             </td>
                           </tr>
@@ -910,12 +947,18 @@ export default function Manager() {
                               <td className="px-6 py-4 text-sm text-gray-900">
                                 <div className="flex flex-wrap gap-1">
                                   {item.tags.map((tag) => (
-                                    <Badge key={tag} variant="outline" className="text-xs">
+                                    <Badge
+                                      key={tag}
+                                      variant="outline"
+                                      className="text-xs"
+                                    >
                                       {tag}
                                     </Badge>
                                   ))}
                                   {item.tags.length === 0 && (
-                                    <span className="text-xs text-gray-400">—</span>
+                                    <span className="text-xs text-gray-400">
+                                      —
+                                    </span>
                                   )}
                                 </div>
                               </td>
@@ -934,7 +977,9 @@ export default function Manager() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  onClick={() => toggleMenuItemAvailability(item)}
+                                  onClick={() =>
+                                    toggleMenuItemAvailability(item)
+                                  }
                                   disabled={isItemBusy(item.id)}
                                 >
                                   {isItemBusy(item.id) ? (
@@ -1057,7 +1102,9 @@ export default function Manager() {
 
           <TabsContent value="orders" className="mt-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Order History (Last 30 Days)</h2>
+              <h2 className="text-2xl font-bold">
+                Order History (Last 30 Days)
+              </h2>
               <div className="space-x-2">
                 <Button variant="outline">
                   <Calendar className="h-4 w-4 mr-2" />
@@ -1137,19 +1184,28 @@ export default function Manager() {
                     <div className="flex justify-between">
                       <span className="text-gray-600">Today:</span>
                       <span className="font-bold">
-                        {formatCurrency(mockAnalytics.todayRevenue, defaultCurrency)}
+                        {formatCurrency(
+                          mockAnalytics.todayRevenue,
+                          defaultCurrency,
+                        )}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">This Week:</span>
                       <span className="font-bold">
-                        {formatCurrency(mockAnalytics.weekRevenue, defaultCurrency)}
+                        {formatCurrency(
+                          mockAnalytics.weekRevenue,
+                          defaultCurrency,
+                        )}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">This Month:</span>
                       <span className="font-bold">
-                        {formatCurrency(mockAnalytics.monthRevenue, defaultCurrency)}
+                        {formatCurrency(
+                          mockAnalytics.monthRevenue,
+                          defaultCurrency,
+                        )}
                       </span>
                     </div>
                   </div>
@@ -1164,16 +1220,23 @@ export default function Manager() {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Today:</span>
-                      <span className="font-bold">{mockAnalytics.todayOrders}</span>
+                      <span className="font-bold">
+                        {mockAnalytics.todayOrders}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">This Week:</span>
-                      <span className="font-bold">{mockAnalytics.weekOrders}</span>
+                      <span className="font-bold">
+                        {mockAnalytics.weekOrders}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Avg Order Value:</span>
                       <span className="font-bold">
-                        {formatCurrency(mockAnalytics.avgOrderValue, defaultCurrency)}
+                        {formatCurrency(
+                          mockAnalytics.avgOrderValue,
+                          defaultCurrency,
+                        )}
                       </span>
                     </div>
                   </div>
@@ -1187,7 +1250,10 @@ export default function Manager() {
                 <CardContent>
                   <div className="space-y-3">
                     {mockAnalytics.bestSellingItems.map((item, index) => (
-                      <div key={index} className="flex justify-between items-center">
+                      <div
+                        key={index}
+                        className="flex justify-between items-center"
+                      >
                         <div>
                           <div className="font-medium text-sm">{item.name}</div>
                           <div className="text-xs text-gray-600">
@@ -1377,11 +1443,7 @@ function MenuItemDialog({
           </div>
 
           <div className="pt-2">
-            <Button
-              className="w-full"
-              disabled={submitting}
-              onClick={onSubmit}
-            >
+            <Button className="w-full" disabled={submitting} onClick={onSubmit}>
               {submitting ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
