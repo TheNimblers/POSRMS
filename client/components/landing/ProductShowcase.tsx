@@ -94,18 +94,36 @@ const demoMenu = [
 const waiterTables = [
   {
     table: "T1",
-    status: "Awaiting drinks",
+    status: "Ready to serve",
     guests: 2,
-    items: [{ name: "Mango Shake", qty: 2 }],
+    items: [
+      { name: "Grilled Salmon", qty: 1 },
+      { name: "Spicy Burger", qty: 1 },
+    ],
   },
   {
     table: "T3",
-    status: "Serve mains",
+    status: "Awaiting dessert",
     guests: 3,
     items: [
-      { name: "Spicy Burger", qty: 2 },
-      { name: "Caesar Salad", qty: 1 },
+      { name: "Tiramisu", qty: 2 },
+      { name: "Chocolate Cake", qty: 1 },
     ],
+  },
+  {
+    table: "T5",
+    status: "Awaiting drinks",
+    guests: 4,
+    items: [
+      { name: "Mango Shake", qty: 2 },
+      { name: "Iced Latte", qty: 2 },
+    ],
+  },
+  {
+    table: "T7",
+    status: "Placing order",
+    guests: 2,
+    items: [{ name: "Calamari Fritti", qty: 2 }],
   },
 ];
 
