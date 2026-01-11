@@ -132,8 +132,34 @@ export default function Pricing() {
           </p>
         </div>
 
-        {/* Spain Sales Contact */}
-        <div className="mt-12 max-w-2xl mx-auto">
+        {/* Regional Sales Contact */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {/* Netherlands Sales Contact */}
+          <Card className="bg-gradient-to-br from-orange-50 to-blue-50 border-orange-200">
+            <CardContent className="p-6">
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-orange-900 mb-2">
+                  🇳🇱 Pricing for Netherlands?
+                </h3>
+                <p className="text-orange-800 mb-4">
+                  For pricing and plans tailored to the Dutch market, please contact our Sales Director:
+                </p>
+                <div className="bg-white rounded-lg p-4 inline-block">
+                  <p className="font-semibold text-orange-900 text-lg">Syed Mujtaba Mahdi</p>
+                  <p className="text-orange-700 mt-1">
+                    <a
+                      href="tel:+31626108049"
+                      className="hover:underline font-semibold"
+                    >
+                      +31 62 610 80 49
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Spain Sales Contact */}
           <Card className="bg-gradient-to-br from-red-50 to-orange-50 border-red-200">
             <CardContent className="p-6">
               <div className="text-center">
