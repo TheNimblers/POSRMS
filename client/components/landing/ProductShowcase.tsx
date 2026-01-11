@@ -436,18 +436,36 @@ export default function ProductShowcase() {
 
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Top Items</div>
-                      <ul className="text-sm text-gray-600">
-                        {topItems.map((t) => (
-                          <li key={t.name} className="flex justify-between">
-                            {" "}
-                            <span>{t.name}</span>{" "}
-                            <span className="font-semibold">
-                              {t.sales}
-                            </span>{" "}
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="font-semibold mb-2">Revenue by Category</div>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Main Courses</span>
+                          <span className="font-semibold">$1,980</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Appetizers</span>
+                          <span className="font-semibold">$892</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Beverages</span>
+                          <span className="font-semibold">$654</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Desserts</span>
+                          <span className="font-semibold">$410</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="font-semibold mb-2">Peak Hours</div>
+                      <p className="text-sm text-gray-600">
+                        Lunch: 12:30 - 2:15 PM
+                        <br />
+                        Dinner: 7:00 - 9:45 PM
+                      </p>
                     </CardContent>
                   </Card>
                 </div>
