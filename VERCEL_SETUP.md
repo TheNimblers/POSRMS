@@ -8,24 +8,24 @@ The following environment variables **must be set in your Vercel project** for t
 
 ### Core Supabase Configuration
 
-| Variable Name | Value | Description |
-|---|---|---|
-| `VITE_SUPABASE_URL` | `https://gxqwtdafwtlbfsaaxhpb.supabase.co` | Your Supabase project URL |
-| `VITE_SUPABASE_ANON_KEY` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4cXd0ZGFmd3RsYmZzYWF4aHBiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgxNDY0OTYsImV4cCI6MjA4MzcyMjQ5Nn0.BtIOvlWs1fjiOZesmqiadcAirQKv2g5z1LV75DyPHZs` | Supabase anonymous key for frontend |
+| Variable Name               | Value                                                                                                                                                                                                                         | Description                                |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `VITE_SUPABASE_URL`         | `https://gxqwtdafwtlbfsaaxhpb.supabase.co`                                                                                                                                                                                    | Your Supabase project URL                  |
+| `VITE_SUPABASE_ANON_KEY`    | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4cXd0ZGFmd3RsYmZzYWF4aHBiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgxNDY0OTYsImV4cCI6MjA4MzcyMjQ5Nn0.BtIOvlWs1fjiOZesmqiadcAirQKv2g5z1LV75DyPHZs`            | Supabase anonymous key for frontend        |
 | `SUPABASE_SERVICE_ROLE_KEY` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4cXd0ZGFmd3RsYmZzYWF4aHBiIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2ODE0NjQ5NiwiZXhwIjoyMDgzNzIyNDk2fQ.8W1pDZ6KkYoWSCXvfPn43ZifbXKCNUCumbJYXRdZL4Y` | Supabase service role key for backend APIs |
 
 ### JWT Authentication
 
-| Variable Name | Suggested Value | Description |
-|---|---|---|
-| `JWT_SECRET` | `your-super-secret-jwt-key-change-this-in-production` | Secret key for signing JWT tokens - **MUST CHANGE IN PRODUCTION** |
-| `JWT_EXPIRES_IN` | `24h` | JWT token expiration time |
+| Variable Name    | Suggested Value                                       | Description                                                       |
+| ---------------- | ----------------------------------------------------- | ----------------------------------------------------------------- |
+| `JWT_SECRET`     | `your-super-secret-jwt-key-change-this-in-production` | Secret key for signing JWT tokens - **MUST CHANGE IN PRODUCTION** |
+| `JWT_EXPIRES_IN` | `24h`                                                 | JWT token expiration time                                         |
 
 ### Environment
 
-| Variable Name | Suggested Value | Description |
-|---|---|---|
-| `NODE_ENV` | `production` | Node environment |
+| Variable Name | Suggested Value | Description      |
+| ------------- | --------------- | ---------------- |
+| `NODE_ENV`    | `production`    | Node environment |
 
 ---
 
@@ -65,11 +65,13 @@ The following environment variables **must be set in your Vercel project** for t
 ### ⚠️ Important Security Notes
 
 **NEVER commit sensitive values to your repository:**
+
 - ❌ Don't add `SUPABASE_SERVICE_ROLE_KEY` to `.env` files
 - ❌ Don't add `JWT_SECRET` to code or version control
 - ✅ **Only use Vercel's Environment Variables UI**
 
 **For `JWT_SECRET` in Production:**
+
 - Generate a strong random secret
 - Example command: `openssl rand -hex 32`
 - Store it ONLY in Vercel, never in code
@@ -78,10 +80,12 @@ The following environment variables **must be set in your Vercel project** for t
 ### Variables That Are Safe in Code
 
 These variables can be safely committed to your repository (they're public):
+
 - `VITE_SUPABASE_URL` - Project URL (public)
 - `VITE_SUPABASE_ANON_KEY` - Anon key (public by design)
 
 Sensitive variables should ONLY be in Vercel:
+
 - `SUPABASE_SERVICE_ROLE_KEY` - Backend only
 - `JWT_SECRET` - Authentication secret
 
@@ -124,21 +128,25 @@ After deployment:
 ## Troubleshooting
 
 ### Build Fails with "Missing Supabase credentials"
+
 - **Solution**: Verify all three Supabase variables are set correctly
 - Check for typos in variable names
 - Ensure values don't have extra spaces
 
 ### API Returns "Unauthorized"
+
 - **Solution**: Check `JWT_SECRET` is set
 - Verify the JWT value hasn't been truncated
 
 ### Database Connection Errors
-- **Solution**: 
+
+- **Solution**:
   - Verify `SUPABASE_SERVICE_ROLE_KEY` is correct
   - Check Supabase project is active
   - Review Supabase logs for connection issues
 
 ### "Cannot find module" errors
+
 - **Solution**: All dependencies were removed correctly (no `better-sqlite3` or `mongodb`)
 - These caused issues in serverless environments
 
