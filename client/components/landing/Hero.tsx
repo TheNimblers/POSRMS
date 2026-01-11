@@ -67,16 +67,6 @@ export default function Hero() {
                 </Button>
               </Link>
             </div>
-
-            <div className="mt-6 flex items-center text-sm text-gray-500 gap-4">
-              <div className="flex items-center gap-2">
-                <QrCode className="h-4 w-4" /> Scan-free link:{" "}
-                <span className="ml-1 font-mono">/order?token=QR-T1</span>
-              </div>
-              <div className="hidden sm:flex items-center gap-2">
-                <Shield className="h-4 w-4" /> Role-based dashboards
-              </div>
-            </div>
           </div>
 
           <div>
