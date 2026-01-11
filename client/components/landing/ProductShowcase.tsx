@@ -5,22 +5,87 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const demoMenu = [
   {
-    category: "Burgers",
+    category: "Appetizers",
+    items: [
+      {
+        name: "Calamari Fritti",
+        price: 12.5,
+        desc: "Crispy squid, marinara, lemon aioli",
+      },
+      {
+        name: "Truffle Fries",
+        price: 9.0,
+        desc: "Golden fries, truffle oil, parmesan",
+      },
+      {
+        name: "Bruschetta",
+        price: 8.5,
+        desc: "Tomato, basil, garlic, olive oil",
+      },
+    ],
+  },
+  {
+    category: "Main Courses",
     items: [
       {
         name: "Spicy Burger",
-        price: 12.5,
+        price: 16.5,
         desc: "Smoked chili, cheddar, house sauce",
       },
       {
-        name: "Classic Cheeseburger",
-        price: 11.0,
-        desc: "Beef, cheddar, pickles, ketchup",
+        name: "Grilled Salmon",
+        price: 18.0,
+        desc: "Lemon butter, seasonal vegetables",
       },
       {
-        name: "Veggie Stack",
-        price: 10.0,
-        desc: "Grilled portobello, avocado, aioli",
+        name: "Pasta Carbonara",
+        price: 14.5,
+        desc: "Pecorino, guanciale, egg yolk",
+      },
+      {
+        name: "Classic Cheeseburger",
+        price: 14.0,
+        desc: "Prime beef, cheddar, pickles, ketchup",
+      },
+    ],
+  },
+  {
+    category: "Desserts",
+    items: [
+      {
+        name: "Tiramisu",
+        price: 7.5,
+        desc: "Mascarpone, espresso, cocoa",
+      },
+      {
+        name: "Chocolate Lava Cake",
+        price: 8.0,
+        desc: "Warm chocolate, vanilla ice cream",
+      },
+      {
+        name: "Panna Cotta",
+        price: 7.0,
+        desc: "Vanilla, berry coulis",
+      },
+    ],
+  },
+  {
+    category: "Beverages",
+    items: [
+      {
+        name: "Iced Latte",
+        price: 5.0,
+        desc: "Espresso, milk, ice",
+      },
+      {
+        name: "Mango Shake",
+        price: 6.5,
+        desc: "Fresh mango, yogurt, honey",
+      },
+      {
+        name: "Premium Wine",
+        price: 12.0,
+        desc: "Italian Pinot Grigio",
       },
     ],
   },
