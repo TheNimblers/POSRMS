@@ -14,6 +14,7 @@ export default defineConfig({
   },
   plugins: [react()],
   server: {
+    middlewareMode: false,
     proxy: {
       "/api": {
         target: "http://localhost:8080",
