@@ -22,7 +22,9 @@ export default function Pricing() {
           </p>
           <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg max-w-2xl mx-auto">
             <p className="text-sm text-amber-900">
-              <span className="font-semibold">📍 Pricing for Netherlands</span> — Prices shown are in EUR for the Netherlands. For pricing in Spain and other regions, please contact our sales director.
+              <span className="font-semibold">📍 Pricing for Netherlands</span>{" "}
+              — Prices shown are in EUR for the Netherlands. For pricing in
+              Spain and other regions, please contact our sales director.
             </p>
           </div>
         </div>
@@ -142,10 +144,13 @@ export default function Pricing() {
                   🇳🇱 Pricing for Netherlands?
                 </h3>
                 <p className="text-orange-800 mb-4">
-                  For pricing and plans tailored to the Dutch market, please contact our Sales Director:
+                  For pricing and plans tailored to the Dutch market, please
+                  contact our Sales Director:
                 </p>
                 <div className="bg-white rounded-lg p-4 inline-block">
-                  <p className="font-semibold text-orange-900 text-lg">Syed Mujtaba Mahdi</p>
+                  <p className="font-semibold text-orange-900 text-lg">
+                    Syed Mujtaba Mahdi
+                  </p>
                   <p className="text-orange-700 mt-1">
                     <a
                       href="tel:+31626108049"
@@ -167,10 +172,13 @@ export default function Pricing() {
                   🇪🇸 Pricing for Spain?
                 </h3>
                 <p className="text-red-800 mb-4">
-                  For pricing and plans tailored to the Spanish market, please contact our Sales Director:
+                  For pricing and plans tailored to the Spanish market, please
+                  contact our Sales Director:
                 </p>
                 <div className="bg-white rounded-lg p-4 inline-block">
-                  <p className="font-semibold text-red-900 text-lg">Usman Ghani</p>
+                  <p className="font-semibold text-red-900 text-lg">
+                    Usman Ghani
+                  </p>
                   <p className="text-red-700 mt-1">
                     <a
                       href="tel:+34612299122"
