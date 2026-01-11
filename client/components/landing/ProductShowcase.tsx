@@ -589,43 +589,81 @@ export default function ProductShowcase() {
 
             <TabsContent value="manager" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img
-                    src="/demos/manager.svg"
-                    alt="Manager demo"
-                    className="w-full h-96 object-cover rounded-md"
-                  />
+                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-gradient-to-br from-purple-50 to-blue-50 p-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                      <TrendingUp className="h-5 w-5 text-purple-600" />
+                      Today's Dashboard
+                    </h3>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      {/* Revenue Card */}
+                      <div className="bg-white rounded-lg border border-purple-200 p-4">
+                        <p className="text-sm text-gray-600 mb-1">Total Revenue</p>
+                        <p className="text-3xl font-bold text-purple-600">
+                          $4,240
+                        </p>
+                        <p className="text-xs text-green-600 mt-1">
+                          ↑ 12% vs yesterday
+                        </p>
+                      </div>
+
+                      {/* Orders Card */}
+                      <div className="bg-white rounded-lg border border-blue-200 p-4">
+                        <p className="text-sm text-gray-600 mb-1">Total Orders</p>
+                        <p className="text-3xl font-bold text-blue-600">187</p>
+                        <p className="text-xs text-green-600 mt-1">
+                          ↑ 8% vs yesterday
+                        </p>
+                      </div>
+
+                      {/* Avg Bill Card */}
+                      <div className="bg-white rounded-lg border border-orange-200 p-4">
+                        <p className="text-sm text-gray-600 mb-1">Avg Bill</p>
+                        <p className="text-3xl font-bold text-orange-600">
+                          $22.68
+                        </p>
+                        <p className="text-xs text-green-600 mt-1">
+                          ↑ 5% vs yesterday
+                        </p>
+                      </div>
+
+                      {/* Covers Card */}
+                      <div className="bg-white rounded-lg border border-green-200 p-4">
+                        <p className="text-sm text-gray-600 mb-1">Covers</p>
+                        <p className="text-3xl font-bold text-green-600">34</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          8:30 AM - 4:45 PM
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg border p-4">
+                      <h4 className="font-semibold mb-3">Top 3 Items Today</h4>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between items-center">
+                          <span>🥇 Grilled Salmon</span>
+                          <span className="font-semibold">42 sold</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span>🥈 Spicy Burger</span>
+                          <span className="font-semibold">38 sold</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span>🥉 Truffle Fries</span>
+                          <span className="font-semibold">35 sold</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-3">
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">
-                        Today's Performance
+                      <div className="font-semibold mb-2 flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                        Restaurant Status
                       </div>
-                      <div className="grid grid-cols-2 gap-3 text-sm space-y-2">
-                        <div>
-                          <div className="text-gray-500">Revenue</div>
-                          <div className="font-semibold text-lg">$4,240</div>
-                        </div>
-                        <div>
-                          <div className="text-gray-500">Orders</div>
-                          <div className="font-semibold text-lg">187</div>
-                        </div>
-                        <div>
-                          <div className="text-gray-500">Avg Bill</div>
-                          <div className="font-semibold text-lg">$22.68</div>
-                        </div>
-                        <div>
-                          <div className="text-gray-500">Covers</div>
-                          <div className="font-semibold text-lg">34</div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Status</div>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-gray-500">Tables Open</span>
@@ -642,6 +680,25 @@ export default function ProductShowcase() {
                           </span>
                         </div>
                       </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="font-semibold mb-2">Peak Hours</div>
+                      <p className="text-sm text-gray-600">
+                        Lunch: 12:30 - 2:15 PM
+                        <br />
+                        Dinner: 7:00 - 9:45 PM
+                      </p>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4">
+                      <button className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg py-2 text-sm font-medium">
+                        📊 View Full Reports
+                      </button>
                     </CardContent>
                   </Card>
                 </div>
