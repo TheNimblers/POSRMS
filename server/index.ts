@@ -43,6 +43,7 @@ export async function createServer() {
   const supabaseOrders = await import("./routes/supabaseOrders");
   const supabaseTables = await import("./routes/supabaseTables");
   const supabaseMenu = await import("./routes/supabaseMenu");
+  const seed = await import("./routes/seed");
 
   // ===== AUTH ROUTES =====
   // Public
