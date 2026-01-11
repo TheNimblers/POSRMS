@@ -162,8 +162,16 @@ export const handleProfile: RequestHandler = async (req, res) => {
   try {
     const userId = (req as any).user?.userId;
     const db = getMongoDb();
-    if (!db)
-      return res.status(500).json({ success: false, error: "DB not ready" });
+
+    // If database is not available, use demo accounts
+    if (!db) {
+      const demoUser = DEMO_ACCOUNTS.find((u) => u.id === userId);
+      if (!demoUser)
+        return res.status(404).json({ success: false, error: "User not found" });
+
+      const { password: _, ...userWithoutPassword } = demoUser;
+      return res.json({ success: true, data: userWithoutPassword });
+    }
 
     const user = await db
       .collection("staff")
