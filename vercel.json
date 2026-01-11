@@ -1,7 +1,7 @@
 {
   "version": 2,
   "framework": "vite",
-  "buildCommand": "pnpm build:client",
+  "buildCommand": "rm -rf dist && pnpm build:client",
   "outputDirectory": "dist/spa",
   "installCommand": "pnpm install --no-frozen-lockfile",
   "env": {
