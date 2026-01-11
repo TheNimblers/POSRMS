@@ -11,9 +11,8 @@
     ]
   },
   "scripts": {
-    "dev": "vite",
-    "dev:full": "concurrently \"pnpm dev:backend\" \"pnpm dev:frontend\"",
-    "dev:frontend": "vite",
+    "dev": "pnpm build:server && concurrently \"PORT=8080 node dist/server/node-build.mjs\" \"vite\"",
+    "dev:frontend-only": "vite",
     "dev:backend": "pnpm build:server && PORT=8080 node dist/server/node-build.mjs",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --config vite.config.mjs",
