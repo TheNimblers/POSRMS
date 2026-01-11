@@ -5,6 +5,8 @@ import { fileURLToPath } from "url";
 import { createServer as createAppServer } from "./index";
 import { webSocketManager } from "./websocket";
 
+// Main entry point
+async function main() {
 // Create app/http server (WebSocket is initialized inside createServer)
 const { app, server } = await createAppServer();
 
@@ -95,4 +97,11 @@ process.on("SIGTERM", () => {
 process.on("SIGINT", () => {
   console.log("🛑 Received SIGINT, shutting down gracefully");
   process.exit(0);
+});
+}
+
+// Call main function
+main().catch((error) => {
+  console.error("Fatal error during server startup:", error);
+  process.exit(1);
 });
