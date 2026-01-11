@@ -102,7 +102,7 @@ async function seedData() {
     // Seed staff accounts
     const staffAccounts: StaffSeed[] = [
       {
-        id: "waiter1-00000000-0000-0000-0000-000000000001",
+        id: uuidv4(),
         username: "waiter1",
         password: "password",
         role: "waiter",
@@ -112,7 +112,7 @@ async function seedData() {
         permissions: ["view_tables", "manage_orders", "update_order_status"],
       },
       {
-        id: "kitchen1-0000000-0000-0000-0000-000000000001",
+        id: uuidv4(),
         username: "kitchen1",
         password: "password",
         role: "kitchen",
@@ -122,7 +122,7 @@ async function seedData() {
         permissions: ["view_food_orders", "update_food_status"],
       },
       {
-        id: "bar1-0000000-0000-0000-0000-000000000001",
+        id: uuidv4(),
         username: "bar1",
         password: "password",
         role: "bar",
@@ -132,7 +132,7 @@ async function seedData() {
         permissions: ["view_drink_orders", "update_drink_status"],
       },
       {
-        id: "manager1-0000000-0000-0000-0000-000000000001",
+        id: uuidv4(),
         username: "manager1",
         password: "password",
         role: "manager",
@@ -148,7 +148,7 @@ async function seedData() {
         ],
       },
       {
-        id: "admin1-0000000-0000-0000-0000-000000000001",
+        id: uuidv4(),
         username: "admin1",
         password: "password",
         role: "admin",
@@ -158,7 +158,7 @@ async function seedData() {
         permissions: ["full_access"],
       },
       {
-        id: "team1-0000000-0000-0000-0000-000000000001",
+        id: uuidv4(),
         username: "team1",
         password: "password",
         role: "team",
@@ -171,7 +171,7 @@ async function seedData() {
         ],
       },
       {
-        id: "bajwa-waiter-1001-0000000-0000-000000000",
+        id: uuidv4(),
         username: "BW1001",
         password: "BW1001",
         role: "waiter",
@@ -180,7 +180,7 @@ async function seedData() {
         permissions: ["view_tables", "manage_orders", "update_order_status"],
       },
       {
-        id: "bajwa-kitchen-000-0000000-0000-000000000",
+        id: uuidv4(),
         username: "BajwaKitchen",
         password: "BK-2025",
         role: "kitchen",
@@ -189,7 +189,7 @@ async function seedData() {
         permissions: ["view_food_orders", "update_food_status"],
       },
       {
-        id: "bajwa-manager-000-0000000-0000-000000000",
+        id: uuidv4(),
         username: "BajwaManager",
         password: "BM-2025",
         role: "manager",
