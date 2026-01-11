@@ -387,7 +387,7 @@ function getPermissionsByRole(role: string): string[] {
 
 // Middleware to check permissions
 export const requirePermission = (permission: string): RequestHandler => {
-  return (req, res, next) => {
+  return async (req, res, next) => {
     const user = (req as any).user;
 
     if (!user) {
@@ -397,20 +397,25 @@ export const requirePermission = (permission: string): RequestHandler => {
       } as ApiResponse);
     }
 
-    // Get user permissions from database
-    const userData = db.queryOne(
-      "SELECT permissions FROM staff WHERE id = ? AND status = ?",
-      [user.userId, "active"],
-    ) as { permissions: string } | undefined;
+    // Get user permissions from Supabase
+    const { data: users, error } = await supabase
+      .from("staff")
+      .select("permissions")
+      .eq("id", user.userId)
+      .eq("status", "active")
+      .limit(1);
 
-    if (!userData) {
+    if (error || !users || users.length === 0) {
       return res.status(404).json({
         success: false,
         error: "User not found",
       } as ApiResponse);
     }
 
-    const permissions = JSON.parse(userData.permissions || "[]");
+    const userData = users[0];
+    const permissions = Array.isArray(userData.permissions)
+      ? userData.permissions
+      : [];
 
     if (
       permissions.includes("full_access") ||
