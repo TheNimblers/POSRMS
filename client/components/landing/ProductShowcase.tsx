@@ -521,9 +521,7 @@ export default function ProductShowcase() {
                             <h4 className="font-semibold text-gray-900">
                               Order #2845 - Table 5
                             </h4>
-                            <p className="text-sm text-gray-600">
-                              📍 Pass
-                            </p>
+                            <p className="text-sm text-gray-600">📍 Pass</p>
                           </div>
                           <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">
                             ✓ READY
@@ -562,11 +560,15 @@ export default function ProductShowcase() {
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-500">Preparing</span>
-                          <span className="font-semibold text-yellow-600">4</span>
+                          <span className="font-semibold text-yellow-600">
+                            4
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-500">Ready</span>
-                          <span className="font-semibold text-green-600">3</span>
+                          <span className="font-semibold text-green-600">
+                            3
+                          </span>
                         </div>
                       </div>
                     </CardContent>
@@ -599,7 +601,9 @@ export default function ProductShowcase() {
                     <div className="grid grid-cols-2 gap-3">
                       {/* Revenue Card */}
                       <div className="bg-white rounded-lg border border-purple-200 p-4">
-                        <p className="text-sm text-gray-600 mb-1">Total Revenue</p>
+                        <p className="text-sm text-gray-600 mb-1">
+                          Total Revenue
+                        </p>
                         <p className="text-3xl font-bold text-purple-600">
                           $4,240
                         </p>
@@ -610,7 +614,9 @@ export default function ProductShowcase() {
 
                       {/* Orders Card */}
                       <div className="bg-white rounded-lg border border-blue-200 p-4">
-                        <p className="text-sm text-gray-600 mb-1">Total Orders</p>
+                        <p className="text-sm text-gray-600 mb-1">
+                          Total Orders
+                        </p>
                         <p className="text-3xl font-bold text-blue-600">187</p>
                         <p className="text-xs text-green-600 mt-1">
                           ↑ 8% vs yesterday
