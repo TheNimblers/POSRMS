@@ -128,9 +128,11 @@ const waiterTables = [
 ];
 
 const topItems = [
-  { name: "Spicy Burger", sales: 128, revenue: 1600 },
-  { name: "Truffle Fries", sales: 210, revenue: 1260 },
-  { name: "Iced Latte", sales: 180, revenue: 720 },
+  { name: "Spicy Burger", sales: 156, revenue: 2574 },
+  { name: "Grilled Salmon", sales: 98, revenue: 1764 },
+  { name: "Truffle Fries", sales: 234, revenue: 2106 },
+  { name: "Iced Latte", sales: 201, revenue: 1005 },
+  { name: "Pasta Carbonara", sales: 142, revenue: 2059 },
 ];
 
 export default function ProductShowcase() {
