@@ -35,24 +35,25 @@ export const handleLogin: RequestHandler = async (req, res) => {
   try {
     const { username, password } = loginSchema.parse(req.body);
 
-    // Find user in database
-    const user = db.queryOne(
-      "SELECT * FROM staff WHERE username = ? AND status = ?",
-      [username, "active"],
-    ) as Staff | undefined;
+    // Find user in Supabase
+    const { data: users, error: queryError } = await supabase
+      .from("staff")
+      .select("*")
+      .eq("username", username)
+      .eq("status", "active")
+      .limit(1);
 
-    if (!user) {
+    if (queryError || !users || users.length === 0) {
       return res.status(401).json({
         success: false,
         error: "Invalid credentials",
       } as ApiResponse);
     }
 
+    const user = users[0] as Staff;
+
     // Verify password
-    const isPasswordValid = await db.comparePassword(
-      password,
-      user.password_hash,
-    );
+    const isPasswordValid = bcryptjs.compareSync(password, user.password_hash);
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
@@ -61,9 +62,10 @@ export const handleLogin: RequestHandler = async (req, res) => {
     }
 
     // Update last login
-    db.execute("UPDATE staff SET last_login = CURRENT_TIMESTAMP WHERE id = ?", [
-      user.id,
-    ]);
+    await supabase
+      .from("staff")
+      .update({ last_login: new Date().toISOString() })
+      .eq("id", user.id);
 
     // Generate JWT token
     const token = jwt.sign(
