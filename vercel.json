@@ -1,7 +1,15 @@
 {
   "version": 2,
   "framework": "vite",
-  "installCommand": "pnpm install --no-frozen-lockfile",
   "buildCommand": "pnpm build:client",
-  "outputDirectory": "dist/spa"
+  "outputDirectory": "dist/spa",
+  "installCommand": "pnpm install --no-frozen-lockfile",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "env_disabled": {
+    "MONGODB_URI": {
+      "description": "MongoDB connection (deprecated - using Supabase instead)"
+    }
+  }
 }
