@@ -2,6 +2,14 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  ShoppingCart,
+  Clock,
+  ChefHat,
+  TrendingUp,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 
 const demoMenu = [
   {
