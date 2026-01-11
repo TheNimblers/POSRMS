@@ -20,6 +20,11 @@ export default function Pricing() {
             <span className="font-semibold"> 1.9%</span>. Choose the plan that
             fits your restaurant — scale anytime.
           </p>
+          <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg max-w-2xl mx-auto">
+            <p className="text-sm text-amber-900">
+              <span className="font-semibold">📍 Pricing for Netherlands</span> — Prices shown are in EUR for the Netherlands. For pricing in Spain and other regions, please contact our sales director.
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
