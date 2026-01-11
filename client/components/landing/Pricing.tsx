@@ -131,6 +131,33 @@ export default function Pricing() {
             Simple Scaling — upgrade or downgrade anytime.
           </p>
         </div>
+
+        {/* Spain Sales Contact */}
+        <div className="mt-12 max-w-2xl mx-auto">
+          <Card className="bg-gradient-to-br from-red-50 to-orange-50 border-red-200">
+            <CardContent className="p-6">
+              <div className="text-center">
+                <h3 className="text-xl font-bold text-red-900 mb-2">
+                  🇪🇸 Pricing for Spain?
+                </h3>
+                <p className="text-red-800 mb-4">
+                  For pricing and plans tailored to the Spanish market, please contact our Sales Director:
+                </p>
+                <div className="bg-white rounded-lg p-4 inline-block">
+                  <p className="font-semibold text-red-900 text-lg">Usman Ghani</p>
+                  <p className="text-red-700 mt-1">
+                    <a
+                      href="tel:+34612299122"
+                      className="hover:underline font-semibold"
+                    >
+                      +34 612 29 91 22
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </section>
   );
