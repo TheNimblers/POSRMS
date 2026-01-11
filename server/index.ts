@@ -22,17 +22,11 @@ export async function createServer() {
 
   // Health check
   app.get("/api/health", (_req, res) => {
-    const useMongoOnly = process.env.USE_MONGODB_ONLY === "true";
     res.json({
       status: "healthy",
       timestamp: new Date().toISOString(),
-      database: useMongoOnly ? undefined : "connected",
+      database: "supabase",
       websocket: "active",
-      mongo: useMongoOnly
-        ? getMongoDb()
-          ? "connected"
-          : "disconnected"
-        : "disabled",
     });
   });
 
@@ -44,268 +38,37 @@ export async function createServer() {
 
   app.get("/api/demo", handleDemo);
 
-  // === ROUTES ===
-  const mongoOnly = process.env.USE_MONGODB_ONLY === "true";
-  if (mongoOnly) {
-    const mongoAuth = await import("./routes/mongoAuth");
-    const mongoPublic = await import("./routes/mongoPublic");
-    const mongoMenu = await import("./routes/mongoMenu");
+  // === SUPABASE ROUTES ===
+  const supabaseAuth = await import("./routes/supabaseAuth");
 
-    // Public
-    app.post("/api/auth/login", mongoAuth.handleLogin);
-    app.post("/api/auth/logout", mongoAuth.handleLogout);
+  // Public Routes
+  app.post("/api/auth/login", supabaseAuth.handleLogin);
+  app.post("/api/auth/logout", supabaseAuth.handleLogout);
 
-    app.get("/api/menu/public", mongoPublic.handleGetPublicMenu);
-    app.get(
-      "/api/sessions/public/summary",
-      mongoPublic.handleGetPublicSessionSummary,
-    );
-    app.post(
-      "/api/sessions/public/start",
-      mongoPublic.handleStartPublicSession,
-    );
-    app.post("/api/orders/public", mongoPublic.handleCreatePublicOrder);
-    app.post(
-      "/api/tables/public/call-waiter",
-      mongoPublic.handlePublicCallWaiter,
-    );
-    app.post(
-      "/api/tables/public/request-payment",
-      mongoPublic.handlePublicRequestPayment,
-    );
+  // Protected Routes
+  app.get(
+    "/api/auth/profile",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.handleProfile
+  );
 
-    // Protected (basic profile)
-    app.get(
-      "/api/auth/profile",
-      mongoAuth.authenticateToken,
-      mongoAuth.handleProfile,
-    );
-
-    app.get(
-      "/api/menu",
-      mongoAuth.authenticateToken,
-      mongoMenu.handleGetMenuItems,
-    );
-    app.post(
-      "/api/menu",
-      mongoAuth.authenticateToken,
-      mongoAuth.requirePermission("manage_menu"),
-      mongoMenu.handleCreateMenuItem,
-    );
-    app.get(
-      "/api/menu/categories",
-      mongoAuth.authenticateToken,
-      mongoMenu.handleGetCategories,
-    );
-    app.put(
-      "/api/menu/:itemId",
-      mongoAuth.authenticateToken,
-      mongoAuth.requirePermission("manage_menu"),
-      mongoMenu.handleUpdateMenuItem,
-    );
-    app.put(
-      "/api/menu/:itemId/toggle",
-      mongoAuth.authenticateToken,
-      mongoAuth.requirePermission("manage_menu"),
-      mongoMenu.handleToggleAvailability,
-    );
-    app.delete(
-      "/api/menu/:itemId",
-      mongoAuth.authenticateToken,
-      mongoAuth.requirePermission("manage_menu"),
-      mongoMenu.handleDeleteMenuItem,
-    );
-  } else {
-    const auth = await import("./routes/auth");
-    const orders = await import("./routes/orders");
-    const tables = await import("./routes/tables");
-    const menu = await import("./routes/menu");
-    const pub = await import("./routes/public");
-
-    // Public
-    app.post("/api/auth/login", auth.handleLogin);
-    app.post("/api/auth/logout", auth.handleLogout);
-
-    app.get("/api/menu/public", menu.handleGetPublicMenu);
-    app.get("/api/sessions/public/summary", pub.handleGetPublicSessionSummary);
-    app.post("/api/sessions/public/start", pub.handleStartPublicSession);
-    app.post("/api/orders/public", pub.handleCreatePublicOrder);
-    app.post("/api/tables/public/call-waiter", pub.handlePublicCallWaiter);
-    app.post(
-      "/api/tables/public/request-payment",
-      pub.handlePublicRequestPayment,
-    );
-
-    // Protected
-    app.get("/api/auth/profile", auth.authenticateToken, auth.handleProfile);
-    app.put(
-      "/api/auth/password",
-      auth.authenticateToken,
-      auth.handleUpdatePassword,
-    );
-    app.post(
-      "/api/auth/register",
-      auth.authenticateToken,
-      auth.requirePermission("manage_staff"),
-      auth.handleRegister,
-    );
-
-    app.post("/api/orders", auth.authenticateToken, orders.handleCreateOrder);
-    app.get("/api/orders", auth.authenticateToken, orders.handleGetOrders);
-    app.get(
-      "/api/orders/analytics",
-      auth.authenticateToken,
-      auth.requirePermission("view_analytics"),
-      orders.handleGetOrderAnalytics,
-    );
-    app.get(
-      "/api/orders/:orderId",
-      auth.authenticateToken,
-      orders.handleGetOrder,
-    );
-    app.put(
-      "/api/orders/:orderId/status",
-      auth.authenticateToken,
-      orders.handleUpdateOrderStatus,
-    );
-    app.delete(
-      "/api/orders/:orderId",
-      auth.authenticateToken,
-      auth.requirePermission("full_access"),
-      orders.handleDeleteOrder,
-    );
-
-    app.post(
-      "/api/sessions/:sessionId/pay",
-      auth.authenticateToken,
-      auth.requirePermission("manage_orders"),
-      (await import("./routes/orders")).handleMarkSessionPaid,
-    );
-
-    app.get(
-      "/api/tables",
-      auth.authenticateToken,
-      auth.requirePermission("view_tables"),
-      tables.handleGetTables,
-    );
-    app.post(
-      "/api/tables",
-      auth.authenticateToken,
-      auth.requirePermission("manage_staff"),
-      tables.handleCreateTable,
-    );
-    app.get(
-      "/api/tables/qr-codes",
-      auth.authenticateToken,
-      auth.requirePermission("view_tables"),
-      tables.handleGetTableQRCodes,
-    );
-    app.get(
-      "/api/tables/:tableId",
-      auth.authenticateToken,
-      auth.requirePermission("view_tables"),
-      tables.handleGetTable,
-    );
-    app.put(
-      "/api/tables/:tableId",
-      auth.authenticateToken,
-      auth.requirePermission("manage_staff"),
-      tables.handleUpdateTable,
-    );
-    app.put(
-      "/api/tables/:tableId/assign",
-      auth.authenticateToken,
-      auth.requirePermission("view_tables"),
-      tables.handleAssignWaiter,
-    );
-    app.post(
-      "/api/tables/:tableId/qr",
-      auth.authenticateToken,
-      auth.requirePermission("manage_staff"),
-      tables.handleGenerateQR,
-    );
-    app.delete(
-      "/api/tables/:tableId",
-      auth.authenticateToken,
-      auth.requirePermission("full_access"),
-      tables.handleDeleteTable,
-    );
-
-    app.get("/api/menu", auth.authenticateToken, menu.handleGetMenuItems);
-    app.post(
-      "/api/menu",
-      auth.authenticateToken,
-      auth.requirePermission("manage_menu"),
-      menu.handleCreateMenuItem,
-    );
-    app.get(
-      "/api/menu/categories",
-      auth.authenticateToken,
-      menu.handleGetCategories,
-    );
-    app.get(
-      "/api/menu/:itemId",
-      auth.authenticateToken,
-      menu.handleGetMenuItem,
-    );
-    app.put(
-      "/api/menu/:itemId",
-      auth.authenticateToken,
-      auth.requirePermission("manage_menu"),
-      menu.handleUpdateMenuItem,
-    );
-    app.put(
-      "/api/menu/:itemId/toggle",
-      auth.authenticateToken,
-      auth.requirePermission("manage_menu"),
-      menu.handleToggleAvailability,
-    );
-    app.delete(
-      "/api/menu/:itemId",
-      auth.authenticateToken,
-      auth.requirePermission("full_access"),
-      menu.handleDeleteMenuItem,
-    );
-  }
+  // Placeholder for additional routes (orders, tables, menu)
+  // These can be added as needed with proper Supabase integration
 
   // WebSocket management routes
-  if (mongoOnly) {
-    const { authenticateToken: mongoAuthMiddleware } = await import(
-      "./routes/mongoAuth"
-    );
+  app.get("/api/websocket/stats", supabaseAuth.authenticateToken, (_req, res) => {
+    const stats = webSocketManager.getStats();
+    res.json({ success: true, data: stats });
+  });
 
-    app.get("/api/websocket/stats", mongoAuthMiddleware, (_req, res) => {
-      const stats = webSocketManager.getStats();
-      res.json({ success: true, data: stats });
-    });
-
-    app.get("/api/websocket/clients", mongoAuthMiddleware, (_req, res) => {
+  app.get(
+    "/api/websocket/clients",
+    supabaseAuth.authenticateToken,
+    (_req, res) => {
       const clients = webSocketManager.getConnectedClients();
       res.json({ success: true, data: { clients } });
-    });
-  } else {
-    const auth = await import("./routes/auth");
-
-    app.get(
-      "/api/websocket/stats",
-      auth.authenticateToken,
-      auth.requirePermission("view_analytics"),
-      (_req, res) => {
-        const stats = webSocketManager.getStats();
-        res.json({ success: true, data: stats });
-      },
-    );
-
-    app.get(
-      "/api/websocket/clients",
-      auth.authenticateToken,
-      auth.requirePermission("view_analytics"),
-      (_req, res) => {
-        const clients = webSocketManager.getConnectedClients();
-        res.json({ success: true, data: { clients } });
-      },
-    );
-  }
+    }
+  );
 
   // Error handling middleware
   app.use(
@@ -324,7 +87,7 @@ export async function createServer() {
             ? err.message
             : "Something went wrong",
       });
-    },
+    }
   );
 
   // 404 handler for API routes
@@ -337,7 +100,8 @@ export async function createServer() {
 
   // Graceful shutdown
   process.on("SIGTERM", async () => {
-    await closeMongo();
+    console.log("🛑 Received SIGTERM, shutting down gracefully");
+    process.exit(0);
   });
 
   return { app, server };
