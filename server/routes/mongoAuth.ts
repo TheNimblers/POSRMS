@@ -197,8 +197,26 @@ export const requirePermission = (permission: string): RequestHandler => {
     }
 
     const db = getMongoDb();
-    if (!db)
-      return res.status(500).json({ success: false, error: "DB not ready" });
+
+    // If database is not available, use demo accounts
+    if (!db) {
+      const demoUser = DEMO_ACCOUNTS.find((u) => u.id === authUser.userId);
+      if (!demoUser) {
+        return res.status(404).json({ success: false, error: "User not found" });
+      }
+
+      const permissions = demoUser.permissions || [];
+      if (
+        permissions.includes("full_access") ||
+        permissions.includes(permission)
+      ) {
+        return next();
+      }
+
+      return res
+        .status(403)
+        .json({ success: false, error: "Insufficient permissions" });
+    }
 
     const staff = await db.collection("staff").findOne(
       { id: authUser.userId, status: "active" },
