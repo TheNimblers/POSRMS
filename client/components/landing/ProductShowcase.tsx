@@ -329,12 +329,87 @@ export default function ProductShowcase() {
 
             <TabsContent value="waiter" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img
-                    src="/demos/waiter.svg"
-                    alt="Waiter demo"
-                    className="w-full h-96 object-cover rounded-md"
-                  />
+                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-gradient-to-br from-blue-50 to-cyan-50 p-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                      <Clock className="h-5 w-5 text-blue-600" />
+                      Open Tables - Manage Service
+                    </h3>
+
+                    <div className="grid gap-3">
+                      {/* Table T1 */}
+                      <div className="bg-white rounded-lg border-l-4 border-green-500 p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Table 1
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              2 guests • 45 min
+                            </p>
+                          </div>
+                          <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">
+                            ✓ Ready to Serve
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          Salmon + Burger ready from kitchen
+                        </p>
+                      </div>
+
+                      {/* Table T3 */}
+                      <div className="bg-white rounded-lg border-l-4 border-yellow-500 p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Table 3
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              3 guests • 28 min
+                            </p>
+                          </div>
+                          <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
+                            🕐 Waiting Drinks
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          2x Iced Latte, 1x Mango Shake pending
+                        </p>
+                      </div>
+
+                      {/* Table T5 */}
+                      <div className="bg-white rounded-lg border-l-4 border-orange-500 p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Table 5
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              4 guests • 15 min
+                            </p>
+                          </div>
+                          <span className="bg-orange-100 text-orange-800 text-xs font-semibold px-2 py-1 rounded">
+                            🍽️ Eating
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          Dessert order ready soon
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 pt-2 border-t">
+                      <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2 text-sm font-medium">
+                        📋 New Order
+                      </button>
+                      <button className="bg-purple-600 hover:bg-purple-700 text-white rounded-lg py-2 text-sm font-medium">
+                        🧾 Split Bill
+                      </button>
+                      <button className="bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 text-sm font-medium">
+                        ✓ Complete
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-3">
                   <Card>
