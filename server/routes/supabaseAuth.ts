@@ -23,13 +23,17 @@ export const handleLogin: RequestHandler = async (req, res) => {
       .single();
 
     if (error || !user) {
-      return res.status(401).json({ success: false, error: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid credentials" });
     }
 
     // Compare passwords
     const isPasswordValid = bcrypt.compareSync(password, user.password_hash);
     if (!isPasswordValid) {
-      return res.status(401).json({ success: false, error: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid credentials" });
     }
 
     // Update last login
@@ -47,7 +51,7 @@ export const handleLogin: RequestHandler = async (req, res) => {
         restaurantId: user.restaurant_id,
       },
       JWT_SECRET,
-      { expiresIn: JWT_EXPIRES_IN }
+      { expiresIn: JWT_EXPIRES_IN },
     );
 
     // Remove password hash from response
@@ -90,7 +94,9 @@ export const handleProfile: RequestHandler = async (req, res) => {
 
     const { data: user, error } = await supabase
       .from("staff")
-      .select("id, username, role, name, email, restaurant_id, permissions, status, created_at")
+      .select(
+        "id, username, role, name, email, restaurant_id, permissions, status, created_at",
+      )
       .eq("id", userId)
       .eq("status", "active")
       .single();
@@ -123,16 +129,25 @@ export const requirePermission = (permission: string): RequestHandler => {
         .single();
 
       if (error || !staff) {
-        return res.status(404).json({ success: false, error: "User not found" });
+        return res
+          .status(404)
+          .json({ success: false, error: "User not found" });
       }
 
-      const permissions = Array.isArray(staff.permissions) ? staff.permissions : [];
+      const permissions = Array.isArray(staff.permissions)
+        ? staff.permissions
+        : [];
 
-      if (permissions.includes("full_access") || permissions.includes(permission)) {
+      if (
+        permissions.includes("full_access") ||
+        permissions.includes(permission)
+      ) {
         return next();
       }
 
-      return res.status(403).json({ success: false, error: "Insufficient permissions" });
+      return res
+        .status(403)
+        .json({ success: false, error: "Insufficient permissions" });
     } catch (error) {
       console.error("Permission check error:", error);
       res.status(500).json({ success: false, error: "Internal server error" });
@@ -146,7 +161,7 @@ export async function hashPassword(password: string): Promise<string> {
 
 export async function comparePassword(
   password: string,
-  hash: string
+  hash: string,
 ): Promise<boolean> {
   return bcrypt.compareSync(password, hash);
 }

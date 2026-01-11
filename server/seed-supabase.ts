@@ -49,7 +49,10 @@ async function seedData() {
 
   try {
     // Check connection
-    const { error: testError } = await supabase.from("restaurants").select("id").limit(1);
+    const { error: testError } = await supabase
+      .from("restaurants")
+      .select("id")
+      .limit(1);
     if (testError) {
       throw new Error(`Supabase connection failed: ${testError.message}`);
     }
@@ -212,12 +215,10 @@ async function seedData() {
       password: undefined,
     }));
 
-    const { error: staffError } = await supabase
-      .from("staff")
-      .upsert(
-        staffWithHashes.map(({ password, ...rest }) => rest),
-        { onConflict: "username" }
-      );
+    const { error: staffError } = await supabase.from("staff").upsert(
+      staffWithHashes.map(({ password, ...rest }) => rest),
+      { onConflict: "username" },
+    );
 
     if (staffError) {
       console.error("❌ Error inserting staff:", staffError);
@@ -277,7 +278,8 @@ async function seedData() {
       currency: "EUR",
       available: true,
       special: item.category === "main",
-      preparation_time: item.category === "main" ? 25 : item.category === "starter" ? 10 : 3,
+      preparation_time:
+        item.category === "main" ? 25 : item.category === "starter" ? 10 : 3,
       ...item,
     }));
 

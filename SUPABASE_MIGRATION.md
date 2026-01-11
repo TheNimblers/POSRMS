@@ -35,6 +35,7 @@ pnpm seed:supabase
 ```
 
 This will create demo accounts with properly hashed passwords:
+
 - **waiter1** / password
 - **kitchen1** / password
 - **bar1** / password
@@ -52,6 +53,7 @@ The server currently uses MongoDB auth. We need to switch to Supabase auth:
 2. Change the auth routes import to use Supabase instead of Mongo
 
 Replace:
+
 ```typescript
 const mongoOnly = process.env.USE_MONGODB_ONLY === "true";
 if (mongoOnly) {
@@ -61,6 +63,7 @@ if (mongoOnly) {
 ```
 
 With:
+
 ```typescript
 const supabaseAuth = await import("./routes/supabaseAuth");
 
@@ -72,7 +75,7 @@ app.post("/api/auth/logout", supabaseAuth.handleLogout);
 app.get(
   "/api/auth/profile",
   supabaseAuth.authenticateToken,
-  supabaseAuth.handleProfile
+  supabaseAuth.handleProfile,
 );
 ```
 
@@ -83,12 +86,14 @@ Update all routes that query the database to use Supabase instead of MongoDB:
 **Example pattern:**
 
 **Old (MongoDB):**
+
 ```typescript
 const db = getMongoDb();
 const user = await db.collection("staff").findOne({ username });
 ```
 
 **New (Supabase):**
+
 ```typescript
 const { data: user } = await supabase
   .from("staff")
@@ -98,6 +103,7 @@ const { data: user } = await supabase
 ```
 
 Routes to update:
+
 - `server/routes/public.ts` - Menu, sessions, orders
 - `server/routes/orders.ts` - Order management
 - `server/routes/tables.ts` - Table management
@@ -200,14 +206,17 @@ export function useAuth() {
 ## Troubleshooting
 
 ### Issue: "DB not ready" error
+
 - Ensure Supabase credentials are set in environment variables
 - Check that the schema was created successfully in Supabase dashboard
 
 ### Issue: "Invalid credentials"
+
 - Verify demo accounts were seeded: `pnpm seed:supabase`
 - Check password hashes were created correctly
 
 ### Issue: "Unauthorized" on protected routes
+
 - Ensure JWT token is being sent in Authorization header
 - Verify JWT_SECRET matches between client and server
 
@@ -223,6 +232,7 @@ The following tables have been created:
 - **orders** - Food/drink orders
 
 All tables include:
+
 - `created_at` - Creation timestamp
 - `updated_at` - Last update timestamp
 - Proper foreign key relationships
@@ -253,6 +263,7 @@ After completing all steps:
 ## Support
 
 For issues or questions:
+
 - Check Supabase documentation: https://supabase.com/docs
 - Review Supabase dashboard logs: Settings → Database → Query Logs
 - Check browser console for frontend errors

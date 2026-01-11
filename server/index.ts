@@ -49,17 +49,21 @@ export async function createServer() {
   app.get(
     "/api/auth/profile",
     supabaseAuth.authenticateToken,
-    supabaseAuth.handleProfile
+    supabaseAuth.handleProfile,
   );
 
   // Placeholder for additional routes (orders, tables, menu)
   // These can be added as needed with proper Supabase integration
 
   // WebSocket management routes
-  app.get("/api/websocket/stats", supabaseAuth.authenticateToken, (_req, res) => {
-    const stats = webSocketManager.getStats();
-    res.json({ success: true, data: stats });
-  });
+  app.get(
+    "/api/websocket/stats",
+    supabaseAuth.authenticateToken,
+    (_req, res) => {
+      const stats = webSocketManager.getStats();
+      res.json({ success: true, data: stats });
+    },
+  );
 
   app.get(
     "/api/websocket/clients",
@@ -67,7 +71,7 @@ export async function createServer() {
     (_req, res) => {
       const clients = webSocketManager.getConnectedClients();
       res.json({ success: true, data: { clients } });
-    }
+    },
   );
 
   // Error handling middleware
@@ -87,7 +91,7 @@ export async function createServer() {
             ? err.message
             : "Something went wrong",
       });
-    }
+    },
   );
 
   // 404 handler for API routes
