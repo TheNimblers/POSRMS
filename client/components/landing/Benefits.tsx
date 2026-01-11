@@ -42,9 +42,8 @@ export default function Benefits() {
             All-in-one, real-time platform
           </h2>
           <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
-            Built for speed, reliability and delightful UX — POSRMS gives you
-            the control to run service, payments and reporting without the
-            overhead.
+            Built for speed, reliability — POSRMS gives you the control to run
+            service, payments and reporting without the overhead.
           </p>
         </div>
 
