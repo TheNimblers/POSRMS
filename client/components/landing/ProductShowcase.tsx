@@ -242,12 +242,21 @@ export default function ProductShowcase() {
 
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Top Items</div>
-                      <ul className="text-sm text-gray-600 space-y-1">
-                        {topItems.map((t) => (
+                      <div className="font-semibold mb-2">Top Sellers Today</div>
+                      <ul className="text-sm space-y-2">
+                        {topItems.slice(0, 4).map((t, idx) => (
                           <li key={t.name} className="flex justify-between">
-                            <span>{t.name}</span>
-                            <span>{t.sales}</span>
+                            <div>
+                              <div className="font-medium text-gray-900">
+                                #{idx + 1} {t.name}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {t.sales} sold
+                              </div>
+                            </div>
+                            <div className="text-sm font-semibold text-orange-600">
+                              ${t.revenue}
+                            </div>
                           </li>
                         ))}
                       </ul>
