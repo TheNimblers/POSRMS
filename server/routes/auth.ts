@@ -113,12 +113,13 @@ export const handleRegister: RequestHandler = async (req, res) => {
     const data = registerSchema.parse(req.body);
 
     // Check if username already exists
-    const existingUser = db.queryOne(
-      "SELECT id FROM staff WHERE username = ?",
-      [data.username],
-    );
+    const { data: existingUsers } = await supabase
+      .from("staff")
+      .select("id")
+      .eq("username", data.username)
+      .limit(1);
 
-    if (existingUser) {
+    if (existingUsers && existingUsers.length > 0) {
       return res.status(409).json({
         success: false,
         error: "Username already exists",
@@ -126,11 +127,13 @@ export const handleRegister: RequestHandler = async (req, res) => {
     }
 
     // Check if restaurant exists
-    const restaurant = db.queryOne("SELECT id FROM restaurants WHERE id = ?", [
-      data.restaurantId,
-    ]);
+    const { data: restaurants } = await supabase
+      .from("restaurants")
+      .select("id")
+      .eq("id", data.restaurantId)
+      .limit(1);
 
-    if (!restaurant) {
+    if (!restaurants || restaurants.length === 0) {
       return res.status(404).json({
         success: false,
         error: "Restaurant not found",
@@ -138,41 +141,41 @@ export const handleRegister: RequestHandler = async (req, res) => {
     }
 
     // Hash password
-    const passwordHash = await db.hashPassword(data.password);
+    const passwordHash = bcryptjs.hashSync(data.password, SALT_ROUNDS);
 
     // Set permissions based on role
     const permissions = getPermissionsByRole(data.role);
 
     // Create user
-    const userId = db.generateId();
-    db.execute(
-      `
-      INSERT INTO staff (
-        id, username, password_hash, role, restaurant_id, name, email,
-        permissions, shift, status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `,
-      [
-        userId,
-        data.username,
-        passwordHash,
-        data.role,
-        data.restaurantId,
-        data.name,
-        data.email,
-        JSON.stringify(permissions),
-        data.shift || null,
-        "active",
-      ],
-    );
+    const userId = crypto.randomUUID();
+    const { data: newUserData, error: insertError } = await supabase
+      .from("staff")
+      .insert([
+        {
+          id: userId,
+          username: data.username,
+          password_hash: passwordHash,
+          role: data.role,
+          restaurant_id: data.restaurantId,
+          name: data.name,
+          email: data.email,
+          permissions: permissions,
+          shift: data.shift || null,
+          status: "active",
+        },
+      ])
+      .select()
+      .single();
 
-    // Get created user
-    const newUser = db.queryOne("SELECT * FROM staff WHERE id = ?", [
-      userId,
-    ]) as Staff;
+    if (insertError || !newUserData) {
+      return res.status(500).json({
+        success: false,
+        error: "Failed to create staff member",
+      } as ApiResponse);
+    }
 
     // Remove password hash from response
-    const { password_hash, ...userWithoutPassword } = newUser;
+    const { password_hash, ...userWithoutPassword } = newUserData;
 
     res.status(201).json({
       success: true,
