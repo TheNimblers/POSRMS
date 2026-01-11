@@ -198,12 +198,63 @@ export default function ProductShowcase() {
 
             <TabsContent value="customer" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6 items-start">
-                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img
-                    src="/demos/customer.svg"
-                    alt="Customer demo"
-                    className="w-full h-96 object-cover rounded-md"
-                  />
+                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-gradient-to-br from-orange-50 to-yellow-50 p-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900">
+                          Table 5 - Party of 2
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          Order placed: 2:15 PM
+                        </p>
+                      </div>
+                      <ShoppingCart className="h-8 w-8 text-orange-600" />
+                    </div>
+
+                    <div className="bg-white rounded-lg p-4 space-y-3 border border-orange-200">
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-900 font-medium">
+                            Grilled Salmon
+                          </span>
+                          <span className="text-sm text-gray-600">Qty: 1</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-900 font-medium">
+                            Spicy Burger
+                          </span>
+                          <span className="text-sm text-gray-600">Qty: 1</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-900 font-medium">
+                            Truffle Fries
+                          </span>
+                          <span className="text-sm text-gray-600">Qty: 2</span>
+                        </div>
+                      </div>
+                      <div className="border-t border-gray-200 pt-2 flex justify-between font-semibold">
+                        <span>Total:</span>
+                        <span className="text-orange-600">$48.50</span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <button className="bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 text-sm font-medium">
+                        ✓ Order Placed
+                      </button>
+                      <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2 text-sm font-medium">
+                        💳 Request Bill
+                      </button>
+                    </div>
+
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <p className="text-sm text-blue-900">
+                        💡 <strong>Tip:</strong> Scan the table QR code to view
+                        the full menu and place additional orders anytime!
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-3">
                   <Card>
