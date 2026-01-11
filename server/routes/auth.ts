@@ -260,20 +260,24 @@ export const handleUpdatePassword: RequestHandler = async (req, res) => {
     }
 
     // Get current user
-    const user = db.queryOne(
-      "SELECT password_hash FROM staff WHERE id = ? AND status = ?",
-      [userId, "active"],
-    ) as { password_hash: string } | undefined;
+    const { data: users, error: queryError } = await supabase
+      .from("staff")
+      .select("password_hash")
+      .eq("id", userId)
+      .eq("status", "active")
+      .limit(1);
 
-    if (!user) {
+    if (queryError || !users || users.length === 0) {
       return res.status(404).json({
         success: false,
         error: "User not found",
       } as ApiResponse);
     }
 
+    const user = users[0];
+
     // Verify current password
-    const isCurrentPasswordValid = await db.comparePassword(
+    const isCurrentPasswordValid = bcryptjs.compareSync(
       currentPassword,
       user.password_hash,
     );
@@ -285,13 +289,16 @@ export const handleUpdatePassword: RequestHandler = async (req, res) => {
     }
 
     // Hash new password
-    const newPasswordHash = await db.hashPassword(newPassword);
+    const newPasswordHash = bcryptjs.hashSync(newPassword, SALT_ROUNDS);
 
     // Update password
-    db.execute(
-      "UPDATE staff SET password_hash = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
-      [newPasswordHash, userId],
-    );
+    await supabase
+      .from("staff")
+      .update({
+        password_hash: newPasswordHash,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", userId);
 
     res.json({
       success: true,
