@@ -1,11 +1,13 @@
 import { RequestHandler } from "express";
-import { db } from "../database";
+import { supabase } from "../supabase";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
+import bcryptjs from "bcryptjs";
 import { ApiResponse, Staff } from "../../shared/database";
 
 const JWT_SECRET = process.env.JWT_SECRET || "posrms-demo-secret-key";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "24h";
+const SALT_ROUNDS = 10;
 
 // Validation schemas
 const loginSchema = z.object({
