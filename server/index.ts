@@ -38,6 +38,9 @@ export async function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // === SEED ENDPOINT ===
+  app.post("/api/seed/demo", seed.handleSeedDemo);
+
   // === SUPABASE ROUTES ===
   const supabaseAuth = await import("./routes/supabaseAuth");
   const supabaseOrders = await import("./routes/supabaseOrders");
