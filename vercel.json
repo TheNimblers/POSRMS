@@ -7,11 +7,6 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "env_disabled": {
-    "MONGODB_URI": {
-      "description": "MongoDB connection (deprecated - using Supabase instead)"
-    }
-  },
   "headers": [
     {
       "source": "/index.html",
