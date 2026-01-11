@@ -7,6 +7,69 @@ import { getMongoDb } from "../mongo";
 const JWT_SECRET = process.env.JWT_SECRET || "posrms-demo-secret-key";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "24h";
 
+// Demo accounts for fallback when database is unavailable
+const DEMO_ACCOUNTS = [
+  {
+    id: "waiter1",
+    username: "waiter1",
+    password: "password",
+    role: "waiter",
+    name: "John Doe",
+    restaurant_id: "demo-restaurant",
+    permissions: ["view_tables", "manage_orders", "update_order_status"],
+    status: "active",
+  },
+  {
+    id: "kitchen1",
+    username: "kitchen1",
+    password: "password",
+    role: "kitchen",
+    name: "Kitchen Team",
+    restaurant_id: "demo-restaurant",
+    permissions: ["view_food_orders", "update_food_status"],
+    status: "active",
+  },
+  {
+    id: "bar1",
+    username: "bar1",
+    password: "password",
+    role: "bar",
+    name: "Bar Team",
+    restaurant_id: "demo-restaurant",
+    permissions: ["view_drink_orders", "update_drink_status"],
+    status: "active",
+  },
+  {
+    id: "manager1",
+    username: "manager1",
+    password: "password",
+    role: "manager",
+    name: "Alice Johnson",
+    restaurant_id: "demo-restaurant",
+    permissions: ["view_tables", "manage_orders", "manage_menu", "manage_staff", "view_analytics"],
+    status: "active",
+  },
+  {
+    id: "admin1",
+    username: "admin1",
+    password: "password",
+    role: "admin",
+    name: "Bob Wilson",
+    restaurant_id: "demo-restaurant",
+    permissions: ["full_access"],
+    status: "active",
+  },
+  {
+    id: "team1",
+    username: "team1",
+    password: "password",
+    role: "team",
+    name: "POSRMS Team Member",
+    permissions: ["manage_restaurants", "manage_subscriptions", "view_global_analytics"],
+    status: "active",
+  },
+];
+
 export const handleLogin: RequestHandler = async (req, res) => {
   try {
     const { username, password } = req.body as {
@@ -14,8 +77,28 @@ export const handleLogin: RequestHandler = async (req, res) => {
       password: string;
     };
     const db = getMongoDb();
-    if (!db)
-      return res.status(500).json({ success: false, error: "DB not ready" });
+
+    // If database is not available, use demo accounts
+    if (!db) {
+      const demoUser = DEMO_ACCOUNTS.find((u) => u.username === username);
+      if (!demoUser || demoUser.password !== password) {
+        return res.status(401).json({ success: false, error: "Invalid credentials" });
+      }
+
+      const token = jwt.sign(
+        {
+          userId: demoUser.id,
+          username: demoUser.username,
+          role: demoUser.role,
+          restaurantId: demoUser.restaurant_id,
+        },
+        JWT_SECRET,
+        { expiresIn: JWT_EXPIRES_IN },
+      );
+
+      const { password: _, ...userWithoutPassword } = demoUser;
+      return res.json({ success: true, data: { user: userWithoutPassword, token } });
+    }
 
     const user = await db
       .collection("staff")
