@@ -6,7 +6,7 @@ import { supabase } from "./supabase";
  */
 export function subscribeToOrderUpdates(
   restaurantId: string,
-  callback: (event: any) => void
+  callback: (event: any) => void,
 ) {
   const subscription = supabase
     .channel(`restaurant-orders-${restaurantId}`)
@@ -21,7 +21,7 @@ export function subscribeToOrderUpdates(
       (payload) => {
         console.log("Order update:", payload);
         callback(payload);
-      }
+      },
     )
     .subscribe();
 
@@ -34,7 +34,7 @@ export function subscribeToOrderUpdates(
  */
 export function subscribeToTableUpdates(
   restaurantId: string,
-  callback: (event: any) => void
+  callback: (event: any) => void,
 ) {
   const subscription = supabase
     .channel(`restaurant-tables-${restaurantId}`)
@@ -49,7 +49,7 @@ export function subscribeToTableUpdates(
       (payload) => {
         console.log("Table update:", payload);
         callback(payload);
-      }
+      },
     )
     .subscribe();
 
@@ -62,7 +62,7 @@ export function subscribeToTableUpdates(
  */
 export function subscribeToSessionUpdates(
   restaurantId: string,
-  callback: (event: any) => void
+  callback: (event: any) => void,
 ) {
   const subscription = supabase
     .channel(`restaurant-sessions-${restaurantId}`)
@@ -77,7 +77,7 @@ export function subscribeToSessionUpdates(
       (payload) => {
         console.log("Session update:", payload);
         callback(payload);
-      }
+      },
     )
     .subscribe();
 
@@ -90,7 +90,7 @@ export function subscribeToSessionUpdates(
  */
 export function subscribeToMenuUpdates(
   restaurantId: string,
-  callback: (event: any) => void
+  callback: (event: any) => void,
 ) {
   const subscription = supabase
     .channel(`restaurant-menu-${restaurantId}`)
@@ -105,7 +105,7 @@ export function subscribeToMenuUpdates(
       (payload) => {
         console.log("Menu update:", payload);
         callback(payload);
-      }
+      },
     )
     .subscribe();
 
@@ -124,9 +124,13 @@ export async function unsubscribeFromChannel(channel: any) {
 /**
  * Send a broadcast event (for notifications that aren't database changes)
  */
-export function broadcastNotification(channelName: string, event: string, data: any) {
+export function broadcastNotification(
+  channelName: string,
+  event: string,
+  data: any,
+) {
   const channel = supabase.channel(channelName);
-  
+
   channel.send({
     type: "broadcast",
     event,
@@ -140,7 +144,7 @@ export function broadcastNotification(channelName: string, event: string, data: 
 export function subscribeToBroadcast(
   channelName: string,
   eventName: string,
-  callback: (payload: any) => void
+  callback: (payload: any) => void,
 ) {
   const subscription = supabase
     .channel(channelName)
@@ -152,7 +156,7 @@ export function subscribeToBroadcast(
       (payload) => {
         console.log("Broadcast notification:", payload);
         callback(payload);
-      }
+      },
     )
     .subscribe();
 
@@ -206,7 +210,8 @@ export function useWaiterSubscription(restaurantId: string) {
 function playNotificationSound() {
   try {
     // Create a simple beep sound using Web Audio API
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const audioContext = new (window.AudioContext ||
+      (window as any).webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
@@ -217,7 +222,10 @@ function playNotificationSound() {
     oscillator.type = "sine";
 
     gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    gainNode.gain.exponentialRampToValueAtTime(
+      0.01,
+      audioContext.currentTime + 0.5,
+    );
 
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + 0.5);

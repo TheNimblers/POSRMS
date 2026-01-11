@@ -5,26 +5,38 @@ import { v4 as uuidv4 } from "uuid";
 // Create order
 export const handleCreateOrder: RequestHandler = async (req, res) => {
   try {
-    const { session_id, table_id, menu_item_id, quantity, notes, special_instructions } = req.body;
+    const {
+      session_id,
+      table_id,
+      menu_item_id,
+      quantity,
+      notes,
+      special_instructions,
+    } = req.body;
     const userId = (req as any).user?.userId;
 
     if (!session_id || !table_id || !menu_item_id || !quantity) {
-      return res.status(400).json({ success: false, error: "Missing required fields" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Missing required fields" });
     }
 
-    const { data, error } = await supabase.from("orders").insert([
-      {
-        id: uuidv4(),
-        session_id,
-        table_id,
-        menu_item_id,
-        quantity,
-        notes,
-        special_instructions,
-        ordered_by: userId,
-        status: "pending",
-      },
-    ]).select();
+    const { data, error } = await supabase
+      .from("orders")
+      .insert([
+        {
+          id: uuidv4(),
+          session_id,
+          table_id,
+          menu_item_id,
+          quantity,
+          notes,
+          special_instructions,
+          ordered_by: userId,
+          status: "pending",
+        },
+      ])
+      .select();
 
     if (error) {
       return res.status(500).json({ success: false, error: error.message });
@@ -43,14 +55,12 @@ export const handleGetOrders: RequestHandler = async (req, res) => {
     const { table_id, status, session_id } = req.query;
     const restaurantId = (req as any).user?.restaurantId;
 
-    let query = supabase
-      .from("orders")
-      .select(
-        `*,
+    let query = supabase.from("orders").select(
+      `*,
         menu_items(name, category, price),
         sessions(table_id, status)
-      `
-      );
+      `,
+    );
 
     if (status) {
       query = query.eq("status", status);
@@ -64,7 +74,9 @@ export const handleGetOrders: RequestHandler = async (req, res) => {
       query = query.eq("table_id", table_id);
     }
 
-    const { data, error } = await query.order("created_at", { ascending: false });
+    const { data, error } = await query.order("created_at", {
+      ascending: false,
+    });
 
     if (error) {
       return res.status(500).json({ success: false, error: error.message });
@@ -88,7 +100,7 @@ export const handleGetOrder: RequestHandler = async (req, res) => {
         `*,
         menu_items(name, category, price),
         sessions(table_id, status)
-      `
+      `,
       )
       .eq("id", orderId)
       .single();
@@ -111,10 +123,19 @@ export const handleUpdateOrderStatus: RequestHandler = async (req, res) => {
     const { status } = req.body;
 
     if (!status) {
-      return res.status(400).json({ success: false, error: "Status is required" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Status is required" });
     }
 
-    const validStatuses = ["pending", "confirmed", "preparing", "ready", "served", "cancelled"];
+    const validStatuses = [
+      "pending",
+      "confirmed",
+      "preparing",
+      "ready",
+      "served",
+      "cancelled",
+    ];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ success: false, error: "Invalid status" });
     }

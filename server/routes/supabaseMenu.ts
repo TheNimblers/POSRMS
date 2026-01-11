@@ -9,7 +9,9 @@ export const handleGetMenuItems: RequestHandler = async (req, res) => {
     const { category } = req.query;
 
     if (!restaurantId) {
-      return res.status(400).json({ success: false, error: "Restaurant ID required" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Restaurant ID required" });
     }
 
     let query = supabase
@@ -47,7 +49,9 @@ export const handleGetMenuItem: RequestHandler = async (req, res) => {
       .single();
 
     if (error) {
-      return res.status(404).json({ success: false, error: "Menu item not found" });
+      return res
+        .status(404)
+        .json({ success: false, error: "Menu item not found" });
     }
 
     res.json({ success: true, data });
@@ -61,27 +65,40 @@ export const handleGetMenuItem: RequestHandler = async (req, res) => {
 export const handleCreateMenuItem: RequestHandler = async (req, res) => {
   try {
     const restaurantId = (req as any).user?.restaurantId;
-    const { name, category, price, description, preparation_time, tags, special } = req.body;
+    const {
+      name,
+      category,
+      price,
+      description,
+      preparation_time,
+      tags,
+      special,
+    } = req.body;
 
     if (!name || !category || !price) {
-      return res.status(400).json({ success: false, error: "Missing required fields" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Missing required fields" });
     }
 
-    const { data, error } = await supabase.from("menu_items").insert([
-      {
-        id: uuidv4(),
-        restaurant_id: restaurantId,
-        name,
-        category,
-        price,
-        currency: "EUR",
-        description,
-        preparation_time,
-        tags,
-        special: special || false,
-        available: true,
-      },
-    ]).select();
+    const { data, error } = await supabase
+      .from("menu_items")
+      .insert([
+        {
+          id: uuidv4(),
+          restaurant_id: restaurantId,
+          name,
+          category,
+          price,
+          currency: "EUR",
+          description,
+          preparation_time,
+          tags,
+          special: special || false,
+          available: true,
+        },
+      ])
+      .select();
 
     if (error) {
       return res.status(500).json({ success: false, error: error.message });
@@ -98,7 +115,8 @@ export const handleCreateMenuItem: RequestHandler = async (req, res) => {
 export const handleUpdateMenuItem: RequestHandler = async (req, res) => {
   try {
     const { itemId } = req.params;
-    const { name, price, description, preparation_time, tags, special } = req.body;
+    const { name, price, description, preparation_time, tags, special } =
+      req.body;
 
     const { data, error } = await supabase
       .from("menu_items")
@@ -119,7 +137,9 @@ export const handleUpdateMenuItem: RequestHandler = async (req, res) => {
     }
 
     if (!data || data.length === 0) {
-      return res.status(404).json({ success: false, error: "Menu item not found" });
+      return res
+        .status(404)
+        .json({ success: false, error: "Menu item not found" });
     }
 
     res.json({ success: true, data: data[0] });
@@ -142,7 +162,9 @@ export const handleToggleAvailability: RequestHandler = async (req, res) => {
       .single();
 
     if (getError) {
-      return res.status(404).json({ success: false, error: "Menu item not found" });
+      return res
+        .status(404)
+        .json({ success: false, error: "Menu item not found" });
     }
 
     const newAvailable = !item.available;
@@ -169,7 +191,10 @@ export const handleDeleteMenuItem: RequestHandler = async (req, res) => {
   try {
     const { itemId } = req.params;
 
-    const { error } = await supabase.from("menu_items").delete().eq("id", itemId);
+    const { error } = await supabase
+      .from("menu_items")
+      .delete()
+      .eq("id", itemId);
 
     if (error) {
       return res.status(500).json({ success: false, error: error.message });
@@ -211,7 +236,9 @@ export const handleGetPublicMenu: RequestHandler = async (req, res) => {
     const { qr_code } = req.query;
 
     if (!qr_code) {
-      return res.status(400).json({ success: false, error: "QR code required" });
+      return res
+        .status(400)
+        .json({ success: false, error: "QR code required" });
     }
 
     // Get table from QR code

@@ -8,7 +8,9 @@ export const handleGetTables: RequestHandler = async (req, res) => {
     const restaurantId = (req as any).user?.restaurantId;
 
     if (!restaurantId) {
-      return res.status(400).json({ success: false, error: "Restaurant ID required" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Restaurant ID required" });
     }
 
     const { data, error } = await supabase
@@ -17,7 +19,7 @@ export const handleGetTables: RequestHandler = async (req, res) => {
         `*,
         assigned_waiter:staff(name, username),
         sessions(id, status, created_at)
-      `
+      `,
       )
       .eq("restaurant_id", restaurantId)
       .order("number", { ascending: true });
@@ -44,7 +46,7 @@ export const handleGetTable: RequestHandler = async (req, res) => {
         `*,
         assigned_waiter:staff(name, username),
         sessions(id, status, created_at)
-      `
+      `,
       )
       .eq("id", tableId)
       .single();
@@ -67,19 +69,24 @@ export const handleCreateTable: RequestHandler = async (req, res) => {
     const { number, capacity, qr_code } = req.body;
 
     if (!number || !capacity || !qr_code) {
-      return res.status(400).json({ success: false, error: "Missing required fields" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Missing required fields" });
     }
 
-    const { data, error } = await supabase.from("tables").insert([
-      {
-        id: uuidv4(),
-        restaurant_id: restaurantId,
-        number,
-        capacity,
-        qr_code,
-        status: "available",
-      },
-    ]).select();
+    const { data, error } = await supabase
+      .from("tables")
+      .insert([
+        {
+          id: uuidv4(),
+          restaurant_id: restaurantId,
+          number,
+          capacity,
+          qr_code,
+          status: "available",
+        },
+      ])
+      .select();
 
     if (error) {
       return res.status(500).json({ success: false, error: error.message });
@@ -131,7 +138,9 @@ export const handleAssignWaiter: RequestHandler = async (req, res) => {
     const { waiterId } = req.body;
 
     if (!waiterId) {
-      return res.status(400).json({ success: false, error: "Waiter ID required" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Waiter ID required" });
     }
 
     const { data, error } = await supabase
@@ -201,7 +210,9 @@ export const handleGenerateQR: RequestHandler = async (req, res) => {
     const { qr_code } = req.body;
 
     if (!qr_code) {
-      return res.status(400).json({ success: false, error: "QR code required" });
+      return res
+        .status(400)
+        .json({ success: false, error: "QR code required" });
     }
 
     const { data, error } = await supabase

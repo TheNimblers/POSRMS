@@ -9,6 +9,7 @@ This guide covers the advanced features implemented for POSRMS using Supabase.
 All API endpoints have been created and registered in the server:
 
 #### Orders Routes
+
 - `POST /api/orders` - Create new order
 - `GET /api/orders` - Get orders (with filters: table_id, status, session_id)
 - `GET /api/orders/:orderId` - Get single order
@@ -18,6 +19,7 @@ All API endpoints have been created and registered in the server:
 - `POST /api/sessions/:sessionId/pay` - Mark session as paid
 
 #### Tables Routes
+
 - `GET /api/tables` - Get all restaurant tables
 - `GET /api/tables/:tableId` - Get single table
 - `POST /api/tables` - Create new table (manager only)
@@ -28,6 +30,7 @@ All API endpoints have been created and registered in the server:
 - `GET /api/tables/qr-codes` - Get all QR codes for tables
 
 #### Menu Routes
+
 - `GET /api/menu` - Get restaurant menu
 - `GET /api/menu/public` - Get public menu (QR code access, no auth)
 - `GET /api/menu/:itemId` - Get single menu item
@@ -48,6 +51,7 @@ RLS policies have been created for multi-tenant support. To enable them:
 5. Click **Run**
 
 **What RLS does:**
+
 - Ensures staff can only see data from their restaurant
 - Prevents kitchen staff from seeing other restaurants' orders
 - Restricts managers to only manage their own restaurant
@@ -56,11 +60,13 @@ RLS policies have been created for multi-tenant support. To enable them:
 **Important Note:** Current RLS policies use `auth.uid()` which works with Supabase Auth. Since POSRMS uses custom JWT, you may need to:
 
 **Option A: Switch to Supabase Auth (Recommended)**
+
 - Use Supabase's built-in authentication instead of custom JWT
 - Policies will work automatically
 - Better security and easier integration
 
 **Option B: Configure Custom JWT Claims**
+
 - Update your JWT to include `sub` claim matching the staff user ID
 - Configure Supabase to recognize these claims
 - Update RLS policies to use custom JWT claims
@@ -68,6 +74,7 @@ RLS policies have been created for multi-tenant support. To enable them:
 ### 3. Real-Time Subscriptions for Notifications
 
 Real-time subscriptions allow instant notifications for:
+
 - Kitchen staff when orders need preparation
 - Waiters when tables become available
 - Managers when sessions close
@@ -76,6 +83,7 @@ Real-time subscriptions allow instant notifications for:
 #### Implementation Files
 
 **Frontend:**
+
 - `client/lib/realtimeSubscriptions.ts` - Real-time subscription utilities
 
 #### Available Subscriptions
@@ -120,9 +128,9 @@ import { useKitchenSubscription } from "@/lib/realtimeSubscriptions";
 
 function KitchenView({ restaurantId }) {
   const orderSub = useKitchenSubscription(restaurantId);
-  
+
   // Automatically handles notifications when orders change status
-  
+
   return <div>Kitchen view</div>;
 }
 
@@ -131,9 +139,9 @@ import { useWaiterSubscription } from "@/lib/realtimeSubscriptions";
 
 function WaiterView({ restaurantId }) {
   const { tableUpdates, sessionUpdates } = useWaiterSubscription(restaurantId);
-  
+
   // Automatically handles notifications for tables and sessions
-  
+
   return <div>Waiter view</div>;
 }
 ```
@@ -153,7 +161,7 @@ import { unsubscribeFromChannel } from "@/lib/realtimeSubscriptions";
 
 useEffect(() => {
   const subscription = subscribeToOrderUpdates(restaurantId, callback);
-  
+
   return () => {
     unsubscribeFromChannel(subscription);
   };
@@ -182,6 +190,7 @@ Frontend (React)
 ## Database Schema
 
 ### Tables
+
 - **restaurants** - Restaurant details
 - **staff** - User accounts (waiter, kitchen, bar, manager, admin, team)
 - **tables** - Restaurant tables/seats
@@ -190,6 +199,7 @@ Frontend (React)
 - **orders** - Food/drink orders
 
 ### Relationships
+
 ```
 restaurants (1) ──→ (many) staff
 restaurants (1) ──→ (many) tables
@@ -209,18 +219,22 @@ staff (1) ──→ (many) orders (ordered_by)
 ## Security
 
 ### Multi-Tenant Isolation
+
 - Each restaurant's data is completely isolated
 - Staff can only access their own restaurant
 - RLS policies enforce this at the database level
 - No accidental data leaks between restaurants
 
 ### Authentication
+
 - Custom JWT tokens for fast authentication
 - No external auth provider required
 - Suitable for restaurant staff (simple login with username/password)
 
 ### Permissions
+
 Staff roles with granular permissions:
+
 - **Waiter**: View tables, manage orders, update order status
 - **Kitchen**: View food orders, update food status
 - **Bar**: View drink orders, update drink status
@@ -300,6 +314,7 @@ JWT_EXPIRES_IN=24h
 ## Support
 
 For issues:
+
 - Check Supabase documentation: https://supabase.com/docs
 - Review API logs in Supabase dashboard
 - Check browser console for frontend errors
