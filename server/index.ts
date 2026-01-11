@@ -40,20 +40,157 @@ export async function createServer() {
 
   // === SUPABASE ROUTES ===
   const supabaseAuth = await import("./routes/supabaseAuth");
+  const supabaseOrders = await import("./routes/supabaseOrders");
+  const supabaseTables = await import("./routes/supabaseTables");
+  const supabaseMenu = await import("./routes/supabaseMenu");
 
-  // Public Routes
+  // ===== AUTH ROUTES =====
+  // Public
   app.post("/api/auth/login", supabaseAuth.handleLogin);
   app.post("/api/auth/logout", supabaseAuth.handleLogout);
 
-  // Protected Routes
+  // Protected
   app.get(
     "/api/auth/profile",
     supabaseAuth.authenticateToken,
     supabaseAuth.handleProfile,
   );
 
-  // Placeholder for additional routes (orders, tables, menu)
-  // These can be added as needed with proper Supabase integration
+  // ===== ORDERS ROUTES =====
+  // Public (no auth required)
+  app.get("/api/menu/public", supabaseMenu.handleGetPublicMenu);
+
+  // Protected
+  app.post(
+    "/api/orders",
+    supabaseAuth.authenticateToken,
+    supabaseOrders.handleCreateOrder,
+  );
+  app.get(
+    "/api/orders",
+    supabaseAuth.authenticateToken,
+    supabaseOrders.handleGetOrders,
+  );
+  app.get(
+    "/api/orders/analytics",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("view_analytics"),
+    supabaseOrders.handleGetOrderAnalytics,
+  );
+  app.get(
+    "/api/orders/:orderId",
+    supabaseAuth.authenticateToken,
+    supabaseOrders.handleGetOrder,
+  );
+  app.put(
+    "/api/orders/:orderId/status",
+    supabaseAuth.authenticateToken,
+    supabaseOrders.handleUpdateOrderStatus,
+  );
+  app.delete(
+    "/api/orders/:orderId",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("full_access"),
+    supabaseOrders.handleDeleteOrder,
+  );
+
+  app.post(
+    "/api/sessions/:sessionId/pay",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("manage_orders"),
+    supabaseOrders.handleMarkSessionPaid,
+  );
+
+  // ===== TABLES ROUTES =====
+  app.get(
+    "/api/tables",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("view_tables"),
+    supabaseTables.handleGetTables,
+  );
+  app.post(
+    "/api/tables",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("manage_staff"),
+    supabaseTables.handleCreateTable,
+  );
+  app.get(
+    "/api/tables/qr-codes",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("view_tables"),
+    supabaseTables.handleGetTableQRCodes,
+  );
+  app.get(
+    "/api/tables/:tableId",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("view_tables"),
+    supabaseTables.handleGetTable,
+  );
+  app.put(
+    "/api/tables/:tableId",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("manage_staff"),
+    supabaseTables.handleUpdateTable,
+  );
+  app.put(
+    "/api/tables/:tableId/assign",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("view_tables"),
+    supabaseTables.handleAssignWaiter,
+  );
+  app.post(
+    "/api/tables/:tableId/qr",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("manage_staff"),
+    supabaseTables.handleGenerateQR,
+  );
+  app.delete(
+    "/api/tables/:tableId",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("full_access"),
+    supabaseTables.handleDeleteTable,
+  );
+
+  // ===== MENU ROUTES =====
+  app.get(
+    "/api/menu",
+    supabaseAuth.authenticateToken,
+    supabaseMenu.handleGetMenuItems,
+  );
+  app.post(
+    "/api/menu",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("manage_menu"),
+    supabaseMenu.handleCreateMenuItem,
+  );
+  app.get(
+    "/api/menu/categories",
+    supabaseAuth.authenticateToken,
+    supabaseMenu.handleGetCategories,
+  );
+  app.get(
+    "/api/menu/:itemId",
+    supabaseAuth.authenticateToken,
+    supabaseMenu.handleGetMenuItem,
+  );
+  app.put(
+    "/api/menu/:itemId",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("manage_menu"),
+    supabaseMenu.handleUpdateMenuItem,
+  );
+  app.put(
+    "/api/menu/:itemId/toggle",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("manage_menu"),
+    supabaseMenu.handleToggleAvailability,
+  );
+  app.delete(
+    "/api/menu/:itemId",
+    supabaseAuth.authenticateToken,
+    supabaseAuth.requirePermission("full_access"),
+    supabaseMenu.handleDeleteMenuItem,
+  );
 
   // WebSocket management routes
   app.get(
