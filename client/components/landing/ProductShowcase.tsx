@@ -242,7 +242,9 @@ export default function ProductShowcase() {
 
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Top Sellers Today</div>
+                      <div className="font-semibold mb-2">
+                        Top Sellers Today
+                      </div>
                       <ul className="text-sm space-y-2">
                         {topItems.slice(0, 4).map((t, idx) => (
                           <li key={t.name} className="flex justify-between">
@@ -369,7 +371,9 @@ export default function ProductShowcase() {
                 <div className="space-y-3">
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Today's Performance</div>
+                      <div className="font-semibold mb-2">
+                        Today's Performance
+                      </div>
                       <div className="grid grid-cols-2 gap-3 text-sm space-y-2">
                         <div>
                           <div className="text-gray-500">Revenue</div>
@@ -405,7 +409,9 @@ export default function ProductShowcase() {
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-500">Efficiency</span>
-                          <span className="font-semibold text-green-600">92%</span>
+                          <span className="font-semibold text-green-600">
+                            92%
+                          </span>
                         </div>
                       </div>
                     </CardContent>
@@ -436,7 +442,9 @@ export default function ProductShowcase() {
 
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Revenue by Category</div>
+                      <div className="font-semibold mb-2">
+                        Revenue by Category
+                      </div>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-gray-600">Main Courses</span>
