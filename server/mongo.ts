@@ -288,16 +288,32 @@ async function ensureStaffAccount(
   seed: StaffSeed,
 ): Promise<string> {
   const staff = database.collection("staff");
-  const existing = await staff.findOne<{ id: string }>({
+  const existing = await staff.findOne<{ id: string; password_hash: string }>({
     username: seed.username,
   });
+
+  const password_hash = bcrypt.hashSync(seed.password, SALT_ROUNDS);
+  const now = new Date().toISOString();
+  const status = seed.status ?? "active";
+
   if (existing?.id) {
+    // Update existing account to ensure password is correct for demo accounts
+    await staff.updateOne(
+      { username: seed.username },
+      {
+        $set: {
+          password_hash,
+          role: seed.role,
+          restaurant_id: seed.restaurant_id,
+          name: seed.name,
+          status,
+          permissions: seed.permissions,
+          updated_at: now,
+        },
+      },
+    );
     return existing.id;
   }
-
-  const now = new Date().toISOString();
-  const password_hash = bcrypt.hashSync(seed.password, SALT_ROUNDS);
-  const status = seed.status ?? "active";
 
   const staffMember = {
     id: seed.id,
