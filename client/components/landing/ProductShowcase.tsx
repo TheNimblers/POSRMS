@@ -360,15 +360,43 @@ export default function ProductShowcase() {
                 <div className="space-y-3">
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Today</div>
-                      <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div className="font-semibold mb-2">Today's Performance</div>
+                      <div className="grid grid-cols-2 gap-3 text-sm space-y-2">
                         <div>
                           <div className="text-gray-500">Revenue</div>
-                          <div className="font-semibold">$1,980</div>
+                          <div className="font-semibold text-lg">$4,240</div>
                         </div>
                         <div>
                           <div className="text-gray-500">Orders</div>
-                          <div className="font-semibold">124</div>
+                          <div className="font-semibold text-lg">187</div>
+                        </div>
+                        <div>
+                          <div className="text-gray-500">Avg Bill</div>
+                          <div className="font-semibold text-lg">$22.68</div>
+                        </div>
+                        <div>
+                          <div className="text-gray-500">Covers</div>
+                          <div className="font-semibold text-lg">34</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="font-semibold mb-2">Status</div>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Tables Open</span>
+                          <span className="font-semibold">8/12</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Staff On Duty</span>
+                          <span className="font-semibold">6</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Efficiency</span>
+                          <span className="font-semibold text-green-600">92%</span>
                         </div>
                       </div>
                     </CardContent>
