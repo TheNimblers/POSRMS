@@ -38,15 +38,15 @@ export async function createServer() {
 
   app.get("/api/demo", handleDemo);
 
-  // === SEED ENDPOINT ===
-  app.post("/api/seed/demo", seed.handleSeedDemo);
-
   // === SUPABASE ROUTES ===
   const supabaseAuth = await import("./routes/supabaseAuth");
   const supabaseOrders = await import("./routes/supabaseOrders");
   const supabaseTables = await import("./routes/supabaseTables");
   const supabaseMenu = await import("./routes/supabaseMenu");
   const seed = await import("./routes/seed");
+
+  // === SEED ENDPOINT ===
+  app.post("/api/seed/demo", seed.handleSeedDemo);
 
   // ===== AUTH ROUTES =====
   // Public
