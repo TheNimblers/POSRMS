@@ -4,7 +4,6 @@ import cors from "cors";
 import { createServer as createHttpServer } from "http";
 import { handleDemo } from "./routes/demo";
 import { webSocketManager } from "./websocket";
-import { connectMongo, getMongoDb, closeMongo } from "./mongo";
 
 // Import API routes
 
@@ -12,11 +11,7 @@ export async function createServer() {
   const app = express();
   const server = createHttpServer(app);
 
-  const useMongoOnly = process.env.USE_MONGODB_ONLY === "true";
-  if (useMongoOnly) {
-    await connectMongo();
-    console.log("🗄️ Mongo-only mode enabled");
-  }
+  console.log("🔌 Supabase mode enabled");
 
   // WebSocket initialization moved to server startup (node-build.ts) to ensure the HTTP server is already listening
 
