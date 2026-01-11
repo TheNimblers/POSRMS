@@ -707,12 +707,90 @@ export default function ProductShowcase() {
 
             <TabsContent value="analytics" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img
-                    src="/demos/analytics.svg"
-                    alt="Analytics"
-                    className="w-full h-auto"
-                  />
+                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-gradient-to-br from-indigo-50 to-cyan-50 p-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                      <TrendingUp className="h-5 w-5 text-indigo-600" />
+                      Real-Time Analytics
+                    </h3>
+
+                    {/* Revenue Chart */}
+                    <div className="bg-white rounded-lg border p-4">
+                      <h4 className="font-semibold text-sm mb-3">
+                        Revenue by Category
+                      </h4>
+                      <div className="space-y-3">
+                        <div>
+                          <div className="flex justify-between text-sm mb-1">
+                            <span>Main Courses</span>
+                            <span className="font-semibold">$1,980</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-indigo-600 h-2 rounded-full"
+                              style={{ width: "46%" }}
+                            ></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-sm mb-1">
+                            <span>Appetizers</span>
+                            <span className="font-semibold">$892</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-blue-600 h-2 rounded-full"
+                              style={{ width: "21%" }}
+                            ></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-sm mb-1">
+                            <span>Beverages</span>
+                            <span className="font-semibold">$654</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-cyan-600 h-2 rounded-full"
+                              style={{ width: "15%" }}
+                            ></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-sm mb-1">
+                            <span>Desserts</span>
+                            <span className="font-semibold">$410</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-purple-600 h-2 rounded-full"
+                              style={{ width: "10%" }}
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Hourly Traffic */}
+                    <div className="bg-white rounded-lg border p-4">
+                      <h4 className="font-semibold text-sm mb-3">
+                        Hourly Traffic
+                      </h4>
+                      <div className="flex items-end justify-between h-24 gap-1">
+                        {[15, 28, 32, 45, 38, 42, 35, 18].map((val, i) => (
+                          <div
+                            key={i}
+                            className="flex-1 bg-gradient-to-t from-indigo-600 to-indigo-400 rounded-t"
+                            style={{ height: `${(val / 45) * 100}%` }}
+                            title={`${val} orders`}
+                          />
+                        ))}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-2 text-center">
+                        8 AM - 4 PM
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-3">
                   <Card>
@@ -727,27 +805,24 @@ export default function ProductShowcase() {
 
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">
-                        Revenue by Category
-                      </div>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Main Courses</span>
-                          <span className="font-semibold">$1,980</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Appetizers</span>
-                          <span className="font-semibold">$892</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Beverages</span>
-                          <span className="font-semibold">$654</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Desserts</span>
-                          <span className="font-semibold">$410</span>
-                        </div>
-                      </div>
+                      <div className="font-semibold mb-2">Top 5 Items</div>
+                      <ul className="text-sm space-y-2">
+                        {topItems.slice(0, 5).map((t, idx) => (
+                          <li key={t.name} className="flex justify-between">
+                            <div>
+                              <div className="font-medium text-gray-900">
+                                #{idx + 1} {t.name}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {t.sales} sold
+                              </div>
+                            </div>
+                            <div className="text-sm font-semibold text-indigo-600">
+                              ${t.revenue}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
                     </CardContent>
                   </Card>
 
