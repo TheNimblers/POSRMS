@@ -212,17 +212,21 @@ export const handleProfile: RequestHandler = async (req, res) => {
       } as ApiResponse);
     }
 
-    const user = db.queryOne(
-      "SELECT * FROM staff WHERE id = ? AND status = ?",
-      [userId, "active"],
-    ) as Staff | undefined;
+    const { data: users, error } = await supabase
+      .from("staff")
+      .select("*")
+      .eq("id", userId)
+      .eq("status", "active")
+      .limit(1);
 
-    if (!user) {
+    if (error || !users || users.length === 0) {
       return res.status(404).json({
         success: false,
         error: "User not found",
       } as ApiResponse);
     }
+
+    const user = users[0];
 
     // Remove password hash from response
     const { password_hash, ...userWithoutPassword } = user;
