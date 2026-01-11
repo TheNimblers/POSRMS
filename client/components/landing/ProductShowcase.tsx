@@ -315,17 +315,33 @@ export default function ProductShowcase() {
                 <div className="space-y-3">
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Capacity</div>
-                      <div className="grid grid-cols-2 gap-3 text-sm">
-                        <div>
-                          <div className="text-gray-500">Stations</div>
-                          <div className="font-semibold">4</div>
+                      <div className="font-semibold mb-2">Active Orders</div>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Pending</span>
+                          <span className="font-semibold">6</span>
                         </div>
-                        <div>
-                          <div className="text-gray-500">Active</div>
-                          <div className="font-semibold">3</div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Preparing</span>
+                          <span className="font-semibold">4</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-500">Ready</span>
+                          <span className="font-semibold">3</span>
                         </div>
                       </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="font-semibold mb-2">Avg Wait Time</div>
+                      <div className="text-3xl font-bold text-orange-600">
+                        12 min
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Within target time
+                      </p>
                     </CardContent>
                   </Card>
                 </div>
