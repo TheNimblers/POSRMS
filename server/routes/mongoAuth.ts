@@ -46,7 +46,13 @@ const DEMO_ACCOUNTS = [
     role: "manager",
     name: "Alice Johnson",
     restaurant_id: "demo-restaurant",
-    permissions: ["view_tables", "manage_orders", "manage_menu", "manage_staff", "view_analytics"],
+    permissions: [
+      "view_tables",
+      "manage_orders",
+      "manage_menu",
+      "manage_staff",
+      "view_analytics",
+    ],
     status: "active",
   },
   {
@@ -65,7 +71,11 @@ const DEMO_ACCOUNTS = [
     password: "password",
     role: "team",
     name: "POSRMS Team Member",
-    permissions: ["manage_restaurants", "manage_subscriptions", "view_global_analytics"],
+    permissions: [
+      "manage_restaurants",
+      "manage_subscriptions",
+      "view_global_analytics",
+    ],
     status: "active",
   },
 ];
@@ -82,7 +92,9 @@ export const handleLogin: RequestHandler = async (req, res) => {
     if (!db) {
       const demoUser = DEMO_ACCOUNTS.find((u) => u.username === username);
       if (!demoUser || demoUser.password !== password) {
-        return res.status(401).json({ success: false, error: "Invalid credentials" });
+        return res
+          .status(401)
+          .json({ success: false, error: "Invalid credentials" });
       }
 
       const token = jwt.sign(
@@ -97,7 +109,10 @@ export const handleLogin: RequestHandler = async (req, res) => {
       );
 
       const { password: _, ...userWithoutPassword } = demoUser;
-      return res.json({ success: true, data: { user: userWithoutPassword, token } });
+      return res.json({
+        success: true,
+        data: { user: userWithoutPassword, token },
+      });
     }
 
     const user = await db
@@ -167,7 +182,9 @@ export const handleProfile: RequestHandler = async (req, res) => {
     if (!db) {
       const demoUser = DEMO_ACCOUNTS.find((u) => u.id === userId);
       if (!demoUser)
-        return res.status(404).json({ success: false, error: "User not found" });
+        return res
+          .status(404)
+          .json({ success: false, error: "User not found" });
 
       const { password: _, ...userWithoutPassword } = demoUser;
       return res.json({ success: true, data: userWithoutPassword });
@@ -202,7 +219,9 @@ export const requirePermission = (permission: string): RequestHandler => {
     if (!db) {
       const demoUser = DEMO_ACCOUNTS.find((u) => u.id === authUser.userId);
       if (!demoUser) {
-        return res.status(404).json({ success: false, error: "User not found" });
+        return res
+          .status(404)
+          .json({ success: false, error: "User not found" });
       }
 
       const permissions = demoUser.permissions || [];
@@ -218,16 +237,20 @@ export const requirePermission = (permission: string): RequestHandler => {
         .json({ success: false, error: "Insufficient permissions" });
     }
 
-    const staff = await db.collection("staff").findOne(
-      { id: authUser.userId, status: "active" },
-      { projection: { permissions: 1 } },
-    );
+    const staff = await db
+      .collection("staff")
+      .findOne(
+        { id: authUser.userId, status: "active" },
+        { projection: { permissions: 1 } },
+      );
 
     if (!staff) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    const permissions = Array.isArray(staff.permissions) ? staff.permissions : [];
+    const permissions = Array.isArray(staff.permissions)
+      ? staff.permissions
+      : [];
     if (
       permissions.includes("full_access") ||
       permissions.includes(permission)
