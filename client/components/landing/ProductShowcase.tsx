@@ -450,29 +450,123 @@ export default function ProductShowcase() {
 
             <TabsContent value="kitchen" className="mt-6">
               <div className="grid lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-white">
-                  <img
-                    src="/demos/kitchen.svg"
-                    alt="Kitchen demo"
-                    className="w-full h-96 object-cover rounded-md"
-                  />
+                <div className="lg:col-span-2 rounded-xl overflow-hidden border bg-gradient-to-br from-red-50 to-orange-50 p-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                      <ChefHat className="h-5 w-5 text-red-600" />
+                      Order Queue
+                    </h3>
+
+                    <div className="grid gap-3">
+                      {/* Pending Order */}
+                      <div className="bg-white rounded-lg border-l-4 border-red-500 p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Order #2847 - Table 1
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              📍 Station A
+                            </p>
+                          </div>
+                          <span className="bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded animate-pulse">
+                            🔴 PENDING
+                          </span>
+                        </div>
+                        <div className="bg-gray-50 rounded p-2 text-sm">
+                          <p className="font-medium">Grilled Salmon - 1x</p>
+                          <p className="text-gray-600">
+                            Lemon butter, vegetables
+                          </p>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-2">
+                          Est. ready: 8 min
+                        </p>
+                      </div>
+
+                      {/* Preparing Order */}
+                      <div className="bg-white rounded-lg border-l-4 border-yellow-500 p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Order #2846 - Table 3
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              📍 Station B
+                            </p>
+                          </div>
+                          <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
+                            🟡 PREPARING
+                          </span>
+                        </div>
+                        <div className="bg-gray-50 rounded p-2 space-y-1 text-sm">
+                          <p className="font-medium">Spicy Burger - 2x</p>
+                          <p className="font-medium">Truffle Fries - 1x</p>
+                          <p className="text-gray-600">
+                            Special: Extra spicy sauce
+                          </p>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                          <div className="bg-yellow-500 h-2 rounded-full w-2/3"></div>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Est. ready: 3 min
+                        </p>
+                      </div>
+
+                      {/* Ready Order */}
+                      <div className="bg-white rounded-lg border-l-4 border-green-500 p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              Order #2845 - Table 5
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              📍 Pass
+                            </p>
+                          </div>
+                          <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">
+                            ✓ READY
+                          </span>
+                        </div>
+                        <div className="bg-gray-50 rounded p-2 text-sm">
+                          <p className="font-medium">Pasta Carbonara - 1x</p>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-2">
+                          Waiting: 2 min
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 pt-2 border-t">
+                      <button className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 text-sm font-medium">
+                        ✓ Mark Ready
+                      </button>
+                      <button className="flex-1 bg-orange-600 hover:bg-orange-700 text-white rounded-lg py-2 text-sm font-medium">
+                        🔔 Notify
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-3">
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Active Orders</div>
+                      <div className="font-semibold mb-2 flex items-center gap-2">
+                        <AlertCircle className="h-4 w-4 text-red-600" />
+                        Queue Status
+                      </div>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-gray-500">Pending</span>
-                          <span className="font-semibold">6</span>
+                          <span className="font-semibold text-red-600">6</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-500">Preparing</span>
-                          <span className="font-semibold">4</span>
+                          <span className="font-semibold text-yellow-600">4</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-500">Ready</span>
-                          <span className="font-semibold">3</span>
+                          <span className="font-semibold text-green-600">3</span>
                         </div>
                       </div>
                     </CardContent>
@@ -480,12 +574,12 @@ export default function ProductShowcase() {
 
                   <Card>
                     <CardContent className="p-4">
-                      <div className="font-semibold mb-2">Avg Wait Time</div>
+                      <div className="font-semibold mb-2">Avg Prep Time</div>
                       <div className="text-3xl font-bold text-orange-600">
                         12 min
                       </div>
                       <p className="text-xs text-gray-500 mt-1">
-                        Within target time
+                        Within target
                       </p>
                     </CardContent>
                   </Card>
