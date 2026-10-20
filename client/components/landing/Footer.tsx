@@ -8,9 +8,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 text-2xl font-bold mb-4">
-              <img src={LOGO_URL} alt="POSRMS" className="h-7 w-7 rounded-sm" />
+              <img src={LOGO_URL} alt="Orange Kassa NL" className="h-7 w-7 rounded-sm" />
               <span className="text-[hsl(var(--primary-foreground))]">
-                POSRMS
+                Orange Kassa NL
               </span>
             </div>
             <p className="text-[hsl(var(--primary-foreground))] mb-4 opacity-90">
@@ -106,7 +106,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-[hsl(var(--primary-foreground))]/20 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="opacity-90">© 2024 POSRMS. All rights reserved.</p>
+          <p className="opacity-90">© 2024 Orange Kassa NL. All rights reserved.</p>
           <p className="mt-4 md:mt-0 opacity-80">
             Built for restaurants, by restaurant experts.
           </p>

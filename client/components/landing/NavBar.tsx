@@ -9,9 +9,9 @@ export default function NavBar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3">
-            <img src={LOGO_URL} alt="POSRMS" className="h-10 w-10 rounded-md" />
+            <img src={LOGO_URL} alt="Orange Kassa NL" className="h-10 w-10 rounded-md" />
             <span className="text-lg font-bold text-[hsl(var(--accent))]">
-              POSRMS
+              Orange Kassa NL
             </span>
           </Link>
 
